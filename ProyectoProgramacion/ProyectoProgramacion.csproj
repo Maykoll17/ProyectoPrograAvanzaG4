@@ -118,6 +118,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdminAreasController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AreasRecreativasController.cs" />
     <Compile Include="Controllers\PagosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -279,6 +280,10 @@
     <Content Include="Views\AreasRecreativas\Index.cshtml" />
     <Content Include="Views\AdminAreas\Index.cshtml" />
     <Content Include="Views\Pagos\Index.cshtml" />
+    <Content Include="Views\Admin\ApartamentoForm.cshtml" />
+    <Content Include="Views\Admin\ApartamentosList.cshtml" />
+    <Content Include="Views\Admin\ResidenteForm.cshtml" />
+    <Content Include="Views\Admin\ResidentesList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

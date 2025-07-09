@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Lista de Residentes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="mt-4 mb-3">Lista de Residentes</h2>
+
+<p>
+    <a class="btn btn-primary mb-3" href="@Url.Action(" ResidenteForm", "Admin" )">Crear nuevo residente</a>
+</p>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Cédula</th>
+            <th>Teléfono</th>
+            <th>Correo</th>
+            <th>Fecha Nacimiento</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
