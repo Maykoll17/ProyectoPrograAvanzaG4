@@ -1,0 +1,48 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Gestión de Áreas Recreativas";
+}
+
+<div class="container py-5">
+    <h2 class="mb-4 text-danger">Gestión de Áreas Recreativas</h2>
+
+    <table class="table table-bordered table-hover shadow-sm">
+        <thead class="table-danger">
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Horario</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Piscina</td>
+                <td>Piscina disponible de 8:00 am a 8:00 pm.</td>
+                <td>8:00 am - 8:00 pm</td>
+                <td>
+                    <button class="btn btn-sm btn-outline-primary">Editar</button>
+                    <button class="btn btn-sm btn-outline-danger">Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4 class="mt-5 mb-3 text-secondary">Agregar Nueva Área</h4>
+
+    <form>
+        <div class="mb-3">
+            <label class="form-label">Nombre del Área</label>
+            <input type="text" class="form-control" placeholder="Ej. Salón de juegos" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Descripción</label>
+            <textarea class="form-control" rows="3" placeholder="Detalle de uso, restricciones, etc."></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Horario</label>
+            <input type="text" class="form-control" placeholder="Ej. 9:00 am - 5:00 pm" />
+        </div>
+        <button type="submit" class="btn btn-success">Publicar Área</button>
+    </form>
+</div>
