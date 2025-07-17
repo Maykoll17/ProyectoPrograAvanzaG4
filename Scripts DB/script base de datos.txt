@@ -1,0 +1,102 @@
+-- Crear base de datos
+IF DB_ID('SistemaAlquiler') IS NULL
+    CREATE DATABASE SistemaAlquiler;
+GO
+
+USE SistemaInmobiliario;
+GO
+
+-- Tabla: Edificio
+CREATE TABLE Edificio (
+    ID_Edificio INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre VARCHAR(100) NOT NULL,
+    Direccion VARCHAR(150) NOT NULL,
+    Cantidad_Pisos INT NOT NULL
+);
+
+-- Tabla: Apartamento
+CREATE TABLE Apartamento (
+    ID_Apartamento INT IDENTITY(1,1) PRIMARY KEY,
+    Codigo_Apartamento VARCHAR(8) NOT NULL UNIQUE,
+    ID_Edificio INT NOT NULL,
+    Piso INT NOT NULL,
+    Metros_Cuadrados FLOAT NOT NULL,
+    Cantidad_Habitantes INT,
+    Cant_Sanitarios INT,
+    Disponible BIT DEFAULT 1,
+    FOREIGN KEY (ID_Edificio) REFERENCES Edificio(ID_Edificio)
+);
+
+-- Tabla: Cliente
+CREATE TABLE Cliente (
+    ID_Cliente INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre VARCHAR(30) NOT NULL,
+    Apellido VARCHAR(60) NOT NULL,
+    Cedula VARCHAR(20) NOT NULL UNIQUE,
+    Telefono VARCHAR(12),
+    Correo VARCHAR(50),
+    Fecha_Nacimiento DATE
+);
+
+-- Tabla: Aviso
+CREATE TABLE Aviso (
+    ID_Aviso INT IDENTITY(1,1) PRIMARY KEY,
+    Titulo VARCHAR(100) NOT NULL,
+    Contenido TEXT NOT NULL,
+    Fecha_Publicacion DATE NOT NULL,
+    Autor VARCHAR(100) NOT NULL
+);
+
+-- Relación: Aviso recibido por Cliente (Aviso_Cliente)
+CREATE TABLE Aviso_Cliente (
+    ID_Cliente INT NOT NULL,
+    ID_Aviso INT NOT NULL,
+    PRIMARY KEY (ID_Cliente, ID_Aviso),
+    FOREIGN KEY (ID_Cliente) REFERENCES Cliente(ID_Cliente),
+    FOREIGN KEY (ID_Aviso) REFERENCES Aviso(ID_Aviso)
+);
+
+-- Tabla: Contrato
+CREATE TABLE Contrato (
+    ID_Contrato INT IDENTITY(1,1) PRIMARY KEY,
+    ID_Cliente INT NOT NULL,
+    ID_Apartamento INT NOT NULL,
+    Fecha_Inicio DATE NOT NULL,
+    Fecha_Fin DATE NOT NULL,
+    Monto_Mensual FLOAT NOT NULL,
+    Estado VARCHAR(20) DEFAULT 'Activo',
+    FOREIGN KEY (ID_Cliente) REFERENCES Cliente(ID_Cliente),
+    FOREIGN KEY (ID_Apartamento) REFERENCES Apartamento(ID_Apartamento)
+);
+
+-- Tabla: Pago
+CREATE TABLE Pago (
+    ID_Pago INT IDENTITY(1,1) PRIMARY KEY,
+    ID_Contrato INT NOT NULL,
+    Fecha_Pago DATE NOT NULL,
+    Monto_Pago FLOAT NOT NULL,
+    Metodo_Pago VARCHAR(20),
+    FOREIGN KEY (ID_Contrato) REFERENCES Contrato(ID_Contrato)
+);
+
+-- Tabla: Vehiculo
+CREATE TABLE Vehiculo (
+    ID_Vehiculo INT IDENTITY(1,1) PRIMARY KEY,
+    ID_Cliente INT NOT NULL,
+    Placa VARCHAR(20) NOT NULL UNIQUE,
+    Marca VARCHAR(20),
+    Modelo VARCHAR(20),
+    Color VARCHAR(20),
+    FOREIGN KEY (ID_Cliente) REFERENCES Cliente(ID_Cliente)
+);
+
+-- Tabla: Mantenimiento
+CREATE TABLE Mantenimiento (
+    ID_Mantenimiento INT IDENTITY(1,1) PRIMARY KEY,
+    ID_Apartamento INT NOT NULL,
+    Descripcion TEXT NOT NULL,
+    Fecha_Mantenimiento DATE NOT NULL,
+    Costo FLOAT NOT NULL,
+    Tipo VARCHAR(20),
+    FOREIGN KEY (ID_Apartamento) REFERENCES Apartamento(ID_Apartamento)
+);
