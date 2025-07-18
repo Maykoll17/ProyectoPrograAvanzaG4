@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProyectoProgramacion.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,15 +9,40 @@ namespace ProyectoProgramacion.Controllers
 {
     public class HomeController : Controller
     {
+
+        #region Index
+
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult Components()
+        #endregion
+
+
+        #region Registro
+
+        [HttpGet]
+        public ActionResult Registro()
         {
             return View();
         }
 
+        #endregion
+
+
+        #region Solicitud
+
+        [HttpGet]
+        public ActionResult Solicitud()
+        {
+            return View();
+        }
+
+        #endregion
+
+
     }
+
+
 }
