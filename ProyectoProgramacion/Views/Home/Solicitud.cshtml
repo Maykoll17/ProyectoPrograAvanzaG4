@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "Solicitud";
+    Layout = User.Identity.IsAuthenticated
+        ? "~/Views/Shared/_Layout.cshtml"
+        : "~/Views/Shared/_LayoutExterno.cshtml";
+}
+
+<section class="section" style="padding-top: 25px;">
+    <div class="container fondo-gris">
+        <div class="row">
+            <div class="col-lg-8 imagen-apto">
+                <div class="mb-4">
+                    <img src="~/Images/72899207.jpg" class="img-fluid rounded w-100 shadow-sm" alt="Apartamento El Roble">
+                </div>
+
+
+
+                <div class="info-apto">
+                    <h2>Apartamento - Heredia</h2>
+
+                    <div class="row mb-3">
+                        <div class="col-md-3"><strong>Habitaciones:</strong> 2</div>
+                        <div class="col-md-3"><strong>Baños:</strong> 1</div>
+                        <div class="col-md-3"><strong>Piso:</strong> 2</div>
+                        <div class="col-md-3"><strong>Tamaño:</strong> 100 m²</div>
+                    </div>
+
+                    <div>
+                        <h5>Descripción</h5>
+                        <p>No se admiten mascotas.</p>
+                        <ul>
+                            <li>Sala y comedor</li>
+                            <li>Cocina con desayunador</li>
+                            <li>Oficina pequeña</li>
+                            <li>Área de lavado</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="recuadro-contacto">
+                    <h5>Contacto</h5>
+                    <p><strong>Gerson Chacon</strong></p>
+                    <p>Teléfono: 2255-5588</p>
+                    <a class="btn bg-primary w-100">
+                        Contactar por Correo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
