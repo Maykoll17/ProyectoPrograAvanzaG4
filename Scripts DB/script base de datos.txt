@@ -3,7 +3,7 @@ IF DB_ID('SistemaAlquiler') IS NULL
     CREATE DATABASE SistemaAlquiler;
 GO
 
-USE SistemaInmobiliario;
+USE SistemaAlquiler;
 GO
 
 -- Tabla: Edificio
