@@ -1,0 +1,40 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Pagos Pendientes";
+}
+
+<div class="container py-5">
+    <h2 class="mb-4 text-success">Pagos Pendientes</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover shadow-sm">
+            <thead class="table-success">
+                <tr>
+                    <th>Concepto</th>
+                    <th>Monto</th>
+                    <th>Fecha Límite</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Alquiler Julio 2025</td>
+                    <td>₡300,000</td>
+                    <td>10/07/2025</td>
+                    <td><span class="badge bg-warning text-dark">Pendiente</span></td>
+                    <td><a href="#" class="btn btn-sm btn-outline-success">Pagar</a></td>
+                </tr>
+                <tr>
+                    <td>Mantenimiento</td>
+                    <td>₡25,000</td>
+                    <td>10/07/2025</td>
+                    <td><span class="badge bg-warning text-dark">Pendiente</span></td>
+                    <td><a href="#" class="btn btn-sm btn-outline-success">Pagar</a></td>
+
+                    <td><a href="#" class="btn btn-sm btn-outline-success">Hola</a></td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
