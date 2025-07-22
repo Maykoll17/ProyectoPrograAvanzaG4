@@ -1,0 +1,52 @@
+﻿@model RentalPropertyManagement.Models.ApplicationRequest
+
+<h2>Formulario de Solicitud</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name)
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.LastName)
+        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.LastName)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email)
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Email)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.PhoneNumber)
+        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.PhoneNumber)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.CurrentAddress)
+        @Html.TextBoxFor(m => m.CurrentAddress, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.CurrentAddress)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Reason)
+        @Html.TextAreaFor(m => m.Reason, new { @class = "form-control", rows = 3 })
+        @Html.ValidationMessageFor(m => m.Reason)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.AdditionalInfo)
+        @Html.TextAreaFor(m => m.AdditionalInfo, new { @class = "form-control", rows = 3 })
+        @Html.ValidationMessageFor(m => m.AdditionalInfo)
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enviar Solicitud</button>
+}

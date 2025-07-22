@@ -1,0 +1,66 @@
+﻿@model RentalPropertyManagement.Models.UserRegistration
+
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card shadow-lg p-5" style="max-width: 600px; width: 100%; background: linear-gradient(145deg, #f8f9fa, #e9ecef); border-radius: 20px;">
+        <h2 class="mb-4 text-center text-primary fw-bold">Register User</h2>
+        @using (Html.BeginForm("Register", "UserRegistration", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(m => m.FirstName, new { @class = "form-label text-dark fw-semibold" })
+                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control border-0 shadow-sm" })
+                @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(m => m.LastName, new { @class = "form-label text-dark fw-semibold" })
+                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control border-0 shadow-sm" })
+                @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(m => m.Email, new { @class = "form-label text-dark fw-semibold" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control border-0 shadow-sm" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(m => m.PhoneNumber, new { @class = "form-label text-dark fw-semibold" })
+                @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control border-0 shadow-sm" })
+                @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(m => m.Address, new { @class = "form-label text-dark fw-semibold" })
+                @Html.TextBoxFor(m => m.Address, new { @class = "form-control border-0 shadow-sm" })
+                @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(m => m.Password, new { @class = "form-label text-dark fw-semibold" })
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control border-0 shadow-sm" })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group mb-4">
+                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "form-label text-dark fw-semibold" })
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control border-0 shadow-sm" })
+                @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+            </div>
+
+            <button type="submit" class="btn btn-gradient btn-primary w-100 fw-bold py-2" style="background: linear-gradient(to right, #4facfe, #00f2fe); border: none;">Register</button>
+        }
+    </div>
+</div>
+
+<style>
+    body {
+        background: linear-gradient(to right, #d7e1ec, #f8f9fa);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .btn-gradient:hover {
+        background: linear-gradient(to right, #00f2fe, #4facfe);
+        color: white;
+    }
+</style>
