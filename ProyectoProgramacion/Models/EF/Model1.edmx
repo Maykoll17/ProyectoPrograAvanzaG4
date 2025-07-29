@@ -1,0 +1,597 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SistemaAlquilerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Apartamento">
+          <Key>
+            <PropertyRef Name="ID_Apartamento" />
+          </Key>
+          <Property Name="ID_Apartamento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Codigo_Apartamento" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="ID_Edificio" Type="int" Nullable="false" />
+          <Property Name="Piso" Type="int" Nullable="false" />
+          <Property Name="Metros_Cuadrados" Type="float" Nullable="false" />
+          <Property Name="Cantidad_Habitantes" Type="int" />
+          <Property Name="Cant_Sanitarios" Type="int" />
+          <Property Name="Disponible" Type="bit" />
+        </EntityType>
+        <EntityType Name="Aviso">
+          <Key>
+            <PropertyRef Name="ID_Aviso" />
+          </Key>
+          <Property Name="ID_Aviso" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Titulo" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Contenido" Type="text" Nullable="false" />
+          <Property Name="Fecha_Publicacion" Type="date" Nullable="false" />
+          <Property Name="Autor" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Aviso_Cliente">
+          <Key>
+            <PropertyRef Name="ID_Cliente" />
+            <PropertyRef Name="ID_Aviso" />
+          </Key>
+          <Property Name="ID_Cliente" Type="int" Nullable="false" />
+          <Property Name="ID_Aviso" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="ID_Cliente" />
+          </Key>
+          <Property Name="ID_Cliente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Apellido" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="Cedula" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Telefono" Type="varchar" MaxLength="12" />
+          <Property Name="Correo" Type="varchar" MaxLength="50" />
+          <Property Name="Fecha_Nacimiento" Type="date" />
+        </EntityType>
+        <EntityType Name="Contrato">
+          <Key>
+            <PropertyRef Name="ID_Contrato" />
+          </Key>
+          <Property Name="ID_Contrato" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Cliente" Type="int" Nullable="false" />
+          <Property Name="ID_Apartamento" Type="int" Nullable="false" />
+          <Property Name="Fecha_Inicio" Type="date" Nullable="false" />
+          <Property Name="Fecha_Fin" Type="date" Nullable="false" />
+          <Property Name="Monto_Mensual" Type="float" Nullable="false" />
+          <Property Name="Estado" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Edificio">
+          <Key>
+            <PropertyRef Name="ID_Edificio" />
+          </Key>
+          <Property Name="ID_Edificio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Direccion" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Cantidad_Pisos" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Mantenimiento">
+          <Key>
+            <PropertyRef Name="ID_Mantenimiento" />
+          </Key>
+          <Property Name="ID_Mantenimiento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Apartamento" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="text" Nullable="false" />
+          <Property Name="Fecha_Mantenimiento" Type="date" Nullable="false" />
+          <Property Name="Costo" Type="float" Nullable="false" />
+          <Property Name="Tipo" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Pago">
+          <Key>
+            <PropertyRef Name="ID_Pago" />
+          </Key>
+          <Property Name="ID_Pago" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Contrato" Type="int" Nullable="false" />
+          <Property Name="Fecha_Pago" Type="date" Nullable="false" />
+          <Property Name="Monto_Pago" Type="float" Nullable="false" />
+          <Property Name="Metodo_Pago" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Vehiculo">
+          <Key>
+            <PropertyRef Name="ID_Vehiculo" />
+          </Key>
+          <Property Name="ID_Vehiculo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Cliente" Type="int" Nullable="false" />
+          <Property Name="Placa" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Marca" Type="varchar" MaxLength="20" />
+          <Property Name="Modelo" Type="varchar" MaxLength="20" />
+          <Property Name="Color" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <Association Name="FK__Apartamen__ID_Ed__3B75D760">
+          <End Role="Edificio" Type="Self.Edificio" Multiplicity="1" />
+          <End Role="Apartamento" Type="Self.Apartamento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Edificio">
+              <PropertyRef Name="ID_Edificio" />
+            </Principal>
+            <Dependent Role="Apartamento">
+              <PropertyRef Name="ID_Edificio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Aviso_Cli__ID_Av__440B1D61">
+          <End Role="Aviso" Type="Self.Aviso" Multiplicity="1" />
+          <End Role="Aviso_Cliente" Type="Self.Aviso_Cliente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Aviso">
+              <PropertyRef Name="ID_Aviso" />
+            </Principal>
+            <Dependent Role="Aviso_Cliente">
+              <PropertyRef Name="ID_Aviso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Aviso_Cli__ID_Cl__4316F928">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+          <End Role="Aviso_Cliente" Type="Self.Aviso_Cliente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="ID_Cliente" />
+            </Principal>
+            <Dependent Role="Aviso_Cliente">
+              <PropertyRef Name="ID_Cliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Contrato__ID_Apa__48CFD27E">
+          <End Role="Apartamento" Type="Self.Apartamento" Multiplicity="1" />
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Apartamento">
+              <PropertyRef Name="ID_Apartamento" />
+            </Principal>
+            <Dependent Role="Contrato">
+              <PropertyRef Name="ID_Apartamento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Contrato__ID_Cli__47DBAE45">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="ID_Cliente" />
+            </Principal>
+            <Dependent Role="Contrato">
+              <PropertyRef Name="ID_Cliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Mantenimi__ID_Ap__52593CB8">
+          <End Role="Apartamento" Type="Self.Apartamento" Multiplicity="1" />
+          <End Role="Mantenimiento" Type="Self.Mantenimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Apartamento">
+              <PropertyRef Name="ID_Apartamento" />
+            </Principal>
+            <Dependent Role="Mantenimiento">
+              <PropertyRef Name="ID_Apartamento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Pago__ID_Contrat__4BAC3F29">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
+          <End Role="Pago" Type="Self.Pago" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="ID_Contrato" />
+            </Principal>
+            <Dependent Role="Pago">
+              <PropertyRef Name="ID_Contrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Vehiculo__ID_Cli__4F7CD00D">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+          <End Role="Vehiculo" Type="Self.Vehiculo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="ID_Cliente" />
+            </Principal>
+            <Dependent Role="Vehiculo">
+              <PropertyRef Name="ID_Cliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SistemaAlquilerModelStoreContainer">
+          <EntitySet Name="Apartamento" EntityType="Self.Apartamento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Aviso" EntityType="Self.Aviso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Aviso_Cliente" EntityType="Self.Aviso_Cliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contrato" EntityType="Self.Contrato" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Edificio" EntityType="Self.Edificio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mantenimiento" EntityType="Self.Mantenimiento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pago" EntityType="Self.Pago" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vehiculo" EntityType="Self.Vehiculo" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Apartamen__ID_Ed__3B75D760" Association="Self.FK__Apartamen__ID_Ed__3B75D760">
+            <End Role="Edificio" EntitySet="Edificio" />
+            <End Role="Apartamento" EntitySet="Apartamento" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Aviso_Cli__ID_Av__440B1D61" Association="Self.FK__Aviso_Cli__ID_Av__440B1D61">
+            <End Role="Aviso" EntitySet="Aviso" />
+            <End Role="Aviso_Cliente" EntitySet="Aviso_Cliente" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Aviso_Cli__ID_Cl__4316F928" Association="Self.FK__Aviso_Cli__ID_Cl__4316F928">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Aviso_Cliente" EntitySet="Aviso_Cliente" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Contrato__ID_Apa__48CFD27E" Association="Self.FK__Contrato__ID_Apa__48CFD27E">
+            <End Role="Apartamento" EntitySet="Apartamento" />
+            <End Role="Contrato" EntitySet="Contrato" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Contrato__ID_Cli__47DBAE45" Association="Self.FK__Contrato__ID_Cli__47DBAE45">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Contrato" EntitySet="Contrato" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Mantenimi__ID_Ap__52593CB8" Association="Self.FK__Mantenimi__ID_Ap__52593CB8">
+            <End Role="Apartamento" EntitySet="Apartamento" />
+            <End Role="Mantenimiento" EntitySet="Mantenimiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Pago__ID_Contrat__4BAC3F29" Association="Self.FK__Pago__ID_Contrat__4BAC3F29">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="Pago" EntitySet="Pago" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Vehiculo__ID_Cli__4F7CD00D" Association="Self.FK__Vehiculo__ID_Cli__4F7CD00D">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Vehiculo" EntitySet="Vehiculo" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SistemaAlquilerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Apartamento">
+          <Key>
+            <PropertyRef Name="ID_Apartamento" />
+          </Key>
+          <Property Name="ID_Apartamento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo_Apartamento" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ID_Edificio" Type="Int32" Nullable="false" />
+          <Property Name="Piso" Type="Int32" Nullable="false" />
+          <Property Name="Metros_Cuadrados" Type="Double" Nullable="false" />
+          <Property Name="Cantidad_Habitantes" Type="Int32" />
+          <Property Name="Cant_Sanitarios" Type="Int32" />
+          <Property Name="Disponible" Type="Boolean" />
+          <NavigationProperty Name="Edificio" Relationship="Self.FK__Apartamen__ID_Ed__3B75D760" FromRole="Apartamento" ToRole="Edificio" />
+          <NavigationProperty Name="Contrato" Relationship="Self.FK__Contrato__ID_Apa__48CFD27E" FromRole="Apartamento" ToRole="Contrato" />
+          <NavigationProperty Name="Mantenimiento" Relationship="Self.FK__Mantenimi__ID_Ap__52593CB8" FromRole="Apartamento" ToRole="Mantenimiento" />
+        </EntityType>
+        <EntityType Name="Aviso">
+          <Key>
+            <PropertyRef Name="ID_Aviso" />
+          </Key>
+          <Property Name="ID_Aviso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Titulo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Contenido" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Fecha_Publicacion" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Autor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Cliente" Relationship="Self.Aviso_Cliente" FromRole="Aviso" ToRole="Cliente" />
+        </EntityType>
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="ID_Cliente" />
+          </Key>
+          <Property Name="ID_Cliente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apellido" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Cedula" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telefono" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Fecha_Nacimiento" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Contrato" Relationship="Self.FK__Contrato__ID_Cli__47DBAE45" FromRole="Cliente" ToRole="Contrato" />
+          <NavigationProperty Name="Vehiculo" Relationship="Self.FK__Vehiculo__ID_Cli__4F7CD00D" FromRole="Cliente" ToRole="Vehiculo" />
+          <NavigationProperty Name="Aviso" Relationship="Self.Aviso_Cliente" FromRole="Cliente" ToRole="Aviso" />
+        </EntityType>
+        <EntityType Name="Contrato">
+          <Key>
+            <PropertyRef Name="ID_Contrato" />
+          </Key>
+          <Property Name="ID_Contrato" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Cliente" Type="Int32" Nullable="false" />
+          <Property Name="ID_Apartamento" Type="Int32" Nullable="false" />
+          <Property Name="Fecha_Inicio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Fecha_Fin" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Monto_Mensual" Type="Double" Nullable="false" />
+          <Property Name="Estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Apartamento" Relationship="Self.FK__Contrato__ID_Apa__48CFD27E" FromRole="Contrato" ToRole="Apartamento" />
+          <NavigationProperty Name="Cliente" Relationship="Self.FK__Contrato__ID_Cli__47DBAE45" FromRole="Contrato" ToRole="Cliente" />
+          <NavigationProperty Name="Pago" Relationship="Self.FK__Pago__ID_Contrat__4BAC3F29" FromRole="Contrato" ToRole="Pago" />
+        </EntityType>
+        <EntityType Name="Edificio">
+          <Key>
+            <PropertyRef Name="ID_Edificio" />
+          </Key>
+          <Property Name="ID_Edificio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Direccion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Cantidad_Pisos" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Apartamento" Relationship="Self.FK__Apartamen__ID_Ed__3B75D760" FromRole="Edificio" ToRole="Apartamento" />
+        </EntityType>
+        <EntityType Name="Mantenimiento">
+          <Key>
+            <PropertyRef Name="ID_Mantenimiento" />
+          </Key>
+          <Property Name="ID_Mantenimiento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Apartamento" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Fecha_Mantenimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Costo" Type="Double" Nullable="false" />
+          <Property Name="Tipo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Apartamento" Relationship="Self.FK__Mantenimi__ID_Ap__52593CB8" FromRole="Mantenimiento" ToRole="Apartamento" />
+        </EntityType>
+        <EntityType Name="Pago">
+          <Key>
+            <PropertyRef Name="ID_Pago" />
+          </Key>
+          <Property Name="ID_Pago" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Contrato" Type="Int32" Nullable="false" />
+          <Property Name="Fecha_Pago" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Monto_Pago" Type="Double" Nullable="false" />
+          <Property Name="Metodo_Pago" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Contrato" Relationship="Self.FK__Pago__ID_Contrat__4BAC3F29" FromRole="Pago" ToRole="Contrato" />
+        </EntityType>
+        <EntityType Name="Vehiculo">
+          <Key>
+            <PropertyRef Name="ID_Vehiculo" />
+          </Key>
+          <Property Name="ID_Vehiculo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Cliente" Type="Int32" Nullable="false" />
+          <Property Name="Placa" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Marca" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Modelo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Color" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Cliente" Relationship="Self.FK__Vehiculo__ID_Cli__4F7CD00D" FromRole="Vehiculo" ToRole="Cliente" />
+        </EntityType>
+        <Association Name="FK__Apartamen__ID_Ed__3B75D760">
+          <End Role="Edificio" Type="Self.Edificio" Multiplicity="1" />
+          <End Role="Apartamento" Type="Self.Apartamento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Edificio">
+              <PropertyRef Name="ID_Edificio" />
+            </Principal>
+            <Dependent Role="Apartamento">
+              <PropertyRef Name="ID_Edificio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Contrato__ID_Apa__48CFD27E">
+          <End Role="Apartamento" Type="Self.Apartamento" Multiplicity="1" />
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Apartamento">
+              <PropertyRef Name="ID_Apartamento" />
+            </Principal>
+            <Dependent Role="Contrato">
+              <PropertyRef Name="ID_Apartamento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Mantenimi__ID_Ap__52593CB8">
+          <End Role="Apartamento" Type="Self.Apartamento" Multiplicity="1" />
+          <End Role="Mantenimiento" Type="Self.Mantenimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Apartamento">
+              <PropertyRef Name="ID_Apartamento" />
+            </Principal>
+            <Dependent Role="Mantenimiento">
+              <PropertyRef Name="ID_Apartamento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Contrato__ID_Cli__47DBAE45">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="ID_Cliente" />
+            </Principal>
+            <Dependent Role="Contrato">
+              <PropertyRef Name="ID_Cliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Vehiculo__ID_Cli__4F7CD00D">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+          <End Role="Vehiculo" Type="Self.Vehiculo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="ID_Cliente" />
+            </Principal>
+            <Dependent Role="Vehiculo">
+              <PropertyRef Name="ID_Cliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Pago__ID_Contrat__4BAC3F29">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
+          <End Role="Pago" Type="Self.Pago" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="ID_Contrato" />
+            </Principal>
+            <Dependent Role="Pago">
+              <PropertyRef Name="ID_Contrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Aviso_Cliente">
+          <End Role="Aviso" Type="Self.Aviso" Multiplicity="*" />
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="SistemaAlquilerEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Apartamento" EntityType="Self.Apartamento" />
+          <EntitySet Name="Aviso" EntityType="Self.Aviso" />
+          <EntitySet Name="Cliente" EntityType="Self.Cliente" />
+          <EntitySet Name="Contrato" EntityType="Self.Contrato" />
+          <EntitySet Name="Edificio" EntityType="Self.Edificio" />
+          <EntitySet Name="Mantenimiento" EntityType="Self.Mantenimiento" />
+          <EntitySet Name="Pago" EntityType="Self.Pago" />
+          <EntitySet Name="Vehiculo" EntityType="Self.Vehiculo" />
+          <AssociationSet Name="FK__Apartamen__ID_Ed__3B75D760" Association="Self.FK__Apartamen__ID_Ed__3B75D760">
+            <End Role="Edificio" EntitySet="Edificio" />
+            <End Role="Apartamento" EntitySet="Apartamento" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Contrato__ID_Apa__48CFD27E" Association="Self.FK__Contrato__ID_Apa__48CFD27E">
+            <End Role="Apartamento" EntitySet="Apartamento" />
+            <End Role="Contrato" EntitySet="Contrato" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Mantenimi__ID_Ap__52593CB8" Association="Self.FK__Mantenimi__ID_Ap__52593CB8">
+            <End Role="Apartamento" EntitySet="Apartamento" />
+            <End Role="Mantenimiento" EntitySet="Mantenimiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Contrato__ID_Cli__47DBAE45" Association="Self.FK__Contrato__ID_Cli__47DBAE45">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Contrato" EntitySet="Contrato" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Vehiculo__ID_Cli__4F7CD00D" Association="Self.FK__Vehiculo__ID_Cli__4F7CD00D">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Vehiculo" EntitySet="Vehiculo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Pago__ID_Contrat__4BAC3F29" Association="Self.FK__Pago__ID_Contrat__4BAC3F29">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="Pago" EntitySet="Pago" />
+          </AssociationSet>
+          <AssociationSet Name="Aviso_Cliente" Association="Self.Aviso_Cliente">
+            <End Role="Aviso" EntitySet="Aviso" />
+            <End Role="Cliente" EntitySet="Cliente" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SistemaAlquilerModelStoreContainer" CdmEntityContainer="SistemaAlquilerEntities1">
+          <EntitySetMapping Name="Apartamento">
+            <EntityTypeMapping TypeName="SistemaAlquilerModel.Apartamento">
+              <MappingFragment StoreEntitySet="Apartamento">
+                <ScalarProperty Name="ID_Apartamento" ColumnName="ID_Apartamento" />
+                <ScalarProperty Name="Codigo_Apartamento" ColumnName="Codigo_Apartamento" />
+                <ScalarProperty Name="ID_Edificio" ColumnName="ID_Edificio" />
+                <ScalarProperty Name="Piso" ColumnName="Piso" />
+                <ScalarProperty Name="Metros_Cuadrados" ColumnName="Metros_Cuadrados" />
+                <ScalarProperty Name="Cantidad_Habitantes" ColumnName="Cantidad_Habitantes" />
+                <ScalarProperty Name="Cant_Sanitarios" ColumnName="Cant_Sanitarios" />
+                <ScalarProperty Name="Disponible" ColumnName="Disponible" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Aviso">
+            <EntityTypeMapping TypeName="SistemaAlquilerModel.Aviso">
+              <MappingFragment StoreEntitySet="Aviso">
+                <ScalarProperty Name="ID_Aviso" ColumnName="ID_Aviso" />
+                <ScalarProperty Name="Titulo" ColumnName="Titulo" />
+                <ScalarProperty Name="Contenido" ColumnName="Contenido" />
+                <ScalarProperty Name="Fecha_Publicacion" ColumnName="Fecha_Publicacion" />
+                <ScalarProperty Name="Autor" ColumnName="Autor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cliente">
+            <EntityTypeMapping TypeName="SistemaAlquilerModel.Cliente">
+              <MappingFragment StoreEntitySet="Cliente">
+                <ScalarProperty Name="ID_Cliente" ColumnName="ID_Cliente" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Fecha_Nacimiento" ColumnName="Fecha_Nacimiento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contrato">
+            <EntityTypeMapping TypeName="SistemaAlquilerModel.Contrato">
+              <MappingFragment StoreEntitySet="Contrato">
+                <ScalarProperty Name="ID_Contrato" ColumnName="ID_Contrato" />
+                <ScalarProperty Name="ID_Cliente" ColumnName="ID_Cliente" />
+                <ScalarProperty Name="ID_Apartamento" ColumnName="ID_Apartamento" />
+                <ScalarProperty Name="Fecha_Inicio" ColumnName="Fecha_Inicio" />
+                <ScalarProperty Name="Fecha_Fin" ColumnName="Fecha_Fin" />
+                <ScalarProperty Name="Monto_Mensual" ColumnName="Monto_Mensual" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Edificio">
+            <EntityTypeMapping TypeName="SistemaAlquilerModel.Edificio">
+              <MappingFragment StoreEntitySet="Edificio">
+                <ScalarProperty Name="ID_Edificio" ColumnName="ID_Edificio" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Cantidad_Pisos" ColumnName="Cantidad_Pisos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mantenimiento">
+            <EntityTypeMapping TypeName="SistemaAlquilerModel.Mantenimiento">
+              <MappingFragment StoreEntitySet="Mantenimiento">
+                <ScalarProperty Name="ID_Mantenimiento" ColumnName="ID_Mantenimiento" />
+                <ScalarProperty Name="ID_Apartamento" ColumnName="ID_Apartamento" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Fecha_Mantenimiento" ColumnName="Fecha_Mantenimiento" />
+                <ScalarProperty Name="Costo" ColumnName="Costo" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pago">
+            <EntityTypeMapping TypeName="SistemaAlquilerModel.Pago">
+              <MappingFragment StoreEntitySet="Pago">
+                <ScalarProperty Name="ID_Pago" ColumnName="ID_Pago" />
+                <ScalarProperty Name="ID_Contrato" ColumnName="ID_Contrato" />
+                <ScalarProperty Name="Fecha_Pago" ColumnName="Fecha_Pago" />
+                <ScalarProperty Name="Monto_Pago" ColumnName="Monto_Pago" />
+                <ScalarProperty Name="Metodo_Pago" ColumnName="Metodo_Pago" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vehiculo">
+            <EntityTypeMapping TypeName="SistemaAlquilerModel.Vehiculo">
+              <MappingFragment StoreEntitySet="Vehiculo">
+                <ScalarProperty Name="ID_Vehiculo" ColumnName="ID_Vehiculo" />
+                <ScalarProperty Name="ID_Cliente" ColumnName="ID_Cliente" />
+                <ScalarProperty Name="Placa" ColumnName="Placa" />
+                <ScalarProperty Name="Marca" ColumnName="Marca" />
+                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Aviso_Cliente" TypeName="SistemaAlquilerModel.Aviso_Cliente" StoreEntitySet="Aviso_Cliente">
+            <EndProperty Name="Aviso">
+              <ScalarProperty Name="ID_Aviso" ColumnName="ID_Aviso" />
+            </EndProperty>
+            <EndProperty Name="Cliente">
+              <ScalarProperty Name="ID_Cliente" ColumnName="ID_Cliente" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
