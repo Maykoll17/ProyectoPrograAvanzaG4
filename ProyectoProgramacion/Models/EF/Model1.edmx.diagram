@@ -20,6 +20,7 @@
         <AssociationConnector Association="SistemaAlquilerModel.FK__Vehiculo__ID_Cli__4F7CD00D" ManuallyRouted="false" />
         <AssociationConnector Association="SistemaAlquilerModel.FK__Pago__ID_Contrat__4BAC3F29" ManuallyRouted="false" />
         <AssociationConnector Association="SistemaAlquilerModel.Aviso_Cliente" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SistemaAlquilerModel.AreaRecreativa" Width="1.5" PointX="7.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

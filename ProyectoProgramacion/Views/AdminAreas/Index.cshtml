@@ -1,48 +1,47 @@
-﻿@{
+﻿@model List<ProyectoProgramacion.Models.EF.AreaRecreativa>
+
+@{
+    ViewBag.Title = "Administrar Áreas Recreativas";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "Gestión de Áreas Recreativas";
 }
 
-<div class="container py-5">
-    <h2 class="mb-4 text-danger">Gestión de Áreas Recreativas</h2>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary fw-bold">Gestión de Áreas Recreativas</h2>
+        @Html.ActionLink("Agregar Nueva Área", "Create", "AdminAreas", null, new { @class = "btn btn-success" })
+    </div>
 
     <table class="table table-bordered table-hover shadow-sm">
-        <thead class="table-danger">
+        <thead class="table-dark text-white">
             <tr>
                 <th>Nombre</th>
-                <th>Descripción</th>
                 <th>Horario</th>
-                <th>Acciones</th>
+                <th class="text-center">Acciones</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Piscina</td>
-                <td>Piscina disponible de 8:00 am a 8:00 pm.</td>
-                <td>8:00 am - 8:00 pm</td>
-                <td>
-                    <button class="btn btn-sm btn-outline-primary">Editar</button>
-                    <button class="btn btn-sm btn-outline-danger">Eliminar</button>
-                </td>
-            </tr>
+            @if (Model.Count == 0)
+            {
+                <tr>
+                    <td colspan="3" class="text-center text-muted">No hay áreas registradas.</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Nombre</td>
+                        <td>@item.Horario</td>
+                        <td class="text-center">
+                            <div class="btn-group" role="group">
+                                @Html.ActionLink("Editar", "Edit", new { id = item.ID_Area }, new { @class = "btn btn-sm btn-outline-primary" })
+                                @Html.ActionLink("Eliminar", "Delete", new { id = item.ID_Area }, new { @class = "btn btn-sm btn-outline-danger ms-2" })
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
         </tbody>
     </table>
-
-    <h4 class="mt-5 mb-3 text-secondary">Agregar Nueva Área</h4>
-
-    <form>
-        <div class="mb-3">
-            <label class="form-label">Nombre del Área</label>
-            <input type="text" class="form-control" placeholder="Ej. Salón de juegos" />
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Descripción</label>
-            <textarea class="form-control" rows="3" placeholder="Detalle de uso, restricciones, etc."></textarea>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Horario</label>
-            <input type="text" class="form-control" placeholder="Ej. 9:00 am - 5:00 pm" />
-        </div>
-        <button type="submit" class="btn btn-success">Publicar Área</button>
-    </form>
 </div>

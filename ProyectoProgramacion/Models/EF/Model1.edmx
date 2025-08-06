@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SistemaAlquilerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SistemaAlquilerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Apartamento">
           <Key>
             <PropertyRef Name="ID_Apartamento" />
@@ -17,6 +17,16 @@
           <Property Name="Cantidad_Habitantes" Type="int" />
           <Property Name="Cant_Sanitarios" Type="int" />
           <Property Name="Disponible" Type="bit" />
+        </EntityType>
+        <EntityType Name="AreaRecreativa">
+          <Key>
+            <PropertyRef Name="ID_Area" />
+          </Key>
+          <Property Name="ID_Area" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Descripcion" Type="text" />
+          <Property Name="Horario" Type="varchar" MaxLength="50" />
+          <Property Name="Imagen_URL" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="Aviso">
           <Key>
@@ -101,7 +111,7 @@
           <Property Name="Modelo" Type="varchar" MaxLength="20" />
           <Property Name="Color" Type="varchar" MaxLength="20" />
         </EntityType>
-        <Association Name="FK__Apartamen__ID_Ed__3B75D760">
+        <Association Name="FK__Apartamen__ID_Ed__4F7CD00D">
           <End Role="Edificio" Type="Self.Edificio" Multiplicity="1" />
           <End Role="Apartamento" Type="Self.Apartamento" Multiplicity="*" />
           <ReferentialConstraint>
@@ -113,7 +123,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Aviso_Cli__ID_Av__440B1D61">
+        <Association Name="FK__Aviso_Cli__ID_Av__5812160E">
           <End Role="Aviso" Type="Self.Aviso" Multiplicity="1" />
           <End Role="Aviso_Cliente" Type="Self.Aviso_Cliente" Multiplicity="*" />
           <ReferentialConstraint>
@@ -125,7 +135,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Aviso_Cli__ID_Cl__4316F928">
+        <Association Name="FK__Aviso_Cli__ID_Cl__571DF1D5">
           <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
           <End Role="Aviso_Cliente" Type="Self.Aviso_Cliente" Multiplicity="*" />
           <ReferentialConstraint>
@@ -137,7 +147,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Contrato__ID_Apa__48CFD27E">
+        <Association Name="FK__Contrato__ID_Apa__5CD6CB2B">
           <End Role="Apartamento" Type="Self.Apartamento" Multiplicity="1" />
           <End Role="Contrato" Type="Self.Contrato" Multiplicity="*" />
           <ReferentialConstraint>
@@ -149,7 +159,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Contrato__ID_Cli__47DBAE45">
+        <Association Name="FK__Contrato__ID_Cli__5BE2A6F2">
           <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
           <End Role="Contrato" Type="Self.Contrato" Multiplicity="*" />
           <ReferentialConstraint>
@@ -161,7 +171,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Mantenimi__ID_Ap__52593CB8">
+        <Association Name="FK__Mantenimi__ID_Ap__66603565">
           <End Role="Apartamento" Type="Self.Apartamento" Multiplicity="1" />
           <End Role="Mantenimiento" Type="Self.Mantenimiento" Multiplicity="*" />
           <ReferentialConstraint>
@@ -173,7 +183,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Pago__ID_Contrat__4BAC3F29">
+        <Association Name="FK__Pago__ID_Contrat__5FB337D6">
           <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
           <End Role="Pago" Type="Self.Pago" Multiplicity="*" />
           <ReferentialConstraint>
@@ -185,7 +195,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Vehiculo__ID_Cli__4F7CD00D">
+        <Association Name="FK__Vehiculo__ID_Cli__6383C8BA">
           <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
           <End Role="Vehiculo" Type="Self.Vehiculo" Multiplicity="*" />
           <ReferentialConstraint>
@@ -199,6 +209,7 @@
         </Association>
         <EntityContainer Name="SistemaAlquilerModelStoreContainer">
           <EntitySet Name="Apartamento" EntityType="Self.Apartamento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AreaRecreativa" EntityType="Self.AreaRecreativa" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Aviso" EntityType="Self.Aviso" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Aviso_Cliente" EntityType="Self.Aviso_Cliente" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
@@ -207,41 +218,40 @@
           <EntitySet Name="Mantenimiento" EntityType="Self.Mantenimiento" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pago" EntityType="Self.Pago" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vehiculo" EntityType="Self.Vehiculo" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Apartamen__ID_Ed__3B75D760" Association="Self.FK__Apartamen__ID_Ed__3B75D760">
+          <AssociationSet Name="FK__Apartamen__ID_Ed__4F7CD00D" Association="Self.FK__Apartamen__ID_Ed__4F7CD00D">
             <End Role="Edificio" EntitySet="Edificio" />
             <End Role="Apartamento" EntitySet="Apartamento" />
           </AssociationSet>
-          <AssociationSet Name="FK__Aviso_Cli__ID_Av__440B1D61" Association="Self.FK__Aviso_Cli__ID_Av__440B1D61">
+          <AssociationSet Name="FK__Aviso_Cli__ID_Av__5812160E" Association="Self.FK__Aviso_Cli__ID_Av__5812160E">
             <End Role="Aviso" EntitySet="Aviso" />
             <End Role="Aviso_Cliente" EntitySet="Aviso_Cliente" />
           </AssociationSet>
-          <AssociationSet Name="FK__Aviso_Cli__ID_Cl__4316F928" Association="Self.FK__Aviso_Cli__ID_Cl__4316F928">
+          <AssociationSet Name="FK__Aviso_Cli__ID_Cl__571DF1D5" Association="Self.FK__Aviso_Cli__ID_Cl__571DF1D5">
             <End Role="Cliente" EntitySet="Cliente" />
             <End Role="Aviso_Cliente" EntitySet="Aviso_Cliente" />
           </AssociationSet>
-          <AssociationSet Name="FK__Contrato__ID_Apa__48CFD27E" Association="Self.FK__Contrato__ID_Apa__48CFD27E">
+          <AssociationSet Name="FK__Contrato__ID_Apa__5CD6CB2B" Association="Self.FK__Contrato__ID_Apa__5CD6CB2B">
             <End Role="Apartamento" EntitySet="Apartamento" />
             <End Role="Contrato" EntitySet="Contrato" />
           </AssociationSet>
-          <AssociationSet Name="FK__Contrato__ID_Cli__47DBAE45" Association="Self.FK__Contrato__ID_Cli__47DBAE45">
+          <AssociationSet Name="FK__Contrato__ID_Cli__5BE2A6F2" Association="Self.FK__Contrato__ID_Cli__5BE2A6F2">
             <End Role="Cliente" EntitySet="Cliente" />
             <End Role="Contrato" EntitySet="Contrato" />
           </AssociationSet>
-          <AssociationSet Name="FK__Mantenimi__ID_Ap__52593CB8" Association="Self.FK__Mantenimi__ID_Ap__52593CB8">
+          <AssociationSet Name="FK__Mantenimi__ID_Ap__66603565" Association="Self.FK__Mantenimi__ID_Ap__66603565">
             <End Role="Apartamento" EntitySet="Apartamento" />
             <End Role="Mantenimiento" EntitySet="Mantenimiento" />
           </AssociationSet>
-          <AssociationSet Name="FK__Pago__ID_Contrat__4BAC3F29" Association="Self.FK__Pago__ID_Contrat__4BAC3F29">
+          <AssociationSet Name="FK__Pago__ID_Contrat__5FB337D6" Association="Self.FK__Pago__ID_Contrat__5FB337D6">
             <End Role="Contrato" EntitySet="Contrato" />
             <End Role="Pago" EntitySet="Pago" />
           </AssociationSet>
-          <AssociationSet Name="FK__Vehiculo__ID_Cli__4F7CD00D" Association="Self.FK__Vehiculo__ID_Cli__4F7CD00D">
+          <AssociationSet Name="FK__Vehiculo__ID_Cli__6383C8BA" Association="Self.FK__Vehiculo__ID_Cli__6383C8BA">
             <End Role="Cliente" EntitySet="Cliente" />
             <End Role="Vehiculo" EntitySet="Vehiculo" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SistemaAlquilerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -460,7 +470,18 @@
             <End Role="Aviso" EntitySet="Aviso" />
             <End Role="Cliente" EntitySet="Cliente" />
           </AssociationSet>
+          <EntitySet Name="AreaRecreativa" EntityType="SistemaAlquilerModel.AreaRecreativa" />
         </EntityContainer>
+        <EntityType Name="AreaRecreativa">
+          <Key>
+            <PropertyRef Name="ID_Area" />
+          </Key>
+          <Property Name="ID_Area" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Horario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Imagen_URL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -571,6 +592,17 @@
               <ScalarProperty Name="ID_Cliente" ColumnName="ID_Cliente" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="AreaRecreativa">
+            <EntityTypeMapping TypeName="SistemaAlquilerModel.AreaRecreativa">
+              <MappingFragment StoreEntitySet="AreaRecreativa">
+                <ScalarProperty Name="Imagen_URL" ColumnName="Imagen_URL" />
+                <ScalarProperty Name="Horario" ColumnName="Horario" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ID_Area" ColumnName="ID_Area" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -1,0 +1,44 @@
+﻿@model ProyectoProgramacion.Models.EF.AreaRecreativa
+
+@{
+    ViewBag.Title = "Agregar Área Recreativa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg rounded-4 mx-auto" style="max-width: 600px;">
+        <div class="card-header bg-success text-white text-center">
+            <h4 class="mb-0">Agregar Nueva Área Recreativa</h4>
+        </div>
+        <div class="card-body">
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-group mb-3">
+                    @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "form-label fw-bold" })
+                    @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", placeholder = "Ej. Salón Comunal" })
+                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group mb-3">
+                    @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "form-label fw-bold" })
+                    @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control", rows = 3, placeholder = "Describe el área, uso, restricciones..." })
+                    @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group mb-4">
+                    @Html.LabelFor(model => model.Horario, htmlAttributes: new { @class = "form-label fw-bold" })
+                    @Html.TextBoxFor(model => model.Horario, new { @class = "form-control", placeholder = "Ej. 9:00 am - 6:00 pm" })
+                    @Html.ValidationMessageFor(model => model.Horario, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="d-grid">
+                    <input type="submit" value="Publicar Área" class="btn btn-success btn-lg" />
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

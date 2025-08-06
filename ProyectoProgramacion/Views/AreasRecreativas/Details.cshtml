@@ -1,0 +1,26 @@
+﻿@model ProyectoProgramacion.Models.EF.AreaRecreativa
+
+@{
+    ViewBag.Title = "Detalle del Área Recreativa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg border-0">
+        <div class="row g-0">
+            <div class="col-md-6">
+                <img src="https://source.unsplash.com/600x400/?recreation,nature,fun" class="img-fluid rounded-start" alt="Área">
+            </div>
+            <div class="col-md-6">
+                <div class="card-body">
+                    <h3 class="card-title text-primary fw-bold">@Model.Nombre</h3>
+                    <p class="card-text text-secondary">@Model.Descripcion</p>
+                    <p class="card-text">
+                        <strong>Horario:</strong> <span class="badge bg-warning text-dark">@Model.Horario</span>
+                    </p>
+                    <a href="@Url.Action("Index", "AreasRecreativas")" class="btn btn-outline-secondary mt-3">← Volver a la lista</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

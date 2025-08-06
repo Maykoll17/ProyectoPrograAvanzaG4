@@ -12,14 +12,12 @@ namespace ProyectoProgramacion.Models.EF
     using System;
     using System.Collections.Generic;
     
-    public partial class Pago
+    public partial class AreaRecreativa
     {
-        public int ID_Pago { get; set; }
-        public int ID_Contrato { get; set; }
-        public System.DateTime Fecha_Pago { get; set; }
-        public double Monto_Pago { get; set; }
-        public string Metodo_Pago { get; set; }
-    
-        public virtual Contrato Contrato { get; set; }
+        public int ID_Area { get; set; }
+        public string Nombre { get; set; }
+        public string Descripcion { get; set; }
+        public string Horario { get; set; }
+        public string Imagen_URL { get; set; }
     }
 }
