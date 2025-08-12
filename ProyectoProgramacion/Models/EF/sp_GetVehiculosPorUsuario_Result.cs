@@ -10,13 +10,14 @@
 namespace ProyectoProgramacion.Models.EF
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class AreaRecreativa
+    public partial class sp_GetVehiculosPorUsuario_Result
     {
-        public int ID_Area { get; set; }
-        public string Nombre { get; set; }
-        public string Descripcion { get; set; }
-        public string Horario { get; set; }
+        public int ID_Vehiculo { get; set; }
+        public int ID_Usuario { get; set; }
+        public string Placa { get; set; }
+        public string Marca { get; set; }
+        public string Modelo { get; set; }
+        public string Color { get; set; }
     }
 }

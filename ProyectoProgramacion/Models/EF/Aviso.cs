@@ -17,7 +17,7 @@ namespace ProyectoProgramacion.Models.EF
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Aviso()
         {
-            this.Cliente = new HashSet<Cliente>();
+            this.Usuario = new HashSet<Usuario>();
         }
     
         public int ID_Aviso { get; set; }
@@ -27,6 +27,6 @@ namespace ProyectoProgramacion.Models.EF
         public string Autor { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Cliente> Cliente { get; set; }
+        public virtual ICollection<Usuario> Usuario { get; set; }
     }
 }

@@ -4,23 +4,25 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ae10780ec93f43e6a09f1a33ada888b5" Name="Diagram1">
-        <EntityTypeShape EntityType="SistemaAlquilerModel.Apartamento" Width="1.5" PointX="3" PointY="4.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="SistemaAlquilerModel.Aviso" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="SistemaAlquilerModel.Cliente" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SistemaAlquilerModel.Contrato" Width="1.5" PointX="5.25" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SistemaAlquilerModel.Edificio" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="SistemaAlquilerModel.Mantenimiento" Width="1.5" PointX="5.25" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SistemaAlquilerModel.Pago" Width="1.5" PointX="7.5" PointY="5.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="SistemaAlquilerModel.Vehiculo" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
-        <AssociationConnector Association="SistemaAlquilerModel.FK__Apartamen__ID_Ed__3B75D760" ManuallyRouted="false" />
-        <AssociationConnector Association="SistemaAlquilerModel.FK__Contrato__ID_Apa__48CFD27E" ManuallyRouted="false" />
-        <AssociationConnector Association="SistemaAlquilerModel.FK__Mantenimi__ID_Ap__52593CB8" ManuallyRouted="false" />
-        <AssociationConnector Association="SistemaAlquilerModel.FK__Contrato__ID_Cli__47DBAE45" ManuallyRouted="false" />
-        <AssociationConnector Association="SistemaAlquilerModel.FK__Vehiculo__ID_Cli__4F7CD00D" ManuallyRouted="false" />
-        <AssociationConnector Association="SistemaAlquilerModel.FK__Pago__ID_Contrat__4BAC3F29" ManuallyRouted="false" />
-        <AssociationConnector Association="SistemaAlquilerModel.Aviso_Cliente" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="SistemaAlquilerModel.AreaRecreativa" Width="1.5" PointX="7.375" PointY="0.75" />
+      <Diagram DiagramId="4872318129b14cda9f7fd6ff96d82e3d" Name="Diagram1">
+        <EntityTypeShape EntityType="SistemaAlquilerModel.Apartamento" Width="1.5" PointX="3" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaAlquilerModel.AreaRecreativa" Width="1.5" PointX="7.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaAlquilerModel.Aviso" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaAlquilerModel.Contrato" Width="1.5" PointX="5.25" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaAlquilerModel.Edificio" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaAlquilerModel.Mantenimiento" Width="1.5" PointX="5.25" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaAlquilerModel.Pago" Width="1.5" PointX="7.5" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaAlquilerModel.TRol" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaAlquilerModel.Usuario" Width="1.5" PointX="3" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaAlquilerModel.Vehiculo" Width="1.5" PointX="5.25" PointY="7" IsExpanded="true" />
+        <AssociationConnector Association="SistemaAlquilerModel.FK__Apartamen__ID_Ed__02FC7413" ManuallyRouted="false" />
+        <AssociationConnector Association="SistemaAlquilerModel.FK__Contrato__ID_Apa__0D7A0286" ManuallyRouted="false" />
+        <AssociationConnector Association="SistemaAlquilerModel.FK__Mantenimi__ID_Ap__17036CC0" ManuallyRouted="false" />
+        <AssociationConnector Association="SistemaAlquilerModel.FK__Contrato__ID_Usu__0C85DE4D" ManuallyRouted="false" />
+        <AssociationConnector Association="SistemaAlquilerModel.FK__Pago__ID_Contrat__10566F31" ManuallyRouted="false" />
+        <AssociationConnector Association="SistemaAlquilerModel.FK__Usuario__IdRol__7C4F7684" ManuallyRouted="false" />
+        <AssociationConnector Association="SistemaAlquilerModel.FK__Vehiculo__ID_Usu__14270015" ManuallyRouted="false" />
+        <AssociationConnector Association="SistemaAlquilerModel.Aviso_Usuario" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

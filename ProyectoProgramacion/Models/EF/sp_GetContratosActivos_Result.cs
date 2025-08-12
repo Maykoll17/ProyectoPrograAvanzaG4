@@ -10,16 +10,9 @@
 namespace ProyectoProgramacion.Models.EF
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Contrato
+    public partial class sp_GetContratosActivos_Result
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Contrato()
-        {
-            this.Pago = new HashSet<Pago>();
-        }
-    
         public int ID_Contrato { get; set; }
         public int ID_Usuario { get; set; }
         public int ID_Apartamento { get; set; }
@@ -27,10 +20,5 @@ namespace ProyectoProgramacion.Models.EF
         public System.DateTime Fecha_Fin { get; set; }
         public double Monto_Mensual { get; set; }
         public string Estado { get; set; }
-    
-        public virtual Apartamento Apartamento { get; set; }
-        public virtual Usuario Usuario { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Pago> Pago { get; set; }
     }
 }

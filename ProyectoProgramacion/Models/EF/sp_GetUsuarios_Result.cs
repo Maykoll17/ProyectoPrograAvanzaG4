@@ -10,13 +10,16 @@
 namespace ProyectoProgramacion.Models.EF
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class AreaRecreativa
+    public partial class sp_GetUsuarios_Result
     {
-        public int ID_Area { get; set; }
+        public int ID_Usuario { get; set; }
         public string Nombre { get; set; }
-        public string Descripcion { get; set; }
-        public string Horario { get; set; }
+        public string Cedula { get; set; }
+        public string Telefono { get; set; }
+        public string Contrasenna { get; set; }
+        public string Correo { get; set; }
+        public Nullable<System.DateTime> Fecha_Nacimiento { get; set; }
+        public int IdRol { get; set; }
     }
 }

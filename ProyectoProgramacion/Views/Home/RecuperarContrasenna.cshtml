@@ -1,12 +1,16 @@
-﻿@{
-    ViewBag.Title = "Página Principal";
+﻿@model ProyectoProgramacion.Models.Autenticacion
+@{
+    ViewBag.Title = "Recuperar Contrasenna";
     Layout = "~/Views/Shared/_LayoutExterno.cshtml";
 }
 
 <nav id="scrollspy" class="navbar page-navbar navbar-dark navbar-expand-md fixed-top" data-spy="affix" data-offset-top="20">
     <div class="container">
-        <a class="navbar-brand" href="#"><strong class="text-primary">JA</strong><span class="text-light">GM</span></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Alternar navegación">
+        <a class="navbar-brand" href="@Url.Action("Index", "Home")">
+            <strong class="text-primary">JA</strong><span class="text-light">GM</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Alternar navegación">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -26,6 +30,7 @@
 <header class="header d-flex justify-content-center">
     <div class="container">
         <div class="row h-100 align-items-center">
+
             <div class="col-md-7">
                 <div class="header-content">
                     <h3 class="header-title"><strong class="text-primary">JA</strong><span class="text-light">GM</span></h3>
@@ -33,28 +38,41 @@
                     <p>Administra tus propiedades y contratos de forma rápida, segura y eficiente. Con nuestra plataforma, el control de tus alquileres está a un clic de distancia.</p>
                 </div>
             </div>
+
             <div class="col-md-5 d-none d-md-block">
-                <form class="header-form">
-                    <div class="head"></div>
+                @using (Html.BeginForm("RecuperarContrasenna", "Home", FormMethod.Post, new { @class = "header-form" }))
+                {
+                    <div class="head">
+                        <h5>Recuperar contraseña</h5>
+                    </div>
+                    <div>
+                        @{
+                            var mensaje = ViewBag.Mensaje as string;
+                        }
+                        @if (!string.IsNullOrEmpty(mensaje))
+                        {
+                            <div class="alert alert-warning text-center">
+                                @mensaje
+                            </div>
+                        }
+                    </div>
                     <div class="body">
                         <div class="form-group">
-                            <input type="email" class="form-control" placeholder="Correo electrónico*">
+                            @Html.TextBoxFor(x => x.Correo, new
+                            {
+                                @type = "email",
+                                @class = "form-control",
+                                @placeholder = "Ingrese su correo electrónico*",
+                                required = "required"
+                            })
                         </div>
-                        <div class="form-group">
-                            <input type="password" class="form-control" placeholder="Contraseña*">
-                        </div>
-                        <small>
-                            <a href="@Url.Action("RecuperarContrasenna", "Home")" class="text-primary">
-                                ¿Olvidó la contraseña?
-                            </a>
-                        </small>
                     </div>
                     <div class="footer d-flex">
-                        <button class="btn btn-primary w-50 me-1">Iniciar</button>
-                        <a href="@Url.Action("Registro", "Home")" class="btn btn-primary w-50 ms-1">Registrarse</a>
+                        <button type="submit" class="btn btn-primary w-100">Enviar enlace de recuperación</button>
                     </div>
-                </form>
+                }
             </div>
+
         </div>
     </div>
 </header>
@@ -95,7 +113,6 @@
         </div>
     </div>
 </section>
-
 
 <section class="section has-img-bg text-center">
     <div class="container">

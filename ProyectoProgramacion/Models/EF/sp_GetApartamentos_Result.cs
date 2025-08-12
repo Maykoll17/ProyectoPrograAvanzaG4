@@ -10,13 +10,16 @@
 namespace ProyectoProgramacion.Models.EF
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class AreaRecreativa
+    public partial class sp_GetApartamentos_Result
     {
-        public int ID_Area { get; set; }
-        public string Nombre { get; set; }
-        public string Descripcion { get; set; }
-        public string Horario { get; set; }
+        public int ID_Apartamento { get; set; }
+        public string Codigo_Apartamento { get; set; }
+        public int ID_Edificio { get; set; }
+        public int Piso { get; set; }
+        public double Metros_Cuadrados { get; set; }
+        public Nullable<int> Cantidad_Habitantes { get; set; }
+        public Nullable<int> Cant_Sanitarios { get; set; }
+        public Nullable<bool> Disponible { get; set; }
     }
 }

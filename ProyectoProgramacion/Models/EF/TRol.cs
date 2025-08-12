@@ -12,25 +12,18 @@ namespace ProyectoProgramacion.Models.EF
     using System;
     using System.Collections.Generic;
     
-    public partial class Contrato
+    public partial class TRol
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Contrato()
+        public TRol()
         {
-            this.Pago = new HashSet<Pago>();
+            this.Usuario = new HashSet<Usuario>();
         }
     
-        public int ID_Contrato { get; set; }
-        public int ID_Usuario { get; set; }
-        public int ID_Apartamento { get; set; }
-        public System.DateTime Fecha_Inicio { get; set; }
-        public System.DateTime Fecha_Fin { get; set; }
-        public double Monto_Mensual { get; set; }
-        public string Estado { get; set; }
+        public int IdRol { get; set; }
+        public string DescripcionRol { get; set; }
     
-        public virtual Apartamento Apartamento { get; set; }
-        public virtual Usuario Usuario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Pago> Pago { get; set; }
+        public virtual ICollection<Usuario> Usuario { get; set; }
     }
 }

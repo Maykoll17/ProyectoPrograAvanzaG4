@@ -8,16 +8,14 @@ using System.Web;
 
 namespace ProyectoProgramacion.Models
 {
-    public class Usuario
+    public class Autenticacion
     {
-        public int ID_Usuario { get; set; }
         public string Nombre { get; set; }
         public string Cedula { get; set; }
         public string Telefono { get; set; }
         public string Contrasenna { get; set; }
         public string Correo { get; set; }
         public DateTime Fecha_Nacimiento { get; set; }
-        public int IdRol { get; set; }
 
 
     }

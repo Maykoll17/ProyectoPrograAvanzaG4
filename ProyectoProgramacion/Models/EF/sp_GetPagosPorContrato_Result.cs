@@ -10,13 +10,13 @@
 namespace ProyectoProgramacion.Models.EF
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class AreaRecreativa
+    public partial class sp_GetPagosPorContrato_Result
     {
-        public int ID_Area { get; set; }
-        public string Nombre { get; set; }
-        public string Descripcion { get; set; }
-        public string Horario { get; set; }
+        public int ID_Pago { get; set; }
+        public int ID_Contrato { get; set; }
+        public System.DateTime Fecha_Pago { get; set; }
+        public double Monto_Pago { get; set; }
+        public string Metodo_Pago { get; set; }
     }
 }

@@ -10,13 +10,10 @@
 namespace ProyectoProgramacion.Models.EF
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class AreaRecreativa
+    public partial class sp_GetRoles_Result
     {
-        public int ID_Area { get; set; }
-        public string Nombre { get; set; }
-        public string Descripcion { get; set; }
-        public string Horario { get; set; }
+        public int IdRol { get; set; }
+        public string DescripcionRol { get; set; }
     }
 }

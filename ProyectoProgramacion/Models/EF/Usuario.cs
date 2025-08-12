@@ -12,26 +12,28 @@ namespace ProyectoProgramacion.Models.EF
     using System;
     using System.Collections.Generic;
     
-    public partial class Cliente
+    public partial class Usuario
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Cliente()
+        public Usuario()
         {
             this.Contrato = new HashSet<Contrato>();
             this.Vehiculo = new HashSet<Vehiculo>();
             this.Aviso = new HashSet<Aviso>();
         }
     
-        public int ID_Cliente { get; set; }
+        public int ID_Usuario { get; set; }
         public string Nombre { get; set; }
-        public string Apellido { get; set; }
         public string Cedula { get; set; }
         public string Telefono { get; set; }
+        public string Contrasenna { get; set; }
         public string Correo { get; set; }
         public Nullable<System.DateTime> Fecha_Nacimiento { get; set; }
+        public int IdRol { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Contrato> Contrato { get; set; }
+        public virtual TRol TRol { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Vehiculo> Vehiculo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

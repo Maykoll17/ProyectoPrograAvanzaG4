@@ -10,13 +10,12 @@
 namespace ProyectoProgramacion.Models.EF
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class AreaRecreativa
+    public partial class sp_GetEdificios_Result
     {
-        public int ID_Area { get; set; }
+        public int ID_Edificio { get; set; }
         public string Nombre { get; set; }
-        public string Descripcion { get; set; }
-        public string Horario { get; set; }
+        public string Direccion { get; set; }
+        public int Cantidad_Pisos { get; set; }
     }
 }

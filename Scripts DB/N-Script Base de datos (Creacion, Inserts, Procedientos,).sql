@@ -6,6 +6,26 @@ GO
 USE SistemaAlquiler;
 GO
 
+-- Tabla: Rol
+CREATE TABLE TRol(
+    IdRol INT IDENTITY(1,1) PRIMARY KEY,
+    DescripcionRol VARCHAR(100) NOT NULL
+);
+
+-- Tabla: Usuario 
+CREATE TABLE Usuario (
+    ID_Usuario INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre VARCHAR(60) NOT NULL,
+    Cedula VARCHAR(20) NOT NULL UNIQUE,
+    Telefono VARCHAR(12),
+    Contrasenna VARCHAR(255) NOT NULL,
+    Correo VARCHAR(50),
+    Fecha_Nacimiento DATE,
+    IdRol INT NOT NULL DEFAULT 2,
+    FOREIGN KEY (IdRol) REFERENCES TRol(IdRol)
+);
+
+
 -- Tabla: Edificio
 CREATE TABLE Edificio (
     ID_Edificio INT IDENTITY(1,1) PRIMARY KEY,
@@ -27,17 +47,6 @@ CREATE TABLE Apartamento (
     FOREIGN KEY (ID_Edificio) REFERENCES Edificio(ID_Edificio)
 );
 
--- Tabla: Cliente
-CREATE TABLE Cliente (
-    ID_Cliente INT IDENTITY(1,1) PRIMARY KEY,
-    Nombre VARCHAR(30) NOT NULL,
-    Apellido VARCHAR(60) NOT NULL,
-    Cedula VARCHAR(20) NOT NULL UNIQUE,
-    Telefono VARCHAR(12),
-    Correo VARCHAR(50),
-    Fecha_Nacimiento DATE
-);
-
 -- Tabla: Aviso
 CREATE TABLE Aviso (
     ID_Aviso INT IDENTITY(1,1) PRIMARY KEY,
@@ -47,25 +56,25 @@ CREATE TABLE Aviso (
     Autor VARCHAR(100) NOT NULL
 );
 
--- Relación: Aviso recibido por Cliente (Aviso_Cliente)
-CREATE TABLE Aviso_Cliente (
-    ID_Cliente INT NOT NULL,
+-- Tabla: Relaciï¿½n Aviso-Usuario
+CREATE TABLE Aviso_Usuario (
+    ID_Usuario INT NOT NULL,
     ID_Aviso INT NOT NULL,
-    PRIMARY KEY (ID_Cliente, ID_Aviso),
-    FOREIGN KEY (ID_Cliente) REFERENCES Cliente(ID_Cliente),
+    PRIMARY KEY (ID_Usuario, ID_Aviso),
+    FOREIGN KEY (ID_Usuario) REFERENCES Usuario(ID_Usuario),
     FOREIGN KEY (ID_Aviso) REFERENCES Aviso(ID_Aviso)
 );
 
 -- Tabla: Contrato
 CREATE TABLE Contrato (
     ID_Contrato INT IDENTITY(1,1) PRIMARY KEY,
-    ID_Cliente INT NOT NULL,
+    ID_Usuario INT NOT NULL,
     ID_Apartamento INT NOT NULL,
     Fecha_Inicio DATE NOT NULL,
     Fecha_Fin DATE NOT NULL,
     Monto_Mensual FLOAT NOT NULL,
     Estado VARCHAR(20) DEFAULT 'Activo',
-    FOREIGN KEY (ID_Cliente) REFERENCES Cliente(ID_Cliente),
+    FOREIGN KEY (ID_Usuario) REFERENCES Usuario(ID_Usuario),
     FOREIGN KEY (ID_Apartamento) REFERENCES Apartamento(ID_Apartamento)
 );
 
@@ -82,12 +91,12 @@ CREATE TABLE Pago (
 -- Tabla: Vehiculo
 CREATE TABLE Vehiculo (
     ID_Vehiculo INT IDENTITY(1,1) PRIMARY KEY,
-    ID_Cliente INT NOT NULL,
+    ID_Usuario INT NOT NULL,
     Placa VARCHAR(20) NOT NULL UNIQUE,
     Marca VARCHAR(20),
     Modelo VARCHAR(20),
     Color VARCHAR(20),
-    FOREIGN KEY (ID_Cliente) REFERENCES Cliente(ID_Cliente)
+    FOREIGN KEY (ID_Usuario) REFERENCES Usuario(ID_Usuario)
 );
 
 -- Tabla: Mantenimiento
@@ -101,8 +110,7 @@ CREATE TABLE Mantenimiento (
     FOREIGN KEY (ID_Apartamento) REFERENCES Apartamento(ID_Apartamento)
 );
 
---Tabla: Area Recreativa
-
+-- Tabla: Area Recreativa
 CREATE TABLE AreaRecreativa (
     ID_Area INT PRIMARY KEY IDENTITY(1,1),
     Nombre NVARCHAR(100) NOT NULL,
@@ -110,27 +118,29 @@ CREATE TABLE AreaRecreativa (
     Horario NVARCHAR(100)
 );
 
-CREATE TABLE Roll (
-    ID_Roll INT PRIMARY KEY IDENTITY(1,1),
-    Descripcion NVARCHAR(MAX),
-);
 
+-- Insertar Roles
+INSERT INTO TRol (DescripcionRol)
+VALUES
+('Administrador'),
+('Usuario');
 
+-- Insertar Usuarios
+INSERT INTO Usuario (Nombre, Cedula, Telefono, Contrasenna, Correo, Fecha_Nacimiento, IdRol)
+VALUES
+('Admin Sistema', '0-0000-0000', '8888-0000', 'admin123', 'admin@sistema.com', '1980-01-01', 1),
+('Juan Pï¿½rez', '1-1234-5678', '8888-1111', 'clave123', 'juan.perez@email.com', '1985-06-15', 2),
+('Marï¿½a Gï¿½mez', '2-2345-6789', '8888-2222', 'clave456', 'maria.gomez@email.com', '1990-03-22', 2),
+('Luis Ramï¿½rez', '3-3456-7890', '8888-3333', 'clave789', 'luis.ramirez@email.com', '1978-11-05', 2);
 
-
-----iNSERTS----------------------------------------------------------------------------------------
-
-
-
-
--- 1. Insertar Edificios
+-- Insertar Edificios
 INSERT INTO Edificio (Nombre, Direccion, Cantidad_Pisos)
 VALUES
 ('Torre Central', 'Av. Principal 123', 10),
-('Residencial Vista Azul', 'Calle 45, San José', 8),
+('Residencial Vista Azul', 'Calle 45, San Josï¿½', 8),
 ('Condominio Las Palmas', 'Boulevard de la Paz 456', 12);
 
--- 2. Insertar Apartamentos
+-- Insertar Apartamentos
 INSERT INTO Apartamento (Codigo_Apartamento, ID_Edificio, Piso, Metros_Cuadrados, Cantidad_Habitantes, Cant_Sanitarios, Disponible)
 VALUES
 ('A101', 1, 1, 80.5, 3, 2, 1),
@@ -138,76 +148,152 @@ VALUES
 ('B201', 2, 2, 90.0, 4, 2, 0),
 ('C1003', 3, 10, 120.0, 5, 3, 1);
 
--- 3. Insertar Clientes
-INSERT INTO Cliente (Nombre, Apellido, Cedula, Telefono, Correo, Fecha_Nacimiento)
-VALUES
-('Juan', 'Pérez', '1-1234-5678', '8888-1111', 'juan.perez@email.com', '1985-06-15'),
-('María', 'Gómez', '2-2345-6789', '8888-2222', 'maria.gomez@email.com', '1990-03-22'),
-('Luis', 'Ramírez', '3-3456-7890', '8888-3333', 'luis.ramirez@email.com', '1978-11-05');
-
--- 4. Insertar Avisos
+-- Insertar Avisos
 INSERT INTO Aviso (Titulo, Contenido, Fecha_Publicacion, Autor)
 VALUES
-('Mantenimiento de ascensor', 'El ascensor estará fuera de servicio el próximo sábado por mantenimiento.', '2025-08-05', 'Administrador'),
-('Fiesta de la comunidad', 'Se invita a todos los residentes a la fiesta anual en el área recreativa.', '2025-08-08', 'Comité de Vecinos');
+('Mantenimiento de ascensor', 'El ascensor estarï¿½ fuera de servicio el prï¿½ximo sï¿½bado por mantenimiento.', '2025-08-05', 'Administrador'),
+('Fiesta de la comunidad', 'Se invita a todos los residentes a la fiesta anual en el ï¿½rea recreativa.', '2025-08-08', 'Comitï¿½ de Vecinos');
 
--- 5. Relación Aviso-Cliente
-INSERT INTO Aviso_Cliente (ID_Cliente, ID_Aviso)
+-- Relaciï¿½n Aviso-Usuario
+INSERT INTO Aviso_Usuario (ID_Usuario, ID_Aviso)
 VALUES
-(1, 1),
 (2, 1),
-(3, 2);
+(3, 1),
+(4, 2);
 
--- 6. Insertar Contratos
-INSERT INTO Contrato (ID_Cliente, ID_Apartamento, Fecha_Inicio, Fecha_Fin, Monto_Mensual, Estado)
+-- Insertar Contratos
+INSERT INTO Contrato (ID_Usuario, ID_Apartamento, Fecha_Inicio, Fecha_Fin, Monto_Mensual, Estado)
 VALUES
-(1, 1, '2025-01-01', '2025-12-31', 750.00, 'Activo'),
-(2, 2, '2025-02-01', '2025-11-30', 600.00, 'Activo'),
-(3, 3, '2024-05-01', '2025-04-30', 900.00, 'Finalizado');
+(2, 1, '2025-01-01', '2025-12-31', 750.00, 'Activo'),
+(3, 2, '2025-02-01', '2025-11-30', 600.00, 'Activo'),
+(4, 3, '2024-05-01', '2025-04-30', 900.00, 'Finalizado');
 
--- 7. Insertar Pagos
+-- Insertar Pagos
 INSERT INTO Pago (ID_Contrato, Fecha_Pago, Monto_Pago, Metodo_Pago)
 VALUES
 (1, '2025-08-01', 750.00, 'Transferencia'),
 (2, '2025-08-03', 600.00, 'Efectivo'),
 (3, '2025-04-30', 900.00, 'Tarjeta');
 
--- 8. Insertar Vehículos
-INSERT INTO Vehiculo (ID_Cliente, Placa, Marca, Modelo, Color)
+-- Insertar Vehï¿½culos
+INSERT INTO Vehiculo (ID_Usuario, Placa, Marca, Modelo, Color)
 VALUES
-(1, 'ABC123', 'Toyota', 'Corolla', 'Rojo'),
-(2, 'XYZ789', 'Honda', 'Civic', 'Negro'),
-(3, 'LMN456', 'Nissan', 'Versa', 'Blanco');
+(2, 'ABC123', 'Toyota', 'Corolla', 'Rojo'),
+(3, 'XYZ789', 'Honda', 'Civic', 'Negro'),
+(4, 'LMN456', 'Nissan', 'Versa', 'Blanco');
 
--- 9. Insertar Mantenimientos
+-- Insertar Mantenimientos
 INSERT INTO Mantenimiento (ID_Apartamento, Descripcion, Fecha_Mantenimiento, Costo, Tipo)
 VALUES
-(1, 'Cambio de tuberías del baño', '2025-07-20', 150.00, 'Plomería'),
+(1, 'Cambio de tuberï¿½as del baï¿½o', '2025-07-20', 150.00, 'Plomerï¿½a'),
 (2, 'Pintura de paredes', '2025-07-25', 200.00, 'Pintura'),
-(3, 'Revisión de instalación eléctrica', '2025-08-01', 120.00, 'Electricidad');
+(3, 'Revisiï¿½n de instalaciï¿½n elï¿½ctrica', '2025-08-01', 120.00, 'Electricidad');
 
--- 10. Insertar Áreas Recreativas
+-- Insertar ï¿½reas Recreativas
 INSERT INTO AreaRecreativa (Nombre, Descripcion, Horario)
 VALUES
-('Piscina', 'Piscina semi-olímpica para uso de residentes', '06:00 - 20:00'),
-('Gimnasio', 'Equipado con máquinas modernas y área de pesas', '05:00 - 22:00');
-
--- 11. Insertar Roles
-INSERT INTO Roll (Descripcion)
-VALUES
-('Administrador'),
-('Usuario');
+('Piscina', 'Piscina semi-olï¿½mpica para uso de residentes', '06:00 - 20:00'),
+('Gimnasio', 'Equipado con mï¿½quinas modernas y ï¿½rea de pesas', '05:00 - 22:00');
 
 
+-- Insertar Rol
+CREATE PROCEDURE sp_InsertRol
+    @DescripcionRol VARCHAR(100)
+AS
+BEGIN
+    INSERT INTO TRol (DescripcionRol)
+    VALUES (@DescripcionRol);
+END
+GO
 
+-- Obtener todos los Roles
+CREATE PROCEDURE sp_GetRoles
+AS
+BEGIN
+    SELECT * FROM TRol;
+END
+GO
 
-----PROCEDIMIENTOS--------------------------------------------------------------------
+-- Actualizar Rol
+CREATE PROCEDURE sp_UpdateRol
+    @IdRol INT,
+    @DescripcionRol VARCHAR(100)
+AS
+BEGIN
+    UPDATE TRol
+    SET DescripcionRol = @DescripcionRol
+    WHERE IdRol = @IdRol;
+END
+GO
 
+-- Eliminar Rol
+CREATE PROCEDURE sp_DeleteRol
+    @IdRol INT
+AS
+BEGIN
+    DELETE FROM TRol
+    WHERE IdRol = @IdRol;
+END
+GO
 
+-- Insertar Usuario
+CREATE PROCEDURE sp_InsertUsuario
+    @Nombre VARCHAR(30),
+    @Cedula VARCHAR(20),
+    @Telefono VARCHAR(12),
+    @Contrasenna VARCHAR(255),
+    @Correo VARCHAR(50),
+    @Fecha_Nacimiento DATE
+AS
+BEGIN
+    INSERT INTO Usuario (Nombre, Cedula, Telefono, Contrasenna, Correo, Fecha_Nacimiento, IdRol)
+    VALUES (@Nombre, @Cedula, @Telefono, @Contrasenna, @Correo, @Fecha_Nacimiento, 2);
+END
+GO
 
+-- Obtener todos los Usuarios
+CREATE PROCEDURE sp_GetUsuarios
+AS
+BEGIN
+    SELECT * FROM Usuario;
+END
+GO
 
---CRUD PARA TABLA EDIFICIO
+-- Actualizar Usuario
+CREATE PROCEDURE sp_UpdateUsuario
+    @ID_Usuario INT,
+    @Nombre VARCHAR(30),
+    @Cedula VARCHAR(20),
+    @Telefono VARCHAR(12),
+    @Contrasenna VARCHAR(255),
+    @Correo VARCHAR(50),
+    @Fecha_Nacimiento DATE,
+    @IdRol INT
+AS
+BEGIN
+    UPDATE Usuario
+    SET Nombre = @Nombre,
+        Cedula = @Cedula,
+        Telefono = @Telefono,
+        Contrasenna = @Contrasenna,
+        Correo = @Correo,
+        Fecha_Nacimiento = @Fecha_Nacimiento,
+        IdRol = @IdRol
+    WHERE ID_Usuario = @ID_Usuario;
+END
+GO
 
+-- Eliminar Usuario
+CREATE PROCEDURE sp_DeleteUsuario
+    @ID_Usuario INT
+AS
+BEGIN
+    DELETE FROM Usuario
+    WHERE ID_Usuario = @ID_Usuario;
+END
+GO
+
+-- Insertar Edificio
 CREATE PROCEDURE sp_InsertEdificio
     @Nombre VARCHAR(100),
     @Direccion VARCHAR(150),
@@ -219,6 +305,7 @@ BEGIN
 END
 GO
 
+-- Obtener todos los Edificios
 CREATE PROCEDURE sp_GetEdificios
 AS
 BEGIN
@@ -226,6 +313,7 @@ BEGIN
 END
 GO
 
+-- Actualizar Edificio
 CREATE PROCEDURE sp_UpdateEdificio
     @ID_Edificio INT,
     @Nombre VARCHAR(100),
@@ -241,6 +329,7 @@ BEGIN
 END
 GO
 
+-- Eliminar Edificio
 CREATE PROCEDURE sp_DeleteEdificio
     @ID_Edificio INT
 AS
@@ -250,10 +339,7 @@ BEGIN
 END
 GO
 
-
-
---CRUD PARA TABLA APARTAMENTO
-
+-- Insertar Apartamento
 CREATE PROCEDURE sp_InsertApartamento
     @Codigo_Apartamento VARCHAR(8),
     @ID_Edificio INT,
@@ -269,6 +355,7 @@ BEGIN
 END
 GO
 
+-- Obtener todos los Apartamentos
 CREATE PROCEDURE sp_GetApartamentos
 AS
 BEGIN
@@ -276,6 +363,7 @@ BEGIN
 END
 GO
 
+-- Actualizar Apartamento
 CREATE PROCEDURE sp_UpdateApartamento
     @ID_Apartamento INT,
     @Codigo_Apartamento VARCHAR(8),
@@ -299,6 +387,7 @@ BEGIN
 END
 GO
 
+-- Eliminar Apartamento
 CREATE PROCEDURE sp_DeleteApartamento
     @ID_Apartamento INT
 AS
@@ -308,67 +397,9 @@ BEGIN
 END
 GO
 
-
-
---CRUD PARA TABLA CLIENTE
-
-CREATE PROCEDURE sp_InsertCliente
-    @Nombre VARCHAR(30),
-    @Apellido VARCHAR(60),
-    @Cedula VARCHAR(20),
-    @Telefono VARCHAR(12),
-    @Correo VARCHAR(50),
-    @Fecha_Nacimiento DATE
-AS
-BEGIN
-    INSERT INTO Cliente (Nombre, Apellido, Cedula, Telefono, Correo, Fecha_Nacimiento)
-    VALUES (@Nombre, @Apellido, @Cedula, @Telefono, @Correo, @Fecha_Nacimiento);
-END
-GO
-
-CREATE PROCEDURE sp_GetClientes
-AS
-BEGIN
-    SELECT * FROM Cliente;
-END
-GO
-
-CREATE PROCEDURE sp_UpdateCliente
-    @ID_Cliente INT,
-    @Nombre VARCHAR(30),
-    @Apellido VARCHAR(60),
-    @Cedula VARCHAR(20),
-    @Telefono VARCHAR(12),
-    @Correo VARCHAR(50),
-    @Fecha_Nacimiento DATE
-AS
-BEGIN
-    UPDATE Cliente
-    SET Nombre = @Nombre,
-        Apellido = @Apellido,
-        Cedula = @Cedula,
-        Telefono = @Telefono,
-        Correo = @Correo,
-        Fecha_Nacimiento = @Fecha_Nacimiento
-    WHERE ID_Cliente = @ID_Cliente;
-END
-GO
-
-CREATE PROCEDURE sp_DeleteCliente
-    @ID_Cliente INT
-AS
-BEGIN
-    DELETE FROM Cliente
-    WHERE ID_Cliente = @ID_Cliente;
-END
-GO
-
-
-
---CRUD PARA TABLA CONTRATO
-
+-- Insertar Contrato
 CREATE PROCEDURE sp_InsertContrato
-    @ID_Cliente INT,
+    @ID_Usuario INT,
     @ID_Apartamento INT,
     @Fecha_Inicio DATE,
     @Fecha_Fin DATE,
@@ -376,11 +407,12 @@ CREATE PROCEDURE sp_InsertContrato
     @Estado VARCHAR(20)
 AS
 BEGIN
-    INSERT INTO Contrato (ID_Cliente, ID_Apartamento, Fecha_Inicio, Fecha_Fin, Monto_Mensual, Estado)
-    VALUES (@ID_Cliente, @ID_Apartamento, @Fecha_Inicio, @Fecha_Fin, @Monto_Mensual, @Estado);
+    INSERT INTO Contrato (ID_Usuario, ID_Apartamento, Fecha_Inicio, Fecha_Fin, Monto_Mensual, Estado)
+    VALUES (@ID_Usuario, @ID_Apartamento, @Fecha_Inicio, @Fecha_Fin, @Monto_Mensual, @Estado);
 END
 GO
 
+-- Obtener todos los Contratos
 CREATE PROCEDURE sp_GetContratos
 AS
 BEGIN
@@ -388,9 +420,10 @@ BEGIN
 END
 GO
 
+-- Actualizar Contrato
 CREATE PROCEDURE sp_UpdateContrato
     @ID_Contrato INT,
-    @ID_Cliente INT,
+    @ID_Usuario INT,
     @ID_Apartamento INT,
     @Fecha_Inicio DATE,
     @Fecha_Fin DATE,
@@ -399,7 +432,7 @@ CREATE PROCEDURE sp_UpdateContrato
 AS
 BEGIN
     UPDATE Contrato
-    SET ID_Cliente = @ID_Cliente,
+    SET ID_Usuario = @ID_Usuario,
         ID_Apartamento = @ID_Apartamento,
         Fecha_Inicio = @Fecha_Inicio,
         Fecha_Fin = @Fecha_Fin,
@@ -409,6 +442,7 @@ BEGIN
 END
 GO
 
+-- Eliminar Contrato
 CREATE PROCEDURE sp_DeleteContrato
     @ID_Contrato INT
 AS
@@ -418,51 +452,50 @@ BEGIN
 END
 GO
 
+-- Obtener apartamentos disponibles
+CREATE PROCEDURE sp_GetApartamentosDisponibles
+AS
+BEGIN
+    SELECT * FROM Apartamento WHERE Disponible = 1;
+END
+GO
 
+-- Obtener contratos activos
+CREATE PROCEDURE sp_GetContratosActivos
+AS
+BEGIN
+    SELECT * FROM Contrato WHERE Estado = 'Activo';
+END
+GO
 
---CRUD PARA TABLA PAGO
-
-CREATE PROCEDURE sp_InsertPago
+-- Registrar pago
+CREATE PROCEDURE sp_RegistrarPago
     @ID_Contrato INT,
-    @Fecha_Pago DATE,
     @Monto_Pago FLOAT,
     @Metodo_Pago VARCHAR(20)
 AS
 BEGIN
     INSERT INTO Pago (ID_Contrato, Fecha_Pago, Monto_Pago, Metodo_Pago)
-    VALUES (@ID_Contrato, @Fecha_Pago, @Monto_Pago, @Metodo_Pago);
+    VALUES (@ID_Contrato, GETDATE(), @Monto_Pago, @Metodo_Pago);
 END
 GO
 
-CREATE PROCEDURE sp_GetPagos
+-- Obtener pagos por contrato
+CREATE PROCEDURE sp_GetPagosPorContrato
+    @ID_Contrato INT
 AS
 BEGIN
-    SELECT * FROM Pago;
+    SELECT * FROM Pago WHERE ID_Contrato = @ID_Contrato
+    ORDER BY Fecha_Pago DESC;
 END
 GO
 
-CREATE PROCEDURE sp_UpdatePago
-    @ID_Pago INT,
-    @ID_Contrato INT,
-    @Fecha_Pago DATE,
-    @Monto_Pago FLOAT,
-    @Metodo_Pago VARCHAR(20)
+-- Obtener vehï¿½culos de un usuario
+CREATE PROCEDURE sp_GetVehiculosPorUsuario
+    @ID_Usuario INT
 AS
 BEGIN
-    UPDATE Pago
-    SET ID_Contrato = @ID_Contrato,
-        Fecha_Pago = @Fecha_Pago,
-        Monto_Pago = @Monto_Pago,
-        Metodo_Pago = @Metodo_Pago
-    WHERE ID_Pago = @ID_Pago;
+    SELECT * FROM Vehiculo WHERE ID_Usuario = @ID_Usuario;
 END
 GO
 
-CREATE PROCEDURE sp_DeletePago
-    @ID_Pago INT
-AS
-BEGIN
-    DELETE FROM Pago
-    WHERE ID_Pago = @ID_Pago;
-END
-GO

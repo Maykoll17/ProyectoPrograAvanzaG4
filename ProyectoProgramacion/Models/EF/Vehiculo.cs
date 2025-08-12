@@ -15,12 +15,12 @@ namespace ProyectoProgramacion.Models.EF
     public partial class Vehiculo
     {
         public int ID_Vehiculo { get; set; }
-        public int ID_Cliente { get; set; }
+        public int ID_Usuario { get; set; }
         public string Placa { get; set; }
         public string Marca { get; set; }
         public string Modelo { get; set; }
         public string Color { get; set; }
     
-        public virtual Cliente Cliente { get; set; }
+        public virtual Usuario Usuario { get; set; }
     }
 }
