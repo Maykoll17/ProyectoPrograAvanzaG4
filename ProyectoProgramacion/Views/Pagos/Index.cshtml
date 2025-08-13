@@ -1,39 +1,59 @@
-﻿@{
+﻿@model IEnumerable<ProyectoProgramacion.Models.EF.Pago>
+@{
+    ViewBag.Title = "Mis Pagos";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "Pagos Pendientes";
 }
 
 <div class="container py-5">
-    <h2 class="mb-4 text-success">Pagos Pendientes</h2>
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+        <h2 class="text-success fw-bold m-0">Mis Pagos</h2>
+        @Html.ActionLink("Registrar Pago", "Create", "Pagos", null, new { @class = "btn btn-success" })
+    </div>
+
+    @if (ViewBag.Mensaje != null)
+    {
+        <div class="alert alert-warning">@ViewBag.Mensaje</div>
+    }
+
     <div class="table-responsive">
-        <table class="table table-bordered table-hover shadow-sm">
+        <table class="table table-bordered table-hover shadow-sm align-middle">
             <thead class="table-success">
                 <tr>
-                    <th>Concepto</th>
+                    <th>ID</th>
+                    <th>Contrato</th>
+                    <th>Fecha</th>
                     <th>Monto</th>
-                    <th>Fecha Límite</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
+                    <th>Método / Estado</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Alquiler Julio 2025</td>
-                    <td>₡300,000</td>
-                    <td>10/07/2025</td>
-                    <td><span class="badge bg-warning text-dark">Pendiente</span></td>
-                    <td><a href="#" class="btn btn-sm btn-outline-success">Pagar</a></td>
-                </tr>
-                <tr>
-                    <td>Mantenimiento</td>
-                    <td>₡25,000</td>
-                    <td>10/07/2025</td>
-                    <td><span class="badge bg-warning text-dark">Pendiente</span></td>
-                    <td><a href="#" class="btn btn-sm btn-outline-success">Pagar</a></td>
-
-                    <td><a href="#" class="btn btn-sm btn-outline-success">Hola</a></td>
-
-                </tr>
+                @if (Model == null || !Model.Any())
+                {
+                    <tr>
+                        <td colspan="6" class="text-center text-muted">No tienes pagos registrados.</td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var p in Model)
+                    {
+                        <tr>
+                            <td>@p.ID_Pago</td>
+                            <td>@p.ID_Contrato</td>
+                            <td>@p.Fecha_Pago.ToString("dd/MM/yyyy")</td>
+                            <td>₡@p.Monto_Pago.ToString("N2")</td>
+                            <td>
+                                <span class="badge bg-@((p.Metodo_Pago ?? "").ToLower() == "pagado" ? "success" : (p.Metodo_Pago ?? "").ToLower() == "rechazado" ? "danger" : "warning text-dark")">
+                                    @(!string.IsNullOrEmpty(p.Metodo_Pago) ? p.Metodo_Pago : "—")
+                                </span>
+                            </td>
+                            <td class="text-end">
+                                @Html.ActionLink("Detalles", "Details", "Pagos", new { id = p.ID_Pago }, new { @class = "btn btn-sm btn-outline-primary" })
+                            </td>
+                        </tr>
+                    }
+                }
             </tbody>
         </table>
     </div>

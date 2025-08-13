@@ -1,0 +1,45 @@
+﻿@model ProyectoProgramacion.Models.EF.Pago
+@{
+    ViewBag.Title = "Detalle del Pago";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-primary text-white rounded-top-4">
+            <h4 class="mb-0">Detalle del Pago #@Model.ID_Pago</h4>
+        </div>
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-3">Contrato</dt>
+                <dd class="col-sm-9">@Model.ID_Contrato</dd>
+
+                <dt class="col-sm-3">Usuario</dt>
+                <dd class="col-sm-9">
+                    @(Model.Contrato != null && Model.Contrato.Usuario != null
+                        ? (Model.Contrato.Usuario.Nombre + " (" + Model.Contrato.Usuario.Cedula + ")")
+                        : "—")
+                </dd>
+
+                <dt class="col-sm-3">Fecha</dt>
+                <dd class="col-sm-9">@Model.Fecha_Pago.ToString("dd/MM/yyyy")</dd>
+
+                <dt class="col-sm-3">Monto</dt>
+                <dd class="col-sm-9">₡@Model.Monto_Pago.ToString("N2")</dd>
+
+                <dt class="col-sm-3">Método / Estado</dt>
+                <dd class="col-sm-9">
+                    <span class="badge bg-@((Model.Metodo_Pago ?? "").ToLower() == "pagado" ? "success" : (Model.Metodo_Pago ?? "").ToLower() == "rechazado" ? "danger" : "warning text-dark")">
+                        @(!string.IsNullOrEmpty(Model.Metodo_Pago) ? Model.Metodo_Pago : "—")
+                    </span>
+                </dd>
+            </dl>
+            <div class="mt-4">
+                @* Regresar a donde venga el usuario *@
+                <a href="javascript:history.back()" class="btn btn-outline-secondary">Volver</a>
+                @Html.ActionLink("Ir a Mis Pagos", "Index", "Pagos", null, new { @class = "btn btn-secondary ms-2" })
+            </div>
+        </div>
+    </div>
+</div>
+
