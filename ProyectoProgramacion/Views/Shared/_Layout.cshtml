@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@{
+    bool autenticado = User.Identity.IsAuthenticated;
+    bool esAdmin = User.IsInRole("Admin");
+}
+
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8" />
@@ -41,9 +46,13 @@
                         <li class="nav-item">
                             <a class="nav-link" href="@Url.Action("Index", "AreasRecreativas")"><i class="fas fa-tree"></i> Áreas Recreativas</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Index", "AdminAreas")"><i class="fas fa-tools"></i> Gestión Áreas (Admin)</a>
-                        </li>
+                        @* Solo visible para Admin *@
+                        @if (esAdmin)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "AdminAreas")"><i class="fas fa-tools"></i> Gestión Áreas (Admin)</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
