@@ -1,4 +1,5 @@
-﻿@{
+﻿@model ProyectoProgramacion.Models.Autenticacion
+@{
     ViewBag.Title = "Página Principal";
     Layout = "~/Views/Shared/_LayoutExterno.cshtml";
 }
@@ -34,14 +35,21 @@
                 </div>
             </div>
             <div class="col-md-5 d-none d-md-block">
-                <form class="header-form">
+                @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "header-form" }))
+                {
                     <div class="head"></div>
                     <div class="body">
+
+                        @if (ViewBag.Mensaje != null)
+                        {
+                            <div class="alert alert-danger">@ViewBag.Mensaje</div>
+                        }
+
                         <div class="form-group">
-                            <input type="email" class="form-control" placeholder="Correo electrónico*">
+                            @Html.TextBoxFor(m => m.Correo, new { @class = "form-control", @placeholder = "Correo electrónico*" })
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control" placeholder="Contraseña*">
+                            @Html.PasswordFor(m => m.Contrasenna, new { @class = "form-control", @placeholder = "Contraseña*" })
                         </div>
                         <small>
                             <a href="@Url.Action("RecuperarContrasenna", "Home")" class="text-primary">
@@ -50,10 +58,10 @@
                         </small>
                     </div>
                     <div class="footer d-flex">
-                        <button class="btn btn-primary w-50 me-1">Iniciar</button>
+                        <button type="submit" class="btn btn-primary w-50 me-1">Iniciar</button>
                         <a href="@Url.Action("Registro", "Home")" class="btn btn-primary w-50 ms-1">Registrarse</a>
                     </div>
-                </form>
+                }
             </div>
         </div>
     </div>
@@ -67,35 +75,22 @@
         <div class="row">
             <div class="col-lg-4">
                 <div class="circle-100 mb-3"><i class="ti-light-bulb"></i></div>
-                <h6 class="title mb-3">
-                    Comprender el proceso local de alquiler
-                </h6>
-                <p>
-                    La mayoría de los apartamentos se alquilan sin amueblar, y los propietarios esperan solicitudes detalladas. La preparación anticipada y una solicitud sólida son clave.
-                </p>
+                <h6 class="title mb-3">Comprender el proceso local de alquiler</h6>
+                <p>La mayoría de los apartamentos se alquilan sin amueblar, y los propietarios esperan solicitudes detalladas. La preparación anticipada y una solicitud sólida son clave.</p>
             </div>
             <div class="col-lg-4">
                 <div class="circle-100 mb-3"><i class="ti-face-smile"></i></div>
-                <h6 class="title mb-3">
-                    Documentos que debes presentar
-                </h6>
-                <p>
-                    Prepara con antelación todos los documentos esenciales, incluyendo una copia de tu identificación personal, comprobante de ingresos y reporte de crédito.
-                </p>
+                <h6 class="title mb-3">Documentos que debes presentar</h6>
+                <p>Prepara con antelación todos los documentos esenciales, incluyendo una copia de tu identificación personal, comprobante de ingresos y reporte de crédito.</p>
             </div>
             <div class="col-lg-4">
                 <div class="circle-100 mb-3"><i class="ti-marker-alt"></i></div>
-                <h6 class="title mb-3">
-                    Asegura un apartamento
-                </h6>
-                <p>
-                    Actúa rápidamente cuando encuentres un anuncio que te guste. Presenta una solicitud y adjunta todos los documentos requeridos para aumentar tus posibilidades de éxito.
-                </p>
+                <h6 class="title mb-3">Asegura un apartamento</h6>
+                <p>Actúa rápidamente cuando encuentres un anuncio que te guste. Presenta una solicitud y adjunta todos los documentos requeridos para aumentar tus posibilidades de éxito.</p>
             </div>
         </div>
     </div>
 </section>
-
 
 <section class="section has-img-bg text-center">
     <div class="container">
