@@ -117,6 +117,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ContratosController.cs" />
     <Compile Include="Controllers\EdificioController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\AdminAreasController.cs" />
@@ -420,9 +421,13 @@
     <Content Include="Views\AreasRecreativas\Details.cshtml" />
     <Content Include="Views\Home\RecuperarContrasenna.cshtml" />
     <Content Include="Views\Home\Principal.cshtml" />
-    <Content Include="Views\Pagos\AdminIndex..cshtml" />
+    <Content Include="Views\Pagos\AdminIndex.cshtml" />
     <Content Include="Views\Pagos\Create.cshtml" />
     <Content Include="Views\Pagos\Details.cshtml" />
+    <Content Include="Views\Contratos\AdminIndex.cshtml" />
+    <Content Include="Views\Contratos\Create.cshtml" />
+    <Content Include="Views\Contratos\Details.cshtml" />
+    <Content Include="Views\Contratos\MisContratos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

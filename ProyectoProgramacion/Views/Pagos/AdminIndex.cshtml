@@ -1,0 +1,76 @@
+﻿@model IEnumerable<ProyectoProgramacion.Models.EF.Pago>
+@{
+    ViewBag.Title = "Pagos (Admin)";
+    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+
+}
+<br />
+<br />
+<br />
+<br />
+
+<div class="container py-4">
+    <div class="d-flex align-items-center mb-3">
+        <span class="badge bg-warning text-dark me-2 px-3 py-2">ADMIN</span>
+        <h2 class="m-0">Gestión de Pagos</h2>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-warning">
+                <tr>
+                    <th>#</th>
+                    <th>Contrato</th>
+                    <th>Fecha</th>
+                    <th class="text-end">Monto</th>
+                    <th>Comprobante</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                    <tr>
+                        <td>@p.ID_Pago</td>
+                        <td>@p.ID_Contrato</td>
+                        <td>@p.Fecha_Pago.ToString("yyyy-MM-dd")</td>
+                        <td class="text-end">₡ @String.Format("{0:N2}", p.Monto_Pago)</td>
+                        <td>
+                            @if (!string.IsNullOrWhiteSpace(p.Comprobante_URL))
+                            {
+                                <a href="@Url.Content(p.Comprobante_URL)" target="_blank" class="d-inline-block">
+                                    <img src="@Url.Content(p.Comprobante_URL)" class="img-thumbnail" style="max-width:100px;" />
+                                </a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">—</span>
+                            }
+                        </td>
+                        <td>
+                            <span class="badge @(p.Estado=="Pagado" ? "bg-success" : p.Estado=="Rechazado" ? "bg-danger" : "bg-secondary")">
+                                @p.Estado
+                            </span>
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("ActualizarEstado", "Pagos", FormMethod.Post, new { @class = "d-inline" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden("id", p.ID_Pago)
+                                <div class="input-group input-group-sm" style="width: 260px;">
+                                    <select name="nuevoEstado" class="form-select">
+                                        <option value="Pendiente" @(p.Estado == "Pendiente" ? "selected" : "")>Pendiente</option>
+                                        <option value="Pagado" @(p.Estado == "Pagado" ? "selected" : "")>Pagado</option>
+                                        <option value="Rechazado" @(p.Estado == "Rechazado" ? "selected" : "")>Rechazado</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-warning text-dark">Guardar</button>
+                                </div>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

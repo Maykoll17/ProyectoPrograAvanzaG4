@@ -1,0 +1,56 @@
+﻿@model ProyectoProgramacion.Models.EF.Contrato
+@{
+    ViewBag.Title = "Nuevo Contrato";
+    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+
+}
+<br />
+<br />
+<br />
+<br />
+
+<div class="container py-4">
+    <h2 class="text-primary mb-3">Crear contrato</h2>
+
+    @using (Html.BeginForm("Create", "Contratos", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="row g-3">
+
+            <div class="col-md-6">
+                <label class="form-label">Usuario</label>
+                @Html.DropDownList("ID_Usuario", (SelectList)ViewBag.ID_Usuario, "Seleccione...", new { @class = "form-select", required = "required" })
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Apartamento</label>
+                @Html.DropDownList("ID_Apartamento", (SelectList)ViewBag.ID_Apartamento, "Seleccione...", new { @class = "form-select", required = "required" })
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Fecha inicio</label>
+                @Html.TextBoxFor(m => m.Fecha_Inicio, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", required = "required" })
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Fecha fin</label>
+                @Html.TextBoxFor(m => m.Fecha_Fin, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", required = "required" })
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Monto mensual</label>
+                @Html.TextBoxFor(m => m.Monto_Mensual, new { @class = "form-control", type = "number", step = "0.01", min = "0.01", required = "required" })
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Estado</label>
+                @Html.TextBoxFor(m => m.Estado, new { @class = "form-control", placeholder = "Activo / Finalizado", value = (Model?.Estado ?? "Activo") })
+            </div>
+
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                @Html.ActionLink("Volver", "AdminIndex", null, new { @class = "btn btn-outline-secondary ms-2" })
+            </div>
+        </div>
+    }
+</div>

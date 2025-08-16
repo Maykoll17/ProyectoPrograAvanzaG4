@@ -1,0 +1,54 @@
+﻿@model IEnumerable<ProyectoProgramacion.Models.EF.Contrato>
+@{
+    ViewBag.Title = "Contratos (Admin)";
+    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+
+}
+<br />
+<br />
+<br />
+<br />
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-primary m-0">Contratos</h2>
+        @Html.ActionLink("Nuevo Contrato", "Create", "Contratos", null, new { @class = "btn btn-primary" })
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered align-middle">
+            <thead class="table-primary">
+                <tr>
+                    <th>#</th>
+                    <th>Usuario</th>
+                    <th>Apartamento</th>
+                    <th>Inicio</th>
+                    <th>Fin</th>
+                    <th>Monto</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var c in Model)
+                {
+                    <tr>
+                        <td>@c.ID_Contrato</td>
+                        <td>@(c.Usuario != null ? c.Usuario.Nombre : "—")</td>
+                        <td>@(c.Apartamento != null ? c.Apartamento.Codigo_Apartamento : "—")</td>
+                        <td>@c.Fecha_Inicio.ToString("dd/MM/yyyy")</td>
+                        <td>@c.Fecha_Fin.ToString("dd/MM/yyyy")</td>
+                        <td>₡@c.Monto_Mensual.ToString("N2")</td>
+                        <td>
+                            @{
+                                var estado = (c.Estado ?? "").ToLower();
+                                var badge = estado == "activo" ? "success"
+                                          : estado == "finalizado" ? "secondary"
+                                          : "warning text-dark";
+                            }
+                            <span class="badge bg-@badge">@c.Estado</span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

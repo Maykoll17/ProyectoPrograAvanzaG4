@@ -22,34 +22,43 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 </head>
 <body>
+
+
     <!-- NAVBAR -->
-    <nav id="scrollspy" class="navbar page-navbar navbar-dark navbar-expand-md fixed-top" data-spy="affix" data-offset-top="20">
+    <nav id="scrollspy"
+         class="navbar navbar-expand-md navbar-light bg-warning fixed-top shadow-sm"
+         data-spy="affix" data-offset-top="20">
         <div class="container">
-            <a class="navbar-brand" href="@Url.Action("Index","Home")">
-                <strong class="text-primary">JA</strong><span class="text-light">GM</span>
+
+            <!-- Branding -->
+            <a class="navbar-brand fw-bold text-dark" href="@Url.Action("Index","Home")">
+                <span class="badge bg-dark me-2">JA</span><span>GM</span>
             </a>
 
-            <button class="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Alternar navegación">
+            <!-- Toggler -->
+            <button class="navbar-toggler border-0" type="button"
+                    data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Alternar navegación">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
+            <!-- Links -->
             <div class="collapse navbar-collapse text-uppercase" id="navbarSupportedContent">
-                <!-- Links izquierdos -->
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav ms-auto">
+
                     <!-- Enlaces públicos del landing -->
                     <li class="nav-item">
-                        <a class="nav-link" href="#apartamentos">Apartamentos</a>
+                        <a class="nav-link text-dark" href="#apartamentos">Apartamentos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#ofertas">Ofertas</a>
+                        <a class="nav-link text-dark" href="#ofertas">Ofertas</a>
                     </li>
 
                     <!-- Áreas Recreativas (visible para todos) -->
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Index","AreasRecreativas")">
-                            <i class="fa-solid fa-tree"></i> Áreas Recreativas
+                        <a class="nav-link text-dark" href="@Url.Action("Index","AreasRecreativas")">
+                            <i class="fa-solid fa-tree me-1"></i>Áreas Recreativas
                         </a>
                     </li>
 
@@ -57,8 +66,14 @@
                     @if (autenticado && !esAdmin)
                     {
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Index","Pagos")">
-                                <i class="fa-solid fa-money-bill-wave"></i> Mis Pagos
+                            <a class="nav-link text-dark" href="@Url.Action("Index","Pagos")">
+                                <i class="fa-solid fa-money-bill-wave me-1"></i>Mis Pagos
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="@Url.Action("MisContratos","Contratos")">
+                                <i class="fa-solid fa-file-contract me-1"></i>Mis Contratos
                             </a>
                         </li>
                     }
@@ -67,18 +82,23 @@
                     @if (esAdmin)
                     {
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Principal","Home")">
-                                <i class="fa-solid fa-gauge-high"></i> Panel Admin
+                            <a class="nav-link text-dark" href="@Url.Action("Principal","Home")">
+                                <i class="fa-solid fa-gauge-high me-1"></i>Panel Admin
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Index","AdminAreas")">
-                                <i class="fa-solid fa-screwdriver-wrench"></i> Gestión Áreas
+                            <a class="nav-link text-dark" href="@Url.Action("AdminIndex","Pagos")">
+                                <i class="fa-solid fa-cash-register me-1"></i>Pagos Admin
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("AdminIndex","Pagos")">
-                                <i class="fa-solid fa-cash-register"></i> Pagos Admin
+                            <a class="nav-link text-dark" href="@Url.Action("AdminIndex","Contratos")">
+                                <i class="fa-solid fa-file-signature me-1"></i>Contratos Admin
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="@Url.Action("Index","AdminAreas")">
+                                <i class="fa-solid fa-screwdriver-wrench me-1"></i>Gestión Áreas Recreativas
                             </a>
                         </li>
                     }
@@ -87,16 +107,17 @@
                     @if (autenticado)
                     {
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="cuentaDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa-solid fa-user-circle"></i> @nombreUsuario
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="cuentaDropdown"
+                               role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa-solid fa-user-circle me-1"></i>@nombreUsuario
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="cuentaDropdown">
+                            <div class="dropdown-menu dropdown-menu-end">
                                 <a class="dropdown-item" href="@Url.Action("Principal","Home")">
-                                    <i class="fa-solid fa-house-user"></i> Mi Panel
+                                    <i class="fa-solid fa-house-user me-1"></i>Home
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item text-danger" href="@Url.Action("CerrarSesion","Home")">
-                                    <i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión
+                                    <i class="fa-solid fa-right-from-bracket me-1"></i>Cerrar sesión
                                 </a>
                             </div>
                         </li>
@@ -104,11 +125,12 @@
                     else
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-success" href="@Url.Action("Index","Home")">
-                                <i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión
+                            <a class="nav-link fw-semibold text-dark" href="@Url.Action("Index","Home")">
+                                <i class="fa-solid fa-right-to-bracket me-1"></i>Iniciar sesión
                             </a>
                         </li>
                     }
+
                 </ul>
             </div>
         </div>

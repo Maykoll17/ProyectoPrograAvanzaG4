@@ -18,5 +18,6 @@ namespace ProyectoProgramacion.Models.EF
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public string Horario { get; set; }
+        public string ImageUrl { get; set; }
     }
 }

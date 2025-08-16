@@ -1,48 +1,55 @@
 ﻿@model ProyectoProgramacion.Models.EF.Pago
 @{
-    ViewBag.Title = "Registrar Pago";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Registrar pago (SINPE)";
+    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+
 }
+<br />
+<br />
+<br />
+<br />
 
-<div class="container mt-5">
-    <div class="card shadow-lg border-0 rounded-4 mx-auto" style="max-width: 680px;">
-        <div class="card-header bg-success text-white text-center rounded-top-4">
-            <h4 class="mb-0">Registrar Pago</h4>
+<div class="container py-4">
+    <h2 class="mb-4">Registrar pago (SINPE)</h2>
+
+    @using (Html.BeginForm("Create", "Pagos", FormMethod.Post, new { enctype = "multipart/form-data", @class = "needs-validation" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label">Contrato</label>
+                @Html.DropDownList("ID_Contrato", null, "-- Seleccione --", new { @class = "form-select", required = "required" })
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Monto (₡)</label>
+                @Html.TextBoxFor(m => m.Monto_Pago, new { @class = "form-control", type = "number", step = "0.01", min = "0.01", required = "required" })
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Número SINPE</label>
+                @Html.TextBoxFor(m => m.Numero_SINPE, new { @class = "form-control", maxlength = "50", required = "required" })
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Método</label>
+                <input class="form-control" value="SINPE" readonly />
+                @Html.HiddenFor(m => m.Metodo_Pago, new { Value = "SINPE" })
+            </div>
+
+            <div class="col-md-8">
+                <label class="form-label">Comprobante (imagen)</label>
+                <input type="file" name="comprobante" accept="image/*" class="form-control" required />
+                <div class="form-text">Formatos: JPG/PNG. Máx. 5 MB.</div>
+            </div>
         </div>
-        <div class="card-body">
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
 
-                <div class="mb-3">
-                    @Html.LabelFor(m => m.ID_Contrato, new { @class = "form-label fw-bold" })
-                    @Html.DropDownList("ID_Contrato", ViewBag.ID_Contrato as SelectList, "-- Seleccione un contrato --", new { @class = "form-select" })
-                    @Html.ValidationMessageFor(m => m.ID_Contrato, "", new { @class = "text-danger" })
-                </div>
-
-                <div class="mb-3">
-                    @Html.LabelFor(m => m.Monto_Pago, new { @class = "form-label fw-bold" })
-                    @Html.TextBoxFor(m => m.Monto_Pago, new { @class = "form-control", type = "number", step = "0.01", min = "0" })
-                    @Html.ValidationMessageFor(m => m.Monto_Pago, "", new { @class = "text-danger" })
-                </div>
-
-                <div class="mb-3">
-                    @Html.LabelFor(m => m.Metodo_Pago, new { @class = "form-label fw-bold" })
-                    @Html.TextBoxFor(m => m.Metodo_Pago, new { @class = "form-control", placeholder = "Ej.: Transferencia, Efectivo, Tarjeta o usa 'Pagado/Pendiente/Rechazado' como estado" })
-                    @Html.ValidationMessageFor(m => m.Metodo_Pago, "", new { @class = "text-danger" })
-                </div>
-
-                <div class="mb-3">
-                    @Html.LabelFor(m => m.Fecha_Pago, new { @class = "form-label fw-bold" })
-                    @Html.TextBoxFor(m => m.Fecha_Pago, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-                    <small class="text-muted">Si lo dejas vacío, se guardará la fecha de hoy.</small>
-                </div>
-
-                <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-success">Guardar</button>
-                    @Html.ActionLink("Cancelar", "Index", "Pagos", null, new { @class = "btn btn-outline-secondary" })
-                </div>
-            }
+        <div class="mt-4">
+            <button type="submit" class="btn btn-warning text-dark">
+                Enviar pago
+            </button>
+            @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-secondary ms-2" })
         </div>
-    </div>
+    }
 </div>

@@ -1,9 +1,13 @@
 ﻿@model IEnumerable<ProyectoProgramacion.Models.EF.Pago>
 @{
     ViewBag.Title = "Mis Pagos";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
 
+}
+<br />
+<br />
+<br />
+<br />
 <div class="container py-5">
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
         <h2 class="text-success fw-bold m-0">Mis Pagos</h2>
@@ -23,7 +27,8 @@
                     <th>Contrato</th>
                     <th>Fecha</th>
                     <th>Monto</th>
-                    <th>Método / Estado</th>
+                    <th>Estado</th>
+                    <th>Comprobante</th>
                     <th></th>
                 </tr>
             </thead>
@@ -31,22 +36,32 @@
                 @if (Model == null || !Model.Any())
                 {
                     <tr>
-                        <td colspan="6" class="text-center text-muted">No tienes pagos registrados.</td>
+                        <td colspan="7" class="text-center text-muted">No tienes pagos registrados.</td>
                     </tr>
                 }
                 else
                 {
                     foreach (var p in Model)
                     {
+                        var estado = (p.Metodo_Pago ?? "").Trim();
+                        var badge = estado.ToLower() == "pagado" ? "success"
+                                   : estado.ToLower() == "rechazado" ? "danger"
+                                   : "warning text-dark";
                         <tr>
                             <td>@p.ID_Pago</td>
                             <td>@p.ID_Contrato</td>
                             <td>@p.Fecha_Pago.ToString("dd/MM/yyyy")</td>
                             <td>₡@p.Monto_Pago.ToString("N2")</td>
+                            <td><span class="badge bg-@badge">@((string.IsNullOrEmpty(estado) ? "Pendiente" : estado))</span></td>
                             <td>
-                                <span class="badge bg-@((p.Metodo_Pago ?? "").ToLower() == "pagado" ? "success" : (p.Metodo_Pago ?? "").ToLower() == "rechazado" ? "danger" : "warning text-dark")">
-                                    @(!string.IsNullOrEmpty(p.Metodo_Pago) ? p.Metodo_Pago : "—")
-                                </span>
+                                @if (!string.IsNullOrWhiteSpace(p.Comprobante_URL))
+                                {
+                                    <a href="@Url.Content(p.Comprobante_URL)" target="_blank" class="btn btn-outline-secondary btn-sm">Ver</a>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">—</span>
+                                }
                             </td>
                             <td class="text-end">
                                 @Html.ActionLink("Detalles", "Details", "Pagos", new { id = p.ID_Pago }, new { @class = "btn btn-sm btn-outline-primary" })
@@ -58,3 +73,4 @@
         </table>
     </div>
 </div>
+

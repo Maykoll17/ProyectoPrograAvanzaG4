@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
 using ProyectoProgramacion.Models.EF;
 
@@ -10,15 +12,15 @@ namespace ProyectoProgramacion.Controllers
     {
         private readonly SistemaAlquilerEntities1 db = new SistemaAlquilerEntities1();
 
-
-        private bool IsLogged() => Session["ID_Usuario"] != null;
-        private int Rol() => IsLogged() ? Convert.ToInt32(Session["Rol"]) : 0;
+        // === Helpers de sesión (misma convención que HomeController) ===
+        private bool IsLogged() => Session["IdUsuario"] != null;
+        private int Rol() => IsLogged() ? Convert.ToInt32(Session["IdRol"]) : 0; // 1 = Admin
         private bool IsAdmin() => Rol() == 1;
-        private int? LoggedUserId() => IsLogged() ? (int?)Convert.ToInt32(Session["ID_Usuario"]) : null;
+        private int? LoggedUserId() => IsLogged() ? (int?)Convert.ToInt32(Session["IdUsuario"]) : null;
 
-
-
-
+        // ============================================================
+        // USUARIO
+        // ============================================================
         public ActionResult Index()
         {
             if (!IsLogged()) return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
@@ -34,7 +36,6 @@ namespace ProyectoProgramacion.Controllers
             return View(pagos);
         }
 
-        // GET: /Pagos/Details/5
         public ActionResult Details(int? id)
         {
             if (!id.HasValue) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -42,12 +43,11 @@ namespace ProyectoProgramacion.Controllers
             var pago = db.Pago.FirstOrDefault(p => p.ID_Pago == id.Value);
             if (pago == null) return HttpNotFound();
 
-            // Seguridad: usuario normal solo ve pagos de sus contratos
+            // Seguridad: usuario normal solo ve sus pagos
             if (!IsAdmin())
             {
                 if (!IsLogged()) return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
                 var idUsuario = LoggedUserId().Value;
-
                 if (pago.Contrato == null || pago.Contrato.ID_Usuario != idUsuario)
                     return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
@@ -55,16 +55,17 @@ namespace ProyectoProgramacion.Controllers
             return View(pago);
         }
 
-
-        public ActionResult Create()
+        // GET: /Pagos/Create  (solo SINPE o Transferencia)
+        public ActionResult Create(int? idContrato = null)
         {
             if (!IsLogged()) return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
             if (IsAdmin())
             {
+                // Admin puede ver todos los contratos
                 ViewBag.ID_Contrato = new SelectList(
                     db.Contrato.OrderBy(c => c.ID_Contrato).ToList(),
-                    "ID_Contrato", "ID_Contrato"
+                    "ID_Contrato", "ID_Contrato", idContrato
                 );
             }
             else
@@ -76,34 +77,53 @@ namespace ProyectoProgramacion.Controllers
                                          .Select(c => new { c.ID_Contrato })
                                          .ToList();
 
-                ViewBag.ID_Contrato = new SelectList(contratosPropios, "ID_Contrato", "ID_Contrato");
+                ViewBag.ID_Contrato = new SelectList(contratosPropios, "ID_Contrato", "ID_Contrato", idContrato);
             }
+
+            // Métodos permitidos
+            ViewBag.Metodo_Pago = new SelectList(new[] { "SINPE", "Transferencia" });
 
             return View();
         }
 
-
+        // POST: /Pagos/Create  (requiere Numero_SINPE y comprobante imagen)
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Pago pago)
+        public ActionResult Create(Pago pago, HttpPostedFileBase comprobante)
         {
             if (!IsLogged()) return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
+            // Normalizar método (solo permitido SINPE o Transferencia)
+            if (string.IsNullOrWhiteSpace(pago.Metodo_Pago)) pago.Metodo_Pago = "SINPE";
+            var metodo = pago.Metodo_Pago.Trim();
+            if (metodo != "SINPE" && metodo != "Transferencia")
+                ModelState.AddModelError("", "Método inválido. Debe ser SINPE o Transferencia.");
 
+            // Validaciones obligatorias
             if (pago.ID_Contrato <= 0)
                 ModelState.AddModelError("", "Debe seleccionar un contrato válido.");
 
-            if (!IsAdmin())
+            if (pago.Monto_Pago <= 0)
+                ModelState.AddModelError("", "Debe indicar un monto válido.");
+
+            if (string.IsNullOrWhiteSpace(pago.Numero_SINPE))
+                ModelState.AddModelError("", "Debe indicar el número SINPE/comprobante (referencia).");
+
+            if (comprobante == null || comprobante.ContentLength == 0)
+                ModelState.AddModelError("", "Debe adjuntar la imagen del comprobante.");
+
+            // Si no es admin, contrato debe ser del usuario
+            if (!IsAdmin() && pago.ID_Contrato > 0)
             {
                 var idUsuario = LoggedUserId().Value;
-                bool contratoEsDelUsuario = db.Contrato.Any(c => c.ID_Contrato == pago.ID_Contrato && c.ID_Usuario == idUsuario);
-                if (!contratoEsDelUsuario)
-                    ModelState.AddModelError("", "No puedes registrar pagos sobre contratos que no son tuyos.");
+                bool esSuyo = db.Contrato.Any(c => c.ID_Contrato == pago.ID_Contrato && c.ID_Usuario == idUsuario);
+                if (!esSuyo)
+                    ModelState.AddModelError("", "No puedes registrar pagos de contratos que no son tuyos.");
             }
 
             if (!ModelState.IsValid)
             {
-
+                // Repoblar selects
                 if (IsAdmin())
                 {
                     ViewBag.ID_Contrato = new SelectList(
@@ -121,11 +141,28 @@ namespace ProyectoProgramacion.Controllers
                                              .ToList();
                     ViewBag.ID_Contrato = new SelectList(contratosPropios, "ID_Contrato", "ID_Contrato", pago.ID_Contrato);
                 }
+
+                ViewBag.Metodo_Pago = new SelectList(new[] { "SINPE", "Transferencia" }, metodo);
                 return View(pago);
             }
 
+            // Guardar archivo de comprobante
+            string carpeta = Server.MapPath("~/Uploads/Comprobantes");
+            if (!Directory.Exists(carpeta))
+                Directory.CreateDirectory(carpeta);
+
+            string ext = Path.GetExtension(comprobante.FileName);
+            string fileName = $"pago_{DateTime.Now:yyyyMMddHHmmssfff}_{Guid.NewGuid():N}{ext}";
+            string fullPath = Path.Combine(carpeta, fileName);
+            comprobante.SaveAs(fullPath);
+
+            // Completar campos
             if (pago.Fecha_Pago == default(DateTime))
                 pago.Fecha_Pago = DateTime.Today;
+
+            pago.Estado = "Pendiente";
+            pago.Metodo_Pago = metodo;
+            pago.Comprobante_URL = Url.Content("~/Uploads/Comprobantes/" + fileName);
 
             db.Pago.Add(pago);
             db.SaveChanges();
@@ -133,10 +170,9 @@ namespace ProyectoProgramacion.Controllers
             return IsAdmin() ? RedirectToAction("AdminIndex") : RedirectToAction("Index");
         }
 
-
-        // SECCIÓN ADMIN
-
-        // GET: /Pagos/AdminIndex
+        // ============================================================
+        // ADMIN
+        // ============================================================
         public ActionResult AdminIndex()
         {
             if (!IsAdmin()) return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
@@ -148,8 +184,7 @@ namespace ProyectoProgramacion.Controllers
             return View(pagos);
         }
 
-        // POST: /Pagos/ActualizarEstado
-        // Reutilizamos Metodo_Pago como "estado" visible (Pagado / Pendiente / Rechazado) 
+        // Cambia el ESTADO (no el método)
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ActualizarEstado(int id, string nuevoEstado)
@@ -161,13 +196,12 @@ namespace ProyectoProgramacion.Controllers
 
             if (!string.IsNullOrWhiteSpace(nuevoEstado))
             {
-                pago.Metodo_Pago = nuevoEstado.Trim();
+                pago.Estado = nuevoEstado.Trim(); // <- aquí cambiamos Estado
                 db.SaveChanges();
             }
 
             return RedirectToAction("AdminIndex");
         }
-
 
         protected override void Dispose(bool disposing)
         {
@@ -176,4 +210,3 @@ namespace ProyectoProgramacion.Controllers
         }
     }
 }
-

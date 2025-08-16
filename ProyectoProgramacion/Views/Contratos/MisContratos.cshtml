@@ -1,0 +1,59 @@
+﻿@model IEnumerable<ProyectoProgramacion.Controllers.MisContratosVM>
+@{
+    ViewBag.Title = "Mis Contratos";
+    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+
+}
+<br />
+<br />
+<br />
+<br />
+<div class="container py-4">
+    <h2 class="text-success mb-3">Mis Contratos</h2>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-success">
+                <tr>
+                    <th>#</th>
+                    <th>Apartamento</th>
+                    <th>Vigencia</th>
+                    <th>Monto mensual</th>
+                    <th>Estado</th>
+                    <th>Mes actual</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var c in Model)
+                {
+                    var badgeEstado = (c.Estado ?? "").ToLower() == "activo" ? "success"
+                                     : (c.Estado ?? "").ToLower() == "finalizado" ? "secondary"
+                                     : "warning text-dark";
+
+                    <tr>
+                        <td>@c.ID_Contrato</td>
+                        <td>@c.CodigoApartamento</td>
+                        <td>@c.Fecha_Inicio.ToString("dd/MM/yyyy") - @c.Fecha_Fin.ToString("dd/MM/yyyy")</td>
+                        <td>₡@c.Monto_Mensual.ToString("N2")</td>
+                        <td><span class="badge bg-@badgeEstado">@c.Estado</span></td>
+                        <td>
+                            @if (c.PagadoEsteMes)
+                            {
+                                <span class="badge bg-success">Al día</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning text-dark">Pendiente</span>
+                            }
+                        </td>
+                        <td class="text-end">
+                            @* Atajo para pagar este contrato *@
+                            @Html.ActionLink("Registrar pago", "Create", "Pagos", null, new { @class = "btn btn-sm btn-outline-primary" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

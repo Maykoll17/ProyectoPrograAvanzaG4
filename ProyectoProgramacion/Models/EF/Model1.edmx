@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SistemaAlquilerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SistemaAlquilerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Apartamento">
           <Key>
             <PropertyRef Name="ID_Apartamento" />
@@ -17,6 +17,7 @@
           <Property Name="Cantidad_Habitantes" Type="int" />
           <Property Name="Cant_Sanitarios" Type="int" />
           <Property Name="Disponible" Type="bit" />
+          <Property Name="ImageUrl" Type="varchar" MaxLength="300" />
         </EntityType>
         <EntityType Name="AreaRecreativa">
           <Key>
@@ -26,6 +27,7 @@
           <Property Name="Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Descripcion" Type="nvarchar(max)" />
           <Property Name="Horario" Type="nvarchar" MaxLength="100" />
+          <Property Name="ImageUrl" Type="varchar" MaxLength="300" />
         </EntityType>
         <EntityType Name="Aviso">
           <Key>
@@ -86,6 +88,9 @@
           <Property Name="Fecha_Pago" Type="date" Nullable="false" />
           <Property Name="Monto_Pago" Type="float" Nullable="false" />
           <Property Name="Metodo_Pago" Type="varchar" MaxLength="20" />
+          <Property Name="Comprobante_URL" Type="nvarchar" MaxLength="260" />
+          <Property Name="Estado" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Numero_SINPE" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="TRol">
           <Key>
@@ -106,6 +111,8 @@
           <Property Name="Correo" Type="varchar" MaxLength="50" />
           <Property Name="Fecha_Nacimiento" Type="date" />
           <Property Name="IdRol" Type="int" Nullable="false" />
+          <Property Name="ResetToken" Type="varchar" MaxLength="200" />
+          <Property Name="ResetTokenExpiry" Type="datetime" />
         </EntityType>
         <EntityType Name="Vehiculo">
           <Key>
@@ -118,7 +125,7 @@
           <Property Name="Modelo" Type="varchar" MaxLength="20" />
           <Property Name="Color" Type="varchar" MaxLength="20" />
         </EntityType>
-        <Association Name="FK__Apartamen__ID_Ed__02FC7413">
+        <Association Name="FK__Apartamen__ID_Ed__59063A47">
           <End Role="Edificio" Type="Self.Edificio" Multiplicity="1" />
           <End Role="Apartamento" Type="Self.Apartamento" Multiplicity="*" />
           <ReferentialConstraint>
@@ -130,7 +137,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Aviso_Usu__ID_Av__08B54D69">
+        <Association Name="FK__Aviso_Usu__ID_Av__5EBF139D">
           <End Role="Aviso" Type="Self.Aviso" Multiplicity="1" />
           <End Role="Aviso_Usuario" Type="Self.Aviso_Usuario" Multiplicity="*" />
           <ReferentialConstraint>
@@ -142,7 +149,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Aviso_Usu__ID_Us__07C12930">
+        <Association Name="FK__Aviso_Usu__ID_Us__5DCAEF64">
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
           <End Role="Aviso_Usuario" Type="Self.Aviso_Usuario" Multiplicity="*" />
           <ReferentialConstraint>
@@ -154,7 +161,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Contrato__ID_Apa__0D7A0286">
+        <Association Name="FK__Contrato__ID_Apa__6383C8BA">
           <End Role="Apartamento" Type="Self.Apartamento" Multiplicity="1" />
           <End Role="Contrato" Type="Self.Contrato" Multiplicity="*" />
           <ReferentialConstraint>
@@ -166,7 +173,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Contrato__ID_Usu__0C85DE4D">
+        <Association Name="FK__Contrato__ID_Usu__628FA481">
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
           <End Role="Contrato" Type="Self.Contrato" Multiplicity="*" />
           <ReferentialConstraint>
@@ -178,7 +185,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Mantenimi__ID_Ap__17036CC0">
+        <Association Name="FK__Mantenimi__ID_Ap__6D0D32F4">
           <End Role="Apartamento" Type="Self.Apartamento" Multiplicity="1" />
           <End Role="Mantenimiento" Type="Self.Mantenimiento" Multiplicity="*" />
           <ReferentialConstraint>
@@ -190,7 +197,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Pago__ID_Contrat__10566F31">
+        <Association Name="FK__Pago__ID_Contrat__66603565">
           <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
           <End Role="Pago" Type="Self.Pago" Multiplicity="*" />
           <ReferentialConstraint>
@@ -202,7 +209,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Usuario__IdRol__7C4F7684">
+        <Association Name="FK__Usuario__IdRol__52593CB8">
           <End Role="TRol" Type="Self.TRol" Multiplicity="1" />
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
           <ReferentialConstraint>
@@ -214,7 +221,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Vehiculo__ID_Usu__14270015">
+        <Association Name="FK__Vehiculo__ID_Usu__6A30C649">
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
           <End Role="Vehiculo" Type="Self.Vehiculo" Multiplicity="*" />
           <ReferentialConstraint>
@@ -343,45 +350,44 @@
           <EntitySet Name="TRol" EntityType="Self.TRol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vehiculo" EntityType="Self.Vehiculo" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Apartamen__ID_Ed__02FC7413" Association="Self.FK__Apartamen__ID_Ed__02FC7413">
+          <AssociationSet Name="FK__Apartamen__ID_Ed__59063A47" Association="Self.FK__Apartamen__ID_Ed__59063A47">
             <End Role="Edificio" EntitySet="Edificio" />
             <End Role="Apartamento" EntitySet="Apartamento" />
           </AssociationSet>
-          <AssociationSet Name="FK__Aviso_Usu__ID_Av__08B54D69" Association="Self.FK__Aviso_Usu__ID_Av__08B54D69">
+          <AssociationSet Name="FK__Aviso_Usu__ID_Av__5EBF139D" Association="Self.FK__Aviso_Usu__ID_Av__5EBF139D">
             <End Role="Aviso" EntitySet="Aviso" />
             <End Role="Aviso_Usuario" EntitySet="Aviso_Usuario" />
           </AssociationSet>
-          <AssociationSet Name="FK__Aviso_Usu__ID_Us__07C12930" Association="Self.FK__Aviso_Usu__ID_Us__07C12930">
+          <AssociationSet Name="FK__Aviso_Usu__ID_Us__5DCAEF64" Association="Self.FK__Aviso_Usu__ID_Us__5DCAEF64">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Aviso_Usuario" EntitySet="Aviso_Usuario" />
           </AssociationSet>
-          <AssociationSet Name="FK__Contrato__ID_Apa__0D7A0286" Association="Self.FK__Contrato__ID_Apa__0D7A0286">
+          <AssociationSet Name="FK__Contrato__ID_Apa__6383C8BA" Association="Self.FK__Contrato__ID_Apa__6383C8BA">
             <End Role="Apartamento" EntitySet="Apartamento" />
             <End Role="Contrato" EntitySet="Contrato" />
           </AssociationSet>
-          <AssociationSet Name="FK__Contrato__ID_Usu__0C85DE4D" Association="Self.FK__Contrato__ID_Usu__0C85DE4D">
+          <AssociationSet Name="FK__Contrato__ID_Usu__628FA481" Association="Self.FK__Contrato__ID_Usu__628FA481">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Contrato" EntitySet="Contrato" />
           </AssociationSet>
-          <AssociationSet Name="FK__Mantenimi__ID_Ap__17036CC0" Association="Self.FK__Mantenimi__ID_Ap__17036CC0">
+          <AssociationSet Name="FK__Mantenimi__ID_Ap__6D0D32F4" Association="Self.FK__Mantenimi__ID_Ap__6D0D32F4">
             <End Role="Apartamento" EntitySet="Apartamento" />
             <End Role="Mantenimiento" EntitySet="Mantenimiento" />
           </AssociationSet>
-          <AssociationSet Name="FK__Pago__ID_Contrat__10566F31" Association="Self.FK__Pago__ID_Contrat__10566F31">
+          <AssociationSet Name="FK__Pago__ID_Contrat__66603565" Association="Self.FK__Pago__ID_Contrat__66603565">
             <End Role="Contrato" EntitySet="Contrato" />
             <End Role="Pago" EntitySet="Pago" />
           </AssociationSet>
-          <AssociationSet Name="FK__Usuario__IdRol__7C4F7684" Association="Self.FK__Usuario__IdRol__7C4F7684">
+          <AssociationSet Name="FK__Usuario__IdRol__52593CB8" Association="Self.FK__Usuario__IdRol__52593CB8">
             <End Role="TRol" EntitySet="TRol" />
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
-          <AssociationSet Name="FK__Vehiculo__ID_Usu__14270015" Association="Self.FK__Vehiculo__ID_Usu__14270015">
+          <AssociationSet Name="FK__Vehiculo__ID_Usu__6A30C649" Association="Self.FK__Vehiculo__ID_Usu__6A30C649">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Vehiculo" EntitySet="Vehiculo" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SistemaAlquilerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -400,6 +406,7 @@
           <NavigationProperty Name="Edificio" Relationship="Self.FK__Apartamen__ID_Ed__02FC7413" FromRole="Apartamento" ToRole="Edificio" />
           <NavigationProperty Name="Contrato" Relationship="Self.FK__Contrato__ID_Apa__0D7A0286" FromRole="Apartamento" ToRole="Contrato" />
           <NavigationProperty Name="Mantenimiento" Relationship="Self.FK__Mantenimi__ID_Ap__17036CC0" FromRole="Apartamento" ToRole="Mantenimiento" />
+          <Property Name="ImageUrl" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="AreaRecreativa">
           <Key>
@@ -409,6 +416,7 @@
           <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Horario" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ImageUrl" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Aviso">
           <Key>
@@ -468,6 +476,9 @@
           <Property Name="Monto_Pago" Type="Double" Nullable="false" />
           <Property Name="Metodo_Pago" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Contrato" Relationship="Self.FK__Pago__ID_Contrat__10566F31" FromRole="Pago" ToRole="Contrato" />
+          <Property Name="Comprobante_URL" Type="String" MaxLength="260" FixedLength="false" Unicode="true" />
+          <Property Name="Estado" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Numero_SINPE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="TRol">
           <Key>
@@ -493,6 +504,8 @@
           <NavigationProperty Name="TRol" Relationship="Self.FK__Usuario__IdRol__7C4F7684" FromRole="Usuario" ToRole="TRol" />
           <NavigationProperty Name="Vehiculo" Relationship="Self.FK__Vehiculo__ID_Usu__14270015" FromRole="Usuario" ToRole="Vehiculo" />
           <NavigationProperty Name="Aviso" Relationship="Self.Aviso_Usuario" FromRole="Usuario" ToRole="Aviso" />
+          <Property Name="ResetToken" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ResetTokenExpiry" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Vehiculo">
           <Key>
@@ -638,19 +651,19 @@
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
           <FunctionImport Name="sp_DeleteApartamento">
-            <Parameter Name="ID_Apartamento" Mode="In" Type="Int32" />
+          <Parameter Name="ID_Apartamento" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_DeleteContrato">
-            <Parameter Name="ID_Contrato" Mode="In" Type="Int32" />
+          <Parameter Name="ID_Contrato" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_DeleteEdificio">
-            <Parameter Name="ID_Edificio" Mode="In" Type="Int32" />
+          <Parameter Name="ID_Edificio" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_DeleteRol">
-            <Parameter Name="IdRol" Mode="In" Type="Int32" />
+          <Parameter Name="IdRol" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_DeleteUsuario">
-            <Parameter Name="ID_Usuario" Mode="In" Type="Int32" />
+          <Parameter Name="ID_Usuario" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_GetApartamentos" ReturnType="Collection(SistemaAlquilerModel.sp_GetApartamentos_Result)" />
           <FunctionImport Name="sp_GetApartamentosDisponibles" ReturnType="Collection(SistemaAlquilerModel.sp_GetApartamentosDisponibles_Result)" />
@@ -658,12 +671,12 @@
           <FunctionImport Name="sp_GetContratosActivos" ReturnType="Collection(SistemaAlquilerModel.sp_GetContratosActivos_Result)" />
           <FunctionImport Name="sp_GetEdificios" ReturnType="Collection(SistemaAlquilerModel.sp_GetEdificios_Result)" />
           <FunctionImport Name="sp_GetPagosPorContrato" ReturnType="Collection(SistemaAlquilerModel.sp_GetPagosPorContrato_Result)">
-            <Parameter Name="ID_Contrato" Mode="In" Type="Int32" />
+          <Parameter Name="ID_Contrato" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_GetRoles" ReturnType="Collection(SistemaAlquilerModel.sp_GetRoles_Result)" />
           <FunctionImport Name="sp_GetUsuarios" ReturnType="Collection(SistemaAlquilerModel.sp_GetUsuarios_Result)" />
           <FunctionImport Name="sp_GetVehiculosPorUsuario" ReturnType="Collection(SistemaAlquilerModel.sp_GetVehiculosPorUsuario_Result)">
-            <Parameter Name="ID_Usuario" Mode="In" Type="Int32" />
+          <Parameter Name="ID_Usuario" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_InsertApartamento">
             <Parameter Name="Codigo_Apartamento" Mode="In" Type="String" />
@@ -688,7 +701,7 @@
             <Parameter Name="Cantidad_Pisos" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_InsertRol">
-            <Parameter Name="DescripcionRol" Mode="In" Type="String" />
+          <Parameter Name="DescripcionRol" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_InsertUsuario">
             <Parameter Name="Nombre" Mode="In" Type="String" />
@@ -825,6 +838,7 @@
           <EntitySetMapping Name="Apartamento">
             <EntityTypeMapping TypeName="SistemaAlquilerModel.Apartamento">
               <MappingFragment StoreEntitySet="Apartamento">
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
                 <ScalarProperty Name="ID_Apartamento" ColumnName="ID_Apartamento" />
                 <ScalarProperty Name="Codigo_Apartamento" ColumnName="Codigo_Apartamento" />
                 <ScalarProperty Name="ID_Edificio" ColumnName="ID_Edificio" />
@@ -839,6 +853,7 @@
           <EntitySetMapping Name="AreaRecreativa">
             <EntityTypeMapping TypeName="SistemaAlquilerModel.AreaRecreativa">
               <MappingFragment StoreEntitySet="AreaRecreativa">
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
                 <ScalarProperty Name="ID_Area" ColumnName="ID_Area" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
@@ -895,6 +910,9 @@
           <EntitySetMapping Name="Pago">
             <EntityTypeMapping TypeName="SistemaAlquilerModel.Pago">
               <MappingFragment StoreEntitySet="Pago">
+                <ScalarProperty Name="Numero_SINPE" ColumnName="Numero_SINPE" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Comprobante_URL" ColumnName="Comprobante_URL" />
                 <ScalarProperty Name="ID_Pago" ColumnName="ID_Pago" />
                 <ScalarProperty Name="ID_Contrato" ColumnName="ID_Contrato" />
                 <ScalarProperty Name="Fecha_Pago" ColumnName="Fecha_Pago" />
@@ -914,6 +932,8 @@
           <EntitySetMapping Name="Usuario">
             <EntityTypeMapping TypeName="SistemaAlquilerModel.Usuario">
               <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="ResetTokenExpiry" ColumnName="ResetTokenExpiry" />
+                <ScalarProperty Name="ResetToken" ColumnName="ResetToken" />
                 <ScalarProperty Name="ID_Usuario" ColumnName="ID_Usuario" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Cedula" ColumnName="Cedula" />
