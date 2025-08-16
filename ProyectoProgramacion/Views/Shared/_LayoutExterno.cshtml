@@ -1,33 +1,44 @@
 ﻿@{
-    bool autenticado = User.Identity.IsAuthenticated;
-    string rol = Session["Rol"]?.ToString() ?? "";
-    bool esAdmin = rol.Equals("Admin", StringComparison.OrdinalIgnoreCase);
+    // Estado de sesión según tu HomeController
+    var autenticado = Session["IdUsuario"] != null;
+    var idRol = Session["IdRol"] as int? ?? 0;        // 1 = Admin, 2 = Usuario
+    var esAdmin = idRol == 1;
+    var nombreUsuario = (Session["Nombre"] as string) ?? "Invitado";
 }
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Start your development with Rubic landing page.">
-    <meta name="author" content="Devcrud">
-    <title>Proyecto</title>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - Proyecto</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Estilos del tema que ya usas -->
     <link href="~/assets/vendors/themify-icons/css/themify-icons.css" rel="stylesheet" />
     <link href="~/assets/css/rubic.css" rel="stylesheet" />
     <link href="~/Content/Styles.css" rel="stylesheet" />
+
+    <!-- Font Awesome (opcional, para iconos del menú) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 </head>
 <body>
+    <!-- NAVBAR -->
     <nav id="scrollspy" class="navbar page-navbar navbar-dark navbar-expand-md fixed-top" data-spy="affix" data-offset-top="20">
         <div class="container">
-            <a class="navbar-brand" href="@Url.Action("Index", "Home")">
+            <a class="navbar-brand" href="@Url.Action("Index","Home")">
                 <strong class="text-primary">JA</strong><span class="text-light">GM</span>
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Alternar navegación">
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Alternar navegación">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse text-uppercase" id="navbarSupportedContent">
+                <!-- Links izquierdos -->
                 <ul class="navbar-nav ml-auto">
+                    <!-- Enlaces públicos del landing -->
                     <li class="nav-item">
                         <a class="nav-link" href="#apartamentos">Apartamentos</a>
                     </li>
@@ -35,25 +46,67 @@
                         <a class="nav-link" href="#ofertas">Ofertas</a>
                     </li>
 
-                    @* Visible solo para admins *@
-                    @if (esAdmin)
+                    <!-- Áreas Recreativas (visible para todos) -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index","AreasRecreativas")">
+                            <i class="fa-solid fa-tree"></i> Áreas Recreativas
+                        </a>
+                    </li>
+
+                    <!-- Pagos (solo usuario autenticado NO admin) -->
+                    @if (autenticado && !esAdmin)
                     {
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Index", "AdminDashboard")">Panel Admin</a>
+                            <a class="nav-link" href="@Url.Action("Index","Pagos")">
+                                <i class="fa-solid fa-money-bill-wave"></i> Mis Pagos
+                            </a>
                         </li>
                     }
 
-                    @* Mostrar login/logout según estado *@
-                    @if (autenticado)
+                    <!-- Opciones solo Admin -->
+                    @if (esAdmin)
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-warning" href="@Url.Action("Logout", "Account")">Cerrar sesión</a>
+                            <a class="nav-link" href="@Url.Action("Principal","Home")">
+                                <i class="fa-solid fa-gauge-high"></i> Panel Admin
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Index","AdminAreas")">
+                                <i class="fa-solid fa-screwdriver-wrench"></i> Gestión Áreas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("AdminIndex","Pagos")">
+                                <i class="fa-solid fa-cash-register"></i> Pagos Admin
+                            </a>
+                        </li>
+                    }
+
+                    <!-- Autenticación -->
+                    @if (autenticado)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="cuentaDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa-solid fa-user-circle"></i> @nombreUsuario
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="cuentaDropdown">
+                                <a class="dropdown-item" href="@Url.Action("Principal","Home")">
+                                    <i class="fa-solid fa-house-user"></i> Mi Panel
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="@Url.Action("CerrarSesion","Home")">
+                                    <i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión
+                                </a>
+                            </div>
                         </li>
                     }
                     else
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-success" href="@Url.Action("Login", "Account")">Iniciar sesión</a>
+                            <a class="nav-link text-success" href="@Url.Action("Index","Home")">
+                                <i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión
+                            </a>
                         </li>
                     }
                 </ul>
@@ -61,29 +114,28 @@
         </div>
     </nav>
 
-
+    <!-- CONTENIDO -->
     <div class="main-wrapper">
-
         @RenderBody()
-
     </div>
 
+    <!-- FOOTER -->
+    <footer class="footer py-4 bg-dark text-light mt-5">
+        <div class="container text-center">
+            <p class="mb-0 small">
+                JAGM &copy;
+                <script>document.write(new Date().getFullYear())</script>
+            </p>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS del tema -->
     <script src="~/assets/vendors/jquery/jquery-3.4.1.js"></script>
     <script src="~/assets/vendors/bootstrap/bootstrap.bundle.js"></script>
     <script src="~/assets/vendors/bootstrap/bootstrap.affix.js"></script>
-
     <script src="~/assets/js/rubic.js"></script>
 
+    @* Permite que las vistas inyecten scripts opcionalmente *@
+    @RenderSection("Scripts", required: false)
 </body>
-<footer class="footer py-4 bg-dark text-light">
-    <div class="container text-center">
-        <p class="mb-4 small">
-            JAGM &copy;
-            <script>document.write(new Date().getFullYear())</script>
-        </p>
-    </div>
-</footer>
-
-
-
 </html>
