@@ -1,49 +1,46 @@
 ﻿@model ProyectoProgramacion.Models.EF.AreaRecreativa
-
 @{
-    ViewBag.Title = "Agregar Área Recreativa";
+    ViewBag.Title = "Nueva Área";
     Layout = "~/Views/Shared/_LayoutExterno.cshtml";
-
 }
-<br />
-<br />
-<br />
-<br />
 
-<div class="container mt-5">
-    <div class="card shadow-lg rounded-4 mx-auto" style="max-width: 600px;">
-        <div class="card-header bg-success text-white text-center">
-            <h4 class="mb-0">Agregar Nueva Área Recreativa</h4>
+<br />
+<br />
+<br />
+<br />
+<div class="container mt-4">
+    <h3 class="mb-3">Agregar Área</h3>
+
+    @using (Html.BeginForm("Create", "AdminAreas", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="mb-3">
+            @Html.LabelFor(m => m.Nombre)
+            @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control", placeholder = "Nombre del área" })
         </div>
-        <div class="card-body">
-
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
-
-                <div class="form-group mb-3">
-                    @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "form-label fw-bold" })
-                    @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", placeholder = "Ej. Salón Comunal" })
-                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
-                </div>
-
-                <div class="form-group mb-3">
-                    @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "form-label fw-bold" })
-                    @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control", rows = 3, placeholder = "Describe el área, uso, restricciones..." })
-                    @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
-                </div>
-
-                <div class="form-group mb-4">
-                    @Html.LabelFor(model => model.Horario, htmlAttributes: new { @class = "form-label fw-bold" })
-                    @Html.TextBoxFor(model => model.Horario, new { @class = "form-control", placeholder = "Ej. 9:00 am - 6:00 pm" })
-                    @Html.ValidationMessageFor(model => model.Horario, "", new { @class = "text-danger" })
-                </div>
-
-                <div class="d-grid">
-                    <input type="submit" value="Publicar Área" class="btn btn-success btn-lg" />
-                </div>
-            }
-
+        <div class="mb-3">
+            @Html.LabelFor(m => m.Descripcion)
+            @Html.TextAreaFor(m => m.Descripcion, new { @class = "form-control", rows = "4", placeholder = "Descripción" })
         </div>
-    </div>
+
+        <div class="mb-3">
+            <label class="form-label">Horario de apertura</label>
+            <input type="time" name="HoraInicio" class="form-control" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Horario de cierre</label>
+            <input type="time" name="HoraFin" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Imagen</label>
+            <input type="file" name="imagen" class="form-control" accept="image/*" />
+        </div>
+
+        <button class="btn btn-success">Guardar</button>
+        @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-secondary ms-2" })
+    }
 </div>
+

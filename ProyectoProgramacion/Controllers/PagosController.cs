@@ -12,15 +12,13 @@ namespace ProyectoProgramacion.Controllers
     {
         private readonly SistemaAlquilerEntities1 db = new SistemaAlquilerEntities1();
 
-        // === Helpers de sesión (misma convención que HomeController) ===
+      
         private bool IsLogged() => Session["IdUsuario"] != null;
-        private int Rol() => IsLogged() ? Convert.ToInt32(Session["IdRol"]) : 0; // 1 = Admin
+        private int Rol() => IsLogged() ? Convert.ToInt32(Session["IdRol"]) : 0; 
         private bool IsAdmin() => Rol() == 1;
         private int? LoggedUserId() => IsLogged() ? (int?)Convert.ToInt32(Session["IdUsuario"]) : null;
 
-        // ============================================================
-        // USUARIO
-        // ============================================================
+      
         public ActionResult Index()
         {
             if (!IsLogged()) return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
@@ -43,7 +41,7 @@ namespace ProyectoProgramacion.Controllers
             var pago = db.Pago.FirstOrDefault(p => p.ID_Pago == id.Value);
             if (pago == null) return HttpNotFound();
 
-            // Seguridad: usuario normal solo ve sus pagos
+            
             if (!IsAdmin())
             {
                 if (!IsLogged()) return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
@@ -55,14 +53,14 @@ namespace ProyectoProgramacion.Controllers
             return View(pago);
         }
 
-        // GET: /Pagos/Create  (solo SINPE o Transferencia)
+        
         public ActionResult Create(int? idContrato = null)
         {
             if (!IsLogged()) return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
             if (IsAdmin())
             {
-                // Admin puede ver todos los contratos
+                
                 ViewBag.ID_Contrato = new SelectList(
                     db.Contrato.OrderBy(c => c.ID_Contrato).ToList(),
                     "ID_Contrato", "ID_Contrato", idContrato
@@ -80,26 +78,26 @@ namespace ProyectoProgramacion.Controllers
                 ViewBag.ID_Contrato = new SelectList(contratosPropios, "ID_Contrato", "ID_Contrato", idContrato);
             }
 
-            // Métodos permitidos
+            
             ViewBag.Metodo_Pago = new SelectList(new[] { "SINPE", "Transferencia" });
 
             return View();
         }
 
-        // POST: /Pagos/Create  (requiere Numero_SINPE y comprobante imagen)
+      
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Pago pago, HttpPostedFileBase comprobante)
         {
             if (!IsLogged()) return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
-            // Normalizar método (solo permitido SINPE o Transferencia)
+          
             if (string.IsNullOrWhiteSpace(pago.Metodo_Pago)) pago.Metodo_Pago = "SINPE";
             var metodo = pago.Metodo_Pago.Trim();
             if (metodo != "SINPE" && metodo != "Transferencia")
                 ModelState.AddModelError("", "Método inválido. Debe ser SINPE o Transferencia.");
 
-            // Validaciones obligatorias
+            
             if (pago.ID_Contrato <= 0)
                 ModelState.AddModelError("", "Debe seleccionar un contrato válido.");
 
@@ -112,7 +110,7 @@ namespace ProyectoProgramacion.Controllers
             if (comprobante == null || comprobante.ContentLength == 0)
                 ModelState.AddModelError("", "Debe adjuntar la imagen del comprobante.");
 
-            // Si no es admin, contrato debe ser del usuario
+          
             if (!IsAdmin() && pago.ID_Contrato > 0)
             {
                 var idUsuario = LoggedUserId().Value;
@@ -123,7 +121,7 @@ namespace ProyectoProgramacion.Controllers
 
             if (!ModelState.IsValid)
             {
-                // Repoblar selects
+                
                 if (IsAdmin())
                 {
                     ViewBag.ID_Contrato = new SelectList(
@@ -146,7 +144,7 @@ namespace ProyectoProgramacion.Controllers
                 return View(pago);
             }
 
-            // Guardar archivo de comprobante
+           
             string carpeta = Server.MapPath("~/Uploads/Comprobantes");
             if (!Directory.Exists(carpeta))
                 Directory.CreateDirectory(carpeta);
@@ -156,7 +154,6 @@ namespace ProyectoProgramacion.Controllers
             string fullPath = Path.Combine(carpeta, fileName);
             comprobante.SaveAs(fullPath);
 
-            // Completar campos
             if (pago.Fecha_Pago == default(DateTime))
                 pago.Fecha_Pago = DateTime.Today;
 
@@ -170,9 +167,7 @@ namespace ProyectoProgramacion.Controllers
             return IsAdmin() ? RedirectToAction("AdminIndex") : RedirectToAction("Index");
         }
 
-        // ============================================================
-        // ADMIN
-        // ============================================================
+        
         public ActionResult AdminIndex()
         {
             if (!IsAdmin()) return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
@@ -184,7 +179,7 @@ namespace ProyectoProgramacion.Controllers
             return View(pagos);
         }
 
-        // Cambia el ESTADO (no el método)
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ActualizarEstado(int id, string nuevoEstado)

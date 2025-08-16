@@ -1,7 +1,6 @@
 ﻿@model ProyectoProgramacion.Models.EF.AreaRecreativa
-
 @{
-    ViewBag.Title = "Editar Área Recreativa";
+    ViewBag.Title = "Editar Área";
     Layout = "~/Views/Shared/_LayoutExterno.cshtml";
 
 }
@@ -9,42 +8,46 @@
 <br />
 <br />
 <br />
+<div class="container mt-4">
+    <h3 class="mb-3">Editar Área</h3>
 
-<div class="container mt-5">
-    <div class="card shadow-lg rounded-4 mx-auto" style="max-width: 600px;">
-        <div class="card-header bg-primary text-white text-center">
-            <h4 class="mb-0">Editar Área Recreativa</h4>
+    @using (Html.BeginForm("Edit", "AdminAreas", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.ID_Area)
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="mb-3">
+            @Html.LabelFor(m => m.Nombre)
+            @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control" })
         </div>
-        <div class="card-body">
+        <div class="mb-3">
+            @Html.LabelFor(m => m.Descripcion)
+            @Html.TextAreaFor(m => m.Descripcion, new { @class = "form-control", rows = "4" })
+        </div>
+        <div class="mb-3">
+            @Html.LabelFor(m => m.Horario)
+            @Html.TextBoxFor(m => m.Horario, new { @class = "form-control" })
+        </div>
 
-            @using (Html.BeginForm())
+        <div class="mb-2">
+            <label class="form-label d-block">Imagen actual</label>
+            @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
             {
-                @Html.AntiForgeryToken()
-                @Html.HiddenFor(model => model.ID_Area)
-
-                <div class="form-group mb-3">
-                    @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "form-label fw-bold" })
-                    @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", placeholder = "Nombre del área" })
-                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
-                </div>
-
-                <div class="form-group mb-3">
-                    @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "form-label fw-bold" })
-                    @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control", rows = 3, placeholder = "Descripción del área" })
-                    @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
-                </div>
-
-                <div class="form-group mb-4">
-                    @Html.LabelFor(model => model.Horario, htmlAttributes: new { @class = "form-label fw-bold" })
-                    @Html.TextBoxFor(model => model.Horario, new { @class = "form-control", placeholder = "Horario (Ej. 9:00 am - 5:00 pm)" })
-                    @Html.ValidationMessageFor(model => model.Horario, "", new { @class = "text-danger" })
-                </div>
-
-                <div class="d-grid">
-                    <input type="submit" value="Guardar Cambios" class="btn btn-primary btn-lg" />
-                </div>
+                <img src="@Url.Content(Model.ImageUrl)" class="img-thumbnail mb-2" style="max-width:160px;" />
             }
-
+            else
+            {
+                <span class="text-muted">Sin imagen</span>
+            }
         </div>
-    </div>
+
+        <div class="mb-3">
+            <label class="form-label">Reemplazar imagen</label>
+            <input type="file" name="nuevaImagen" class="form-control" accept="image/*" />
+        </div>
+
+        <button class="btn btn-primary">Guardar cambios</button>
+        @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-secondary ms-2" })
+    }
 </div>

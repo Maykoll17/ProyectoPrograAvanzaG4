@@ -1,7 +1,6 @@
-﻿@model List<ProyectoProgramacion.Models.EF.AreaRecreativa>
-
+﻿@model IEnumerable<ProyectoProgramacion.Models.EF.AreaRecreativa>
 @{
-    ViewBag.Title = "Administrar Áreas Recreativas";
+    ViewBag.Title = "Gestión de Áreas";
     Layout = "~/Views/Shared/_LayoutExterno.cshtml";
 
 }
@@ -9,44 +8,45 @@
 <br />
 <br />
 <br />
-
-<div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="text-primary fw-bold">Gestión de Áreas Recreativas</h2>
-        @Html.ActionLink("Agregar Nueva Área", "Create", "AdminAreas", null, new { @class = "btn btn-success" })
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="m-0">Áreas Recreativas</h3>
+        @Html.ActionLink("Nueva Área", "Create", null, new { @class = "btn btn-primary" })
     </div>
 
-    <table class="table table-bordered table-hover shadow-sm">
-        <thead class="table-dark text-white">
-            <tr>
-                <th>Nombre</th>
-                <th>Horario</th>
-                <th class="text-center">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.Count == 0)
-            {
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
                 <tr>
-                    <td colspan="3" class="text-center text-muted">No hay áreas registradas.</td>
+                    <th style="width:120px;">Imagen</th>
+                    <th>Nombre</th>
+                    <th>Horario</th>
+                    <th></th>
                 </tr>
-            }
-            else
-            {
-                foreach (var item in Model)
+            </thead>
+            <tbody>
+                @foreach (var a in Model)
                 {
                     <tr>
-                        <td>@item.Nombre</td>
-                        <td>@item.Horario</td>
-                        <td class="text-center">
-                            <div class="btn-group" role="group">
-                                @Html.ActionLink("Editar", "Edit", new { id = item.ID_Area }, new { @class = "btn btn-sm btn-outline-primary" })
-                                @Html.ActionLink("Eliminar", "Delete", new { id = item.ID_Area }, new { @class = "btn btn-sm btn-outline-danger ms-2" })
-                            </div>
+                        <td>
+                            @if (!string.IsNullOrWhiteSpace(a.ImageUrl))
+                            {
+                                <img src="@Url.Content(a.ImageUrl)" class="img-thumbnail" style="max-width:110px;" />
+                            }
+                            else
+                            {
+                                <span class="text-muted">Sin imagen</span>
+                            }
+                        </td>
+                        <td>@a.Nombre</td>
+                        <td>@a.Horario</td>
+                        <td class="text-end">
+                            @Html.ActionLink("Editar", "Edit", new { id = a.ID_Area }, new { @class = "btn btn-sm btn-outline-primary" })
+                            @Html.ActionLink("Eliminar", "Delete", new { id = a.ID_Area }, new { @class = "btn btn-sm btn-outline-danger ms-1" })
                         </td>
                     </tr>
                 }
-            }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </div>

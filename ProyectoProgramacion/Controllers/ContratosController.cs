@@ -9,39 +9,38 @@ namespace ProyectoProgramacion.Controllers
     {
         private readonly SistemaAlquilerEntities1 db = new SistemaAlquilerEntities1();
 
-        // Helpers de sesión (mismo esquema que HomeController)
         private bool IsLogged() => Session["IdUsuario"] != null;
-        private int Rol() => IsLogged() ? Convert.ToInt32(Session["IdRol"]) : 0; // 1=Admin
+        private int Rol() => IsLogged() ? Convert.ToInt32(Session["IdRol"]) : 0; 
         private bool IsAdmin() => Rol() == 1;
         private int LoggedId() => Convert.ToInt32(Session["IdUsuario"]);
 
      
 
-        // GET: /Contratos/AdminIndex
+        
         public ActionResult AdminIndex()
         {
             if (!IsAdmin()) return new HttpStatusCodeResult(403);
 
             var data = db.Contrato
                          .OrderByDescending(c => c.ID_Contrato)
-                         .ToList(); // EF generó nav props Usuario y Apartamento
+                         .ToList();
 
             return View(data);
         }
 
-        // GET: /Contratos/Create
+       
         public ActionResult Create()
         {
             if (!IsAdmin()) return new HttpStatusCodeResult(403);
 
-            // Solo usuarios
+           
             var usuarios = db.Usuario
                              .Where(u => u.IdRol == 2)
                              .OrderBy(u => u.Nombre)
                              .Select(u => new { u.ID_Usuario, Nombre = u.Nombre + " (" + u.Cedula + ")" })
                              .ToList();
 
-            // Solo apartamentos disponibles
+           
             var disponibles = db.Apartamento
                                 .Where(a => a.Disponible == true)
                                 .OrderBy(a => a.Codigo_Apartamento)
@@ -54,27 +53,27 @@ namespace ProyectoProgramacion.Controllers
             return View();
         }
 
-        // POST: /Contratos/Create
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Contrato contrato)
         {
             if (!IsAdmin()) return new HttpStatusCodeResult(403);
 
-            // Validaciones mínimas
+            
             if (contrato.ID_Usuario <= 0) ModelState.AddModelError("", "Seleccione un usuario.");
             if (contrato.ID_Apartamento <= 0) ModelState.AddModelError("", "Seleccione un apartamento disponible.");
             if (contrato.Monto_Mensual <= 0) ModelState.AddModelError("", "Monto mensual inválido.");
             if (contrato.Fecha_Inicio == default(DateTime) || contrato.Fecha_Fin == default(DateTime) || contrato.Fecha_Fin <= contrato.Fecha_Inicio)
                 ModelState.AddModelError("", "Rango de fechas inválido.");
 
-            // Asegurar disponibilidad del apartamento
+            
             var apto = db.Apartamento.FirstOrDefault(a => a.ID_Apartamento == contrato.ID_Apartamento && a.Disponible == true);
             if (apto == null) ModelState.AddModelError("", "El apartamento seleccionado no está disponible.");
 
             if (!ModelState.IsValid)
             {
-                // Rellenar selects otra vez
+               
                 ViewBag.ID_Usuario = new SelectList(
                     db.Usuario.Where(u => u.IdRol == 2).OrderBy(u => u.Nombre)
                       .Select(u => new { u.ID_Usuario, Nombre = u.Nombre + " (" + u.Cedula + ")" }).ToList(),
@@ -91,18 +90,14 @@ namespace ProyectoProgramacion.Controllers
             contrato.Estado = string.IsNullOrWhiteSpace(contrato.Estado) ? "Activo" : contrato.Estado.Trim();
 
             db.Contrato.Add(contrato);
-            // Marcar el apartamento como no disponible
+            
             apto.Disponible = false;
             db.SaveChanges();
 
             return RedirectToAction("AdminIndex");
         }
 
-        // =======================
-        // USUARIO (ver sus contratos y estado mensual)
-        // =======================
-
-        // GET: /Contratos/MisContratos
+     
         public ActionResult MisContratos()
         {
             if (!IsLogged()) return new HttpStatusCodeResult(401);
@@ -122,7 +117,7 @@ namespace ProyectoProgramacion.Controllers
                               Fecha_Fin = c.Fecha_Fin,
                               Monto_Mensual = c.Monto_Mensual,
                               Estado = c.Estado,
-                              // ¿Pagó este mes?
+                              
                               PagadoEsteMes = db.Pago.Any(p =>
                                   p.ID_Contrato == c.ID_Contrato &&
                                   p.Fecha_Pago.Year == hoy.Year &&
@@ -141,7 +136,7 @@ namespace ProyectoProgramacion.Controllers
         }
     }
 
-    // ViewModel para "MisContratos"
+    
     public class MisContratosVM
     {
         public int ID_Contrato { get; set; }

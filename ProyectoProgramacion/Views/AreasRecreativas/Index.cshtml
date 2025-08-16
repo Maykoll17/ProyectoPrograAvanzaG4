@@ -1,5 +1,4 @@
-﻿@model List<ProyectoProgramacion.Models.EF.AreaRecreativa>
-
+﻿@model IEnumerable<ProyectoProgramacion.Models.EF.AreaRecreativa>
 @{
     ViewBag.Title = "Áreas Recreativas";
     Layout = "~/Views/Shared/_LayoutExterno.cshtml";
@@ -9,23 +8,26 @@
 <br />
 <br />
 <br />
-
-<div class="container py-5 bg-light rounded shadow-sm">
-    <h2 class="mb-4 text-warning fw-bold text-center">Áreas Recreativas Disponibles</h2>
+<div class="container py-5">
+    <h2 class="mb-4 text-warning">Áreas Recreativas</h2>
 
     <div class="row g-4">
-        @foreach (var area in Model)
+        @foreach (var a in Model)
         {
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100 shadow-sm border-0">
-                    <img src="https://source.unsplash.com/400x250/?recreation,park,area" class="card-img-top" alt="Área Recreativa">
+            <div class="col-sm-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                    <img class="card-img-top"
+                         src="@Url.Content(string.IsNullOrWhiteSpace(a.ImageUrl) ? "~/assets/img/placeholder-800x450.png" : a.ImageUrl)"
+                         alt="@a.Nombre" />
                     <div class="card-body d-flex flex-column">
-                        <h5 class="card-title text-primary fw-bold">@area.Nombre</h5>
-                        <p class="card-text text-secondary flex-grow-1">@area.Descripcion</p>
-                        <span class="badge bg-warning text-dark mb-3">Horario: @area.Horario</span>
-                        <a href="@Url.Action("Details", "AreasRecreativas", new { id = area.ID_Area })" class="btn btn-outline-warning mt-auto">
-                            Ver más detalles
-                        </a>
+                        <h5 class="card-title">@a.Nombre</h5>
+                        <p class="card-text text-muted flex-grow-1">
+                            @(!string.IsNullOrWhiteSpace(a.Descripcion) ? a.Descripcion : "—")
+                        </p>
+                        <span class="badge bg-warning text-dark mb-3">Horario: @a.Horario</span>
+                        @Html.ActionLink("Ver más", "Details", "AreasRecreativas",
+                                         new { id = a.ID_Area },
+                                         new { @class = "btn btn-warning text-white mt-auto" })
                     </div>
                 </div>
             </div>

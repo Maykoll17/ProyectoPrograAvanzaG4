@@ -1,7 +1,6 @@
 ﻿@model ProyectoProgramacion.Models.EF.AreaRecreativa
-
 @{
-    ViewBag.Title = "Detalle del Área Recreativa";
+    ViewBag.Title = "Detalle Área";
     Layout = "~/Views/Shared/_LayoutExterno.cshtml";
 
 }
@@ -9,23 +8,19 @@
 <br />
 <br />
 <br />
-
-<div class="container mt-5">
-    <div class="card shadow-lg border-0">
-        <div class="row g-0">
-            <div class="col-md-6">
-                <img src="https://source.unsplash.com/600x400/?recreation,nature,fun" class="img-fluid rounded-start" alt="Área">
-            </div>
-            <div class="col-md-6">
-                <div class="card-body">
-                    <h3 class="card-title text-primary fw-bold">@Model.Nombre</h3>
-                    <p class="card-text text-secondary">@Model.Descripcion</p>
-                    <p class="card-text">
-                        <strong>Horario:</strong> <span class="badge bg-warning text-dark">@Model.Horario</span>
-                    </p>
-                    <a href="@Url.Action("Index", "AreasRecreativas")" class="btn btn-outline-secondary mt-3">← Volver a la lista</a>
-                </div>
-            </div>
+<div class="container py-5">
+    <div class="row gy-4">
+        <div class="col-md-6">
+            <img class="img-fluid rounded shadow"
+                 src="@Url.Content(string.IsNullOrWhiteSpace(Model.ImageUrl) ? "~/assets/img/placeholder-1200x800.png" : Model.ImageUrl)"
+                 alt="@Model.Nombre" />
+        </div>
+        <div class="col-md-6">
+            <h2 class="mb-3">@Model.Nombre</h2>
+            <p class="lead">@Model.Descripcion</p>
+            <p><span class="badge bg-warning text-dark">Horario: @Model.Horario</span></p>
+            <a href="@Url.Action("Index")" class="btn btn-outline-secondary mt-3">Volver</a>
         </div>
     </div>
 </div>
+
