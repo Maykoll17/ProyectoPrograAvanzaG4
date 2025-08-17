@@ -117,6 +117,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminApartamentosController.cs" />
+    <Compile Include="Controllers\AdminResidentesController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\AdminAreasController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -163,6 +165,15 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\EF\Pago.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EF\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EF\sp_helpdiagrams_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EF\sysdiagrams.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EF\Vehiculo.cs">
@@ -381,6 +392,14 @@
     <Content Include="Views\AdminAreas\Create.cshtml" />
     <Content Include="Views\AdminAreas\Edit.cshtml" />
     <Content Include="Views\AreasRecreativas\Details.cshtml" />
+    <Content Include="Views\AdminApartamentos\Index.cshtml" />
+    <Content Include="Views\AdminApartamentos\Create.cshtml" />
+    <Content Include="Views\AdminApartamentos\Edit.cshtml" />
+    <Content Include="Views\Admin\Delete.cshtml" />
+    <Content Include="Views\AdminResidentes\Index.cshtml" />
+    <Content Include="Views\AdminResidentes\Create.cshtml" />
+    <Content Include="Views\AdminResidentes\Edit.cshtml" />
+    <Content Include="Views\AdminResidentes\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

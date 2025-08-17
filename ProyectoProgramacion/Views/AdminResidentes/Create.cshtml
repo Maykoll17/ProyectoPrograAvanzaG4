@@ -1,10 +1,48 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
-
-</body>
-</html>
+﻿@model ProyectoProgramacion.Models.EF.Usuario
+@{
+    ViewBag.Title = "Nuevo Residente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container mt-5">
+    <div class="card shadow-lg rounded-4 mx-auto" style="max-width: 680px;">
+        <div class="card-header bg-success text-white text-center">
+            <h4 class="mb-0">Crear Residente</h4>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        @Html.LabelFor(m => m.Nombre, new { @class = "form-label fw-bold" })
+                        @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control", placeholder = "Nombre" })
+                        @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-6">
+                        @Html.LabelFor(m => m.Cedula, new { @class = "form-label fw-bold" })
+                        @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", placeholder = "Cédula" })
+                    </div>
+                    <div class="col-md-6">
+                        @Html.LabelFor(m => m.Telefono, new { @class = "form-label fw-bold" })
+                        @Html.TextBoxFor(m => m.Telefono, new { @class = "form-control", placeholder = "Teléfono" })
+                    </div>
+                    <div class="col-md-6">
+                        @Html.LabelFor(m => m.Correo, new { @class = "form-label fw-bold" })
+                        @Html.TextBoxFor(m => m.Correo, new { @class = "form-control", placeholder = "Correo" })
+                    </div>
+                    <div class="col-md-6">
+                        @Html.LabelFor(m => m.Contrasenna, new { @class = "form-label fw-bold" })
+                        @Html.TextBoxFor(m => m.Contrasenna, new { @class = "form-control", type = "password", placeholder = "Contraseña" })
+                    </div>
+                    <div class="col-md-6">
+                        @Html.LabelFor(m => m.Fecha_Nacimiento, new { @class = "form-label fw-bold" })
+                        @Html.TextBoxFor(m => m.Fecha_Nacimiento, new { @class = "form-control", type = "date" })
+                    </div>
+                </div>
+                <div class="d-grid mt-4">
+                    <button class="btn btn-success btn-lg" type="submit">Guardar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

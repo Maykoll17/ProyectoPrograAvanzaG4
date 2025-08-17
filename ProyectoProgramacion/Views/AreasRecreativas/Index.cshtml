@@ -11,9 +11,13 @@
     <div class="row g-4">
         @foreach (var area in Model)
         {
+            var img = string.IsNullOrWhiteSpace(area.ImageUrl)
+                ? $"https://source.unsplash.com/400x250/?{Uri.EscapeDataString((area.Nombre ?? "recreation").ToLower())},recreation,park"
+                : area.ImageUrl;
+
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 shadow-sm border-0">
-                    <img src="https://source.unsplash.com/400x250/?recreation,park,area" class="card-img-top" alt="Área Recreativa">
+                    <img src="@img" class="card-img-top" alt="Área Recreativa">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title text-primary fw-bold">@area.Nombre</h5>
                         <p class="card-text text-secondary flex-grow-1">@area.Descripcion</p>

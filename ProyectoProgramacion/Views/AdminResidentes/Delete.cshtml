@@ -1,10 +1,25 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
-
-</body>
-</html>
+﻿@model ProyectoProgramacion.Models.EF.Usuario
+@{
+    ViewBag.Title = "Eliminar Residente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container mt-5">
+    <div class="card shadow-lg rounded-4 mx-auto" style="max-width: 600px;">
+        <div class="card-header bg-danger text-white text-center">
+            <h4 class="mb-0">¿Eliminar Residente?</h4>
+        </div>
+        <div class="card-body">
+            <p><strong>@Model.Nombre</strong> — @Model.Cedula</p>
+            <p class="text-muted mb-4">@Model.Correo | @Model.Telefono</p>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.ID_Usuario)
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-danger" type="submit">Eliminar</button>
+                    @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-secondary" })
+                </div>
+            }
+        </div>
+    </div>
+</div>

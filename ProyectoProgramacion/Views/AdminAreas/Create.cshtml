@@ -11,34 +11,44 @@
             <h4 class="mb-0">Agregar Nueva Área Recreativa</h4>
         </div>
         <div class="card-body">
-
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken()
 
                 <div class="form-group mb-3">
-                    @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "form-label fw-bold" })
-                    @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", placeholder = "Ej. Salón Comunal" })
-                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                    @Html.LabelFor(m => m.Nombre, new { @class = "form-label fw-bold" })
+                    @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control", placeholder = "Ej. Salón Comunal" })
+                    @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="form-group mb-3">
-                    @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "form-label fw-bold" })
-                    @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control", rows = 3, placeholder = "Describe el área, uso, restricciones..." })
-                    @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                    @Html.LabelFor(m => m.Descripcion, new { @class = "form-label fw-bold" })
+                    @Html.TextAreaFor(m => m.Descripcion, new { @class = "form-control", rows = 3, placeholder = "Describe el área, uso, restricciones..." })
+                    @Html.ValidationMessageFor(m => m.Descripcion, "", new { @class = "text-danger" })
                 </div>
 
+                <div class="form-group mb-3">
+                    @Html.LabelFor(m => m.Horario, new { @class = "form-label fw-bold" })
+                    @Html.TextBoxFor(m => m.Horario, new { @class = "form-control", placeholder = "Ej. 9:00 am - 6:00 pm" })
+                    @Html.ValidationMessageFor(m => m.Horario, "", new { @class = "text-danger" })
+                </div>
+
+                
                 <div class="form-group mb-4">
-                    @Html.LabelFor(model => model.Horario, htmlAttributes: new { @class = "form-label fw-bold" })
-                    @Html.TextBoxFor(model => model.Horario, new { @class = "form-control", placeholder = "Ej. 9:00 am - 6:00 pm" })
-                    @Html.ValidationMessageFor(model => model.Horario, "", new { @class = "text-danger" })
+                    @Html.LabelFor(m => m.ImageUrl, new { @class = "form-label fw-bold" })
+                    @Html.TextBoxFor(m => m.ImageUrl, new
+                    {
+                        @class = "form-control",
+                        placeholder = "https://source.unsplash.com/800x600/?piscina"
+                    })
+                    @Html.ValidationMessageFor(m => m.ImageUrl, "", new { @class = "text-danger" })
+                    <small class="text-muted">Si lo dejás vacío, el sistema intentará usar una imagen relacionada al nombre.</small>
                 </div>
 
                 <div class="d-grid">
                     <input type="submit" value="Publicar Área" class="btn btn-success btn-lg" />
                 </div>
             }
-
         </div>
     </div>
 </div>

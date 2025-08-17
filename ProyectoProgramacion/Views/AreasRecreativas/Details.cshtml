@@ -5,11 +5,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@{
+    var img = string.IsNullOrWhiteSpace(Model.ImageUrl)
+        ? $"https://source.unsplash.com/600x400/?{Uri.EscapeDataString((Model.Nombre ?? "recreation").ToLower())},recreation,community"
+        : Model.ImageUrl;
+}
+
 <div class="container mt-5">
     <div class="card shadow-lg border-0">
         <div class="row g-0">
             <div class="col-md-6">
-                <img src="https://source.unsplash.com/600x400/?recreation,nature,fun" class="img-fluid rounded-start" alt="Área">
+                <img src="@img" class="img-fluid rounded-start w-100" alt="Área">
             </div>
             <div class="col-md-6">
                 <div class="card-body">

@@ -1,10 +1,47 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
+﻿@model IEnumerable<ProyectoProgramacion.Models.EF.Usuario>
+@{
+    ViewBag.Title = "Residentes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary fw-bold">Lista de Residentes</h2>
+        @Html.ActionLink("Crear nuevo", "Create", null, new { @class = "btn btn-success" })
+    </div>
 
-</body>
-</html>
+    @if (TempData["ok"] != null)
+    {<div class="alert alert-success">@TempData["ok"]</div>}
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered shadow-sm">
+            <thead class="table-dark text-white">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Cédula</th>
+                    <th>Teléfono</th>
+                    <th>Correo</th>
+                    <th>Fecha Nac.</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var r in Model)
+                {
+                    <tr>
+                        <td>@r.Nombre</td>
+                        <td>@r.Cedula</td>
+                        <td>@r.Telefono</td>
+                        <td>@r.Correo</td>
+                        <td>@(r.Fecha_Nacimiento?.ToString("dd/MM/yyyy"))</td>
+                        <td class="text-center">
+                            <div class="btn-group">
+                                @Html.ActionLink("Editar", "Edit", new { id = r.ID_Usuario }, new { @class = "btn btn-sm btn-outline-primary" })
+                                @Html.ActionLink("Eliminar", "Delete", new { id = r.ID_Usuario }, new { @class = "btn btn-sm btn-outline-danger ms-2" })
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
