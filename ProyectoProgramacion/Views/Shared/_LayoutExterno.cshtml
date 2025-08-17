@@ -13,29 +13,29 @@
     <title>@ViewBag.Title - Proyecto</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Estilos del tema que ya usas -->
+    
     <link href="~/assets/vendors/themify-icons/css/themify-icons.css" rel="stylesheet" />
     <link href="~/assets/css/rubic.css" rel="stylesheet" />
     <link href="~/Content/Styles.css" rel="stylesheet" />
 
-    <!-- Font Awesome (opcional, para iconos del menú) -->
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 </head>
 <body>
 
 
-    <!-- NAVBAR -->
+  
     <nav id="scrollspy"
          class="navbar navbar-expand-md navbar-light bg-warning fixed-top shadow-sm"
          data-spy="affix" data-offset-top="20">
         <div class="container">
 
-            <!-- Branding -->
+           
             <a class="navbar-brand fw-bold text-dark" href="@Url.Action("Index","Home")">
                 <span class="badge bg-dark me-2">JA</span><span>GM</span>
             </a>
 
-            <!-- Toggler -->
+         
             <button class="navbar-toggler border-0" type="button"
                     data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -43,11 +43,10 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <!-- Links -->
             <div class="collapse navbar-collapse text-uppercase" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto">
 
-                    <!-- Enlaces públicos del landing -->
+                   
                     <li class="nav-item">
                         <a class="nav-link text-dark" href="#apartamentos">Apartamentos</a>
                     </li>
@@ -55,14 +54,14 @@
                         <a class="nav-link text-dark" href="#ofertas">Ofertas</a>
                     </li>
 
-                    <!-- Áreas Recreativas (visible para todos) -->
+                    
                     <li class="nav-item">
                         <a class="nav-link text-dark" href="@Url.Action("Index","AreasRecreativas")">
                             <i class="fa-solid fa-tree me-1"></i>Áreas Recreativas
                         </a>
                     </li>
 
-                    <!-- Pagos (solo usuario autenticado NO admin) -->
+                   
                     @if (autenticado && !esAdmin)
                     {
                         <li class="nav-item">
@@ -78,7 +77,7 @@
                         </li>
                     }
 
-                    <!-- Opciones solo Admin -->
+                   
                     @if (esAdmin)
                     {
                         <li class="nav-item">
@@ -103,7 +102,7 @@
                         </li>
                     }
 
-                    <!-- Autenticación -->
+                 
                     @if (autenticado)
                     {
                         <li class="nav-item dropdown">
@@ -136,7 +135,7 @@
         </div>
     </nav>
 
-    <!-- CONTENIDO -->
+  
     <div class="main-wrapper">
         @RenderBody()
     </div>
