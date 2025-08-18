@@ -25,6 +25,9 @@
         <AssociationConnector Association="SistemaAlquilerModel.FK__Usuario__IdRol__7C4F7684" ManuallyRouted="false" />
         <AssociationConnector Association="SistemaAlquilerModel.FK__Vehiculo__ID_Usu__14270015" ManuallyRouted="false" />
         <AssociationConnector Association="SistemaAlquilerModel.Aviso_Usuario" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SistemaAlquilerModel.Cita" Width="1.5" PointX="8.25" PointY="10.375" />
+        <AssociationConnector Association="SistemaAlquilerModel.FK__Cita__ID_Apartam__2EDAF651" />
+        <AssociationConnector Association="SistemaAlquilerModel.FK__Cita__ID_Usuario__2DE6D218" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -1,0 +1,86 @@
+﻿@model IEnumerable<ProyectoProgramacion.Models.EF.Cita>
+@{
+    ViewBag.Title = "Citas (Admin)";
+    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+    var estadoSel = (string)ViewBag.Estado ?? "";
+}
+<br />
+<br />
+<br />
+<br />
+
+<div class="container py-3">
+    <div class="d-flex align-items-center mb-3">
+        <span class="badge bg-warning text-dark me-2 px-3 py-2">ADMIN</span>
+        <h3 class="m-0">Gestión de Citas</h3>
+    </div>
+
+    <form class="row g-2 align-items-end mb-3" method="get" action="@Url.Action("AdminIndex","Citas")">
+        <div class="col-auto">
+            <label class="form-label">Estado</label>
+            <select name="estado" class="form-select">
+                <option value="" @(string.IsNullOrEmpty(estadoSel) ? "selected" : "")>Todos</option>
+                <option value="Pendiente" @(estadoSel == "Pendiente" ? "selected" : "")>Pendiente</option>
+                <option value="Aprobada" @(estadoSel == "Aprobada" ? "selected" : "")>Aprobada</option>
+                <option value="Reprogramar" @(estadoSel == "Reprogramar" ? "selected" : "")>Reprogramar</option>
+                <option value="Cancelada" @(estadoSel == "Cancelada" ? "selected" : "")>Cancelada</option>
+                <option value="Realizada" @(estadoSel == "Realizada" ? "selected" : "")>Realizada</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-outline-warning text-dark">Filtrar</button>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-warning">
+                <tr>
+                    <th>#</th>
+                    <th>Usuario</th>
+                    <th>Correo</th>
+                    <th>Apartamento</th>
+                    <th>Fecha Cita</th>
+                    <th>Mensaje</th>
+                    <th>Estado</th>
+                    <th>Cambiar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var c in Model)
+                {
+                    <tr>
+                        <td>@c.ID_Cita</td>
+                        <td>@(c.Usuario != null ? c.Usuario.Nombre : "-")</td>
+                        <td>@(c.Usuario != null ? c.Usuario.Correo : "-")</td>
+                        <td>@(c.Apartamento != null ? c.Apartamento.Codigo_Apartamento : "-")</td>
+                        <td>@c.FechaCita.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>@(string.IsNullOrWhiteSpace(c.Mensaje) ? "—" : c.Mensaje)</td>
+                        <td>
+                            <span class="badge @(c.Estado=="Aprobada" ? "bg-success" : c.Estado=="Cancelada" ? "bg-danger" : c.Estado=="Reprogramar" ? "bg-info text-dark" : c.Estado=="Realizada" ? "bg-secondary" : "bg-warning text-dark")">
+                                @c.Estado
+                            </span>
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("CambiarEstado", "Citas", FormMethod.Post, new { @class = "d-inline" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden("id", c.ID_Cita)
+                                <div class="input-group input-group-sm" style="max-width: 280px;">
+                                    <select name="estado" class="form-select">
+                                        <option value="Pendiente" @(c.Estado == "Pendiente" ? "selected" : "")>Pendiente</option>
+                                        <option value="Aprobada" @(c.Estado == "Aprobada" ? "selected" : "")>Aprobada</option>
+                                        <option value="Reprogramar" @(c.Estado == "Reprogramar" ? "selected" : "")>Reprogramar</option>
+                                        <option value="Cancelada" @(c.Estado == "Cancelada" ? "selected" : "")>Cancelada</option>
+                                        <option value="Realizada" @(c.Estado == "Realizada" ? "selected" : "")>Realizada</option>
+                                    </select>
+                                    <button class="btn btn-warning text-dark">Guardar</button>
+                                </div>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

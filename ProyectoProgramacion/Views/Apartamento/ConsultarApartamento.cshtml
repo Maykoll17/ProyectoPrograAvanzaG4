@@ -54,7 +54,7 @@
                         <td>@a.Metros_Cuadrados</td>
                         <td>@a.Cantidad_Habitantes</td>
                         <td>@a.Cant_Sanitarios</td>
-                        <td>@(a.Disponible ? "Sí" : "No")</td>
+                        <td>@((a.Disponible ?? false) ? "Sí" : "No")</td>
                         <td class="text-end">
                             @Html.ActionLink("Editar", "ActualizarApartamento", new { id = a.ID_Apartamento }, new { @class = "btn btn-sm btn-outline-primary" })
                         </td>

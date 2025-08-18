@@ -1,0 +1,45 @@
+﻿@model IEnumerable<ProyectoProgramacion.Models.EF.Apartamento>
+
+@{
+    ViewBag.Title = "Apartamentos Disponibles";
+    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+}
+
+<br />
+<br />
+<br />
+<br />
+<h2 class="text-center my-4">Apartamentos Disponibles</h2>
+
+<div class="row">
+    @foreach (var apto in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100">
+
+                @if (apto.FotoApartamento != null && apto.FotoApartamento.Any())
+                {
+                    <img src="@Url.Content(apto.FotoApartamento.First().UrlFoto)" class="card-img-top" style="height:200px; object-fit:cover;" />
+                }
+                else
+                {
+                    <img src="~/Content/no-image.png" class="card-img-top" style="height:200px; object-fit:cover;" />
+                }
+
+                <div class="card-body">
+                    <h5 class="card-title">Apto @apto.Codigo_Apartamento</h5>
+                    <p class="card-text">
+                        <strong>Edificio:</strong> @(apto.Edificio?.Nombre ?? "-") <br />
+                        <strong>Piso:</strong> @apto.Piso <br />
+                        <strong>Metros²:</strong> @apto.Metros_Cuadrados <br />
+                        <strong>Habitantes:</strong> @apto.Cantidad_Habitantes <br />
+                        <strong>Sanitarios:</strong> @apto.Cant_Sanitarios <br />
+                    </p>
+                </div>
+                <div class="card-footer text-center">
+                    @Html.ActionLink("Ver detalles", "Details", "Apartamento", new { id = apto.ID_Apartamento }, new { @class = "btn btn-warning text-dark" })
+                </div>
+            </div>
+        </div>
+    }
+</div>

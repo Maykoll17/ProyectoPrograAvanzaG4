@@ -38,6 +38,7 @@ namespace ProyectoProgramacion.Models.EF
         public virtual DbSet<TRol> TRol { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
         public virtual DbSet<Vehiculo> Vehiculo { get; set; }
+        public virtual DbSet<Cita> Cita { get; set; }
     
         public virtual int sp_DeleteApartamento(Nullable<int> iD_Apartamento)
         {

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<ProyectoProgramacion.Models.EF.Cita>
+@{
+    ViewBag.Title = "Mis Citas";
+    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+}
+<br />
+<br />
+<br />
+<br />
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="m-0">Mis Citas</h3>
+        <a class="btn btn-warning text-dark" href="@Url.Action("Create","Citas")">
+            <i class="fa fa-plus"></i> Nueva Cita
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-warning">
+                <tr>
+                    <th>#</th>
+                    <th>Apartamento</th>
+                    <th>Fecha</th>
+                    <th>Mensaje</th>
+                    <th>Estado</th>
+                    <th>Creada</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model == null || !Model.Any())
+                {
+                    <tr>
+                        <td colspan="6" class="text-center text-muted">No tienes citas.</td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var c in Model)
+                    {
+                        <tr>
+                            <td>@c.ID_Cita</td>
+                            <td>@(c.Apartamento != null ? c.Apartamento.Codigo_Apartamento : "-")</td>
+                            <td>@c.FechaCita.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td>@(string.IsNullOrWhiteSpace(c.Mensaje) ? "—" : c.Mensaje)</td>
+                            <td>
+                                <span class="badge @(c.Estado=="Aprobada" ? "bg-success" : c.Estado=="Cancelada" ? "bg-danger" : c.Estado=="Reprogramar" ? "bg-info text-dark" : c.Estado=="Realizada" ? "bg-secondary" : "bg-warning text-dark")">
+                                    @c.Estado
+                                </span>
+                            </td>
+                            <td>@c.FechaCreacion.ToString("dd/MM/yyyy HH:mm")</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

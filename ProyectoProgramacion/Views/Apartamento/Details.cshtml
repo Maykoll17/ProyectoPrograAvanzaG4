@@ -1,0 +1,110 @@
+﻿@model ProyectoProgramacion.Models.EF.Apartamento
+@{
+    ViewBag.Title = "Detalle del Apartamento";
+    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+}
+<br />
+<br />
+<br />
+<br />
+
+<div class="container my-5">
+    <div class="row g-4">
+        <!-- Galería -->
+        <div class="col-lg-7">
+            @if (Model.FotoApartamento != null && Model.FotoApartamento.Any())
+            {
+                var fotos = Model.FotoApartamento.ToList();
+                var carouselId = "aptCarousel_" + Model.ID_Apartamento;
+
+                <div id="@carouselId" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        @for (int i = 0; i < fotos.Count; i++)
+                        {
+                            <li data-target="#@carouselId" data-slide-to="@i" class="@(i == 0 ? "active" : "")"></li>
+                        }
+                    </ol>
+
+                    <div class="carousel-inner rounded">
+                        @for (int i = 0; i < fotos.Count; i++)
+                        {
+                            <div class="carousel-item @(i == 0 ? "active" : "")">
+                                <img class="d-block w-100" src="@Url.Content(fotos[i].UrlFoto)" alt="Foto @(i + 1)" style="max-height:480px; object-fit:cover;">
+                            </div>
+                        }
+                    </div>
+
+                    <a class="carousel-control-prev" href="#@carouselId" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Anterior</span>
+                    </a>
+                    <a class="carousel-control-next" href="#@carouselId" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Siguiente</span>
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div class="border rounded d-flex align-items-center justify-content-center" style="height: 420px;">
+                    <span class="text-muted">Sin fotos disponibles</span>
+                </div>
+            }
+        </div>
+
+        <!-- Ficha -->
+        <div class="col-lg-5">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-dark">
+                    <h4 class="mb-0">Apto @Model.Codigo_Apartamento</h4>
+                </div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-6">Edificio</dt>
+                        <dd class="col-6">@((Model.Edificio != null) ? Model.Edificio.Nombre : "-")</dd>
+
+                        <dt class="col-6">Piso</dt>
+                        <dd class="col-6">@Model.Piso</dd>
+
+                        <dt class="col-6">Metros²</dt>
+                        <dd class="col-6">@Model.Metros_Cuadrados</dd>
+
+                        <dt class="col-6">Habitantes</dt>
+                        <dd class="col-6">@Model.Cantidad_Habitantes</dd>
+
+                        <dt class="col-6">Sanitarios</dt>
+                        <dd class="col-6">@Model.Cant_Sanitarios</dd>
+
+                        <dt class="col-6">Disponibilidad</dt>
+                        <dd class="col-6">
+                            <span class="badge @(Model.Disponible == true ? "badge-success" : "badge-secondary")">
+                                @(Model.Disponible == true ? "Disponible" : "No disponible")
+                            </span>
+
+                        </dd>
+                    </dl>
+                </div>
+                <div class="card-footer d-flex gap-2">
+                    @* Botón para solicitar cita (lleva el ID del apartamento) *@
+                    @Html.ActionLink(
+                        "Solicitar cita",
+                        "Create",
+                        "Citas",
+                        new { ID_Apartamento = Model.ID_Apartamento },
+                        new { @class = "btn btn-warning text-dark mr-2" }
+                    )
+
+                    @Html.ActionLink(
+                        "Volver a la lista",
+                        "Disponibles",
+                        "Apartamento",
+                        null,
+                        new { @class = "btn btn-outline-secondary" }
+                    )
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

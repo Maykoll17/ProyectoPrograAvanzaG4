@@ -1,7 +1,7 @@
 ﻿@{
-    // Estado de sesión según tu HomeController
+    // Estado de sesión (coincide con HomeController)
     var autenticado = Session["IdUsuario"] != null;
-    var idRol = Session["IdRol"] as int? ?? 0;        // 1 = Admin, 2 = Usuario
+    var idRol = Session["IdRol"] as int? ?? 0; // 1=Admin, 2=Usuario
     var esAdmin = idRol == 1;
     var nombreUsuario = (Session["Nombre"] as string) ?? "Invitado";
 }
@@ -13,46 +13,48 @@
     <title>@ViewBag.Title - Proyecto</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    
+    <!-- Tu tema -->
     <link href="~/assets/vendors/themify-icons/css/themify-icons.css" rel="stylesheet" />
     <link href="~/assets/css/rubic.css" rel="stylesheet" />
     <link href="~/Content/Styles.css" rel="stylesheet" />
 
-    
+    <!-- Iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 </head>
 <body>
 
-
-  
-    <nav id="scrollspy"
-         class="navbar navbar-expand-md navbar-light bg-warning fixed-top shadow-sm"
-         data-spy="affix" data-offset-top="20">
+    <!-- NAVBAR -->
+    <nav id="scrollspy" class="navbar navbar-expand-md navbar-light bg-warning fixed-top shadow-sm" data-spy="affix" data-offset-top="20">
         <div class="container">
 
-           
+            <!-- Brand -->
             <a class="navbar-brand fw-bold text-dark" href="@Url.Action("Index","Home")">
                 <span class="badge bg-dark me-2">JA</span><span>GM</span>
             </a>
 
-         
-            <button class="navbar-toggler border-0" type="button"
-                    data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Alternar navegación">
+            <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Alternar navegación">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse text-uppercase" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto">
 
+                    <!-- Catálogo público de apartamentos -->
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="@Url.Action("Disponibles","Apartamento")">
+                            <i class="fa-solid fa-building me-1"></i>Apartamentos
+                        </a>
+                    </li>
+
+                    <!-- Áreas recreativas (público) -->
                     <li class="nav-item">
                         <a class="nav-link text-dark" href="@Url.Action("Index","AreasRecreativas")">
                             <i class="fa-solid fa-tree me-1"></i>Áreas Recreativas
                         </a>
                     </li>
 
-
+                    @* Usuario autenticado (no admin) *@
                     @if (autenticado && !esAdmin)
                     {
                         <li class="nav-item">
@@ -67,9 +69,14 @@
                             </a>
                         </li>
 
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="@Url.Action("MisCitas","Citas")">
+                                <i class="fa-solid fa-calendar-check me-1"></i>Mis Citas
+                            </a>
+                        </li>
                     }
 
-
+                    @* Opciones solo Admin *@
                     @if (esAdmin)
                     {
                         <li class="nav-item">
@@ -77,43 +84,49 @@
                                 <i class="fa-solid fa-gauge-high me-1"></i>Panel Admin
                             </a>
                         </li>
+
                         <li class="nav-item">
                             <a class="nav-link text-dark" href="@Url.Action("AdminIndex","Pagos")">
                                 <i class="fa-solid fa-cash-register me-1"></i>Pagos Admin
                             </a>
                         </li>
+
                         <li class="nav-item">
                             <a class="nav-link text-dark" href="@Url.Action("AdminIndex","Contratos")">
                                 <i class="fa-solid fa-file-signature me-1"></i>Contratos Admin
                             </a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="@Url.Action("Index","AdminAreas")">
-                                <i class="fa-solid fa-screwdriver-wrench me-1"></i>Gestión Áreas Recreativas
+                            <a class="nav-link text-dark" href="@Url.Action("AdminIndex","Citas")">
+                                <i class="fa-solid fa-calendar-day me-1"></i>Citas Admin
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link text-dark" href="@Url.Action("ConsultarEdificios","Edificios")">
-                                <i class="fa-solid fa-screwdriver-wrench me-1"></i>Gestión Edificios
+                                <i class="fa-solid fa-city me-1"></i>Gestión Edificios
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link text-dark" href="@Url.Action("ConsultarApartamento","Apartamento")">
-                                <i class="fa-solid fa-screwdriver-wrench me-1"></i>Gestión Apartamentos
+                                <i class="fa-solid fa-door-open me-1"></i>Gestión Apartamentos
                             </a>
                         </li>
 
-
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="@Url.Action("Index","AdminAreas")">
+                                <i class="fa-solid fa-screwdriver-wrench me-1"></i>Gestión Áreas
+                            </a>
+                        </li>
                     }
 
-
+                    <!-- Autenticación -->
                     @if (autenticado)
                     {
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-dark" href="#" id="cuentaDropdown"
-                               role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="cuentaDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa-solid fa-user-circle me-1"></i>@nombreUsuario
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
@@ -141,7 +154,7 @@
         </div>
     </nav>
 
-  
+    <!-- CONTENIDO -->
     <div class="main-wrapper">
         @RenderBody()
     </div>
@@ -156,13 +169,12 @@
         </div>
     </footer>
 
-    <!-- SCRIPTS del tema -->
+    <!-- SCRIPTS -->
     <script src="~/assets/vendors/jquery/jquery-3.4.1.js"></script>
     <script src="~/assets/vendors/bootstrap/bootstrap.bundle.js"></script>
     <script src="~/assets/vendors/bootstrap/bootstrap.affix.js"></script>
     <script src="~/assets/js/rubic.js"></script>
 
-    @* Permite que las vistas inyecten scripts opcionalmente *@
     @RenderSection("Scripts", required: false)
 </body>
 </html>

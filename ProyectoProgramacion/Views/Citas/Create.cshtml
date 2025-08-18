@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Solicitar Cita";
+    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+}
+<br />
+<br />
+<br />
+<br />
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="m-0">Nueva Cita</h5>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("Create", "Citas", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="mb-3">
+                            <label class="form-label">Apartamento</label>
+                            @Html.DropDownList("ID_Apartamento", (SelectList)ViewBag.ID_Apartamento, "Seleccione...", new { @class = "form-control", required = "required" })
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Fecha y hora</label>
+                            <input type="datetime-local" name="FechaCita" class="form-control" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Mensaje (opcional)</label>
+                            <textarea name="Mensaje" rows="3" class="form-control" placeholder="Notas para el administrador"></textarea>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-warning text-dark">Solicitar</button>
+                            <a class="btn btn-secondary" href="@Url.Action("MisCitas","Citas")">Cancelar</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

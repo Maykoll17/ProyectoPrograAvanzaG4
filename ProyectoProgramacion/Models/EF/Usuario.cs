@@ -20,6 +20,7 @@ namespace ProyectoProgramacion.Models.EF
             this.Contrato = new HashSet<Contrato>();
             this.Vehiculo = new HashSet<Vehiculo>();
             this.Aviso = new HashSet<Aviso>();
+            this.Cita = new HashSet<Cita>();
         }
     
         public int ID_Usuario { get; set; }
@@ -30,6 +31,8 @@ namespace ProyectoProgramacion.Models.EF
         public string Correo { get; set; }
         public Nullable<System.DateTime> Fecha_Nacimiento { get; set; }
         public int IdRol { get; set; }
+        public string ResetToken { get; set; }
+        public Nullable<System.DateTime> ResetTokenExpiry { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Contrato> Contrato { get; set; }
@@ -38,5 +41,7 @@ namespace ProyectoProgramacion.Models.EF
         public virtual ICollection<Vehiculo> Vehiculo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Aviso> Aviso { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Cita> Cita { get; set; }
     }
 }

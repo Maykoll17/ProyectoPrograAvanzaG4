@@ -20,6 +20,7 @@ namespace ProyectoProgramacion.Models.EF
             this.Contrato = new HashSet<Contrato>();
             this.FotoApartamento = new HashSet<FotoApartamento>();
             this.Mantenimiento = new HashSet<Mantenimiento>();
+            this.Cita = new HashSet<Cita>();
         }
     
         public int ID_Apartamento { get; set; }
@@ -29,7 +30,9 @@ namespace ProyectoProgramacion.Models.EF
         public double Metros_Cuadrados { get; set; }
         public Nullable<int> Cantidad_Habitantes { get; set; }
         public Nullable<int> Cant_Sanitarios { get; set; }
-        public bool Disponible { get; set; } 
+        public Nullable<bool> Disponible { get; set; }
+        public string ImageUrl { get; set; }
+    
         public virtual Edificio Edificio { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Contrato> Contrato { get; set; }
@@ -37,5 +40,7 @@ namespace ProyectoProgramacion.Models.EF
         public virtual ICollection<FotoApartamento> FotoApartamento { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Mantenimiento> Mantenimiento { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Cita> Cita { get; set; }
     }
 }
