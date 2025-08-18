@@ -36,15 +36,10 @@ namespace ProyectoProgramacion.Controllers
                     Session["Correo"] = result.Correo;
                     Session["IdRol"] = result.IdRol;
 
-                    if (result.IdRol == 1)
-                    {
-                        return RedirectToAction("Registro", "Home");
-                    }
-                    else if (result.IdRol == 2)
-                    {
+        
                         return RedirectToAction("Principal", "Home");
-                    }
-
+                    
+       
                 }
 
                 ViewBag.Mensaje = "Correo o contraseña incorrectos";
