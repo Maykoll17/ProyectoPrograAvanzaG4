@@ -46,22 +46,13 @@
             <div class="collapse navbar-collapse text-uppercase" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto">
 
-                   
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" href="#apartamentos">Apartamentos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" href="#ofertas">Ofertas</a>
-                    </li>
-
-                    
                     <li class="nav-item">
                         <a class="nav-link text-dark" href="@Url.Action("Index","AreasRecreativas")">
                             <i class="fa-solid fa-tree me-1"></i>Áreas Recreativas
                         </a>
                     </li>
 
-                   
+
                     @if (autenticado && !esAdmin)
                     {
                         <li class="nav-item">
@@ -75,9 +66,10 @@
                                 <i class="fa-solid fa-file-contract me-1"></i>Mis Contratos
                             </a>
                         </li>
+
                     }
 
-                   
+
                     @if (esAdmin)
                     {
                         <li class="nav-item">
@@ -100,9 +92,23 @@
                                 <i class="fa-solid fa-screwdriver-wrench me-1"></i>Gestión Áreas Recreativas
                             </a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="@Url.Action("ConsultarEdificios","Edificios")">
+                                <i class="fa-solid fa-screwdriver-wrench me-1"></i>Gestión Edificios
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="@Url.Action("ConsultarApartamento","Apartamento")">
+                                <i class="fa-solid fa-screwdriver-wrench me-1"></i>Gestión Apartamentos
+                            </a>
+                        </li>
+
+
                     }
 
-                 
+
                     @if (autenticado)
                     {
                         <li class="nav-item dropdown">

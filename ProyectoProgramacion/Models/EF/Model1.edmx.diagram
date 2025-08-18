@@ -4,19 +4,21 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4872318129b14cda9f7fd6ff96d82e3d" Name="Diagram1">
-        <EntityTypeShape EntityType="SistemaAlquilerModel.Apartamento" Width="1.5" PointX="3" PointY="7" IsExpanded="true" />
+      <Diagram DiagramId="81ba541b3df34b8fa1e375e1c50d5d91" Name="Diagram1">
+        <EntityTypeShape EntityType="SistemaAlquilerModel.Apartamento" Width="1.5" PointX="3" PointY="8.875" IsExpanded="true" />
         <EntityTypeShape EntityType="SistemaAlquilerModel.AreaRecreativa" Width="1.5" PointX="7.75" PointY="7.125" IsExpanded="true" />
         <EntityTypeShape EntityType="SistemaAlquilerModel.Aviso" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SistemaAlquilerModel.Contrato" Width="1.5" PointX="5.25" PointY="3.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="SistemaAlquilerModel.Edificio" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SistemaAlquilerModel.Mantenimiento" Width="1.5" PointX="5.25" PointY="10.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="SistemaAlquilerModel.Pago" Width="1.5" PointX="7.5" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaAlquilerModel.Edificio" Width="1.5" PointX="0.75" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaAlquilerModel.FotoApartamento" Width="1.5" PointX="5.25" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaAlquilerModel.Mantenimiento" Width="1.5" PointX="5.25" PointY="13.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SistemaAlquilerModel.Pago" Width="1.5" PointX="7.5" PointY="3.125" IsExpanded="true" />
         <EntityTypeShape EntityType="SistemaAlquilerModel.TRol" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SistemaAlquilerModel.Usuario" Width="1.5" PointX="3" PointY="2.875" IsExpanded="true" />
         <EntityTypeShape EntityType="SistemaAlquilerModel.Vehiculo" Width="1.5" PointX="5.25" PointY="7" IsExpanded="true" />
         <AssociationConnector Association="SistemaAlquilerModel.FK__Apartamen__ID_Ed__02FC7413" ManuallyRouted="false" />
         <AssociationConnector Association="SistemaAlquilerModel.FK__Contrato__ID_Apa__0D7A0286" ManuallyRouted="false" />
+        <AssociationConnector Association="SistemaAlquilerModel.FK__FotoApart__ID_Ap__40F9A68C" ManuallyRouted="false" />
         <AssociationConnector Association="SistemaAlquilerModel.FK__Mantenimi__ID_Ap__17036CC0" ManuallyRouted="false" />
         <AssociationConnector Association="SistemaAlquilerModel.FK__Contrato__ID_Usu__0C85DE4D" ManuallyRouted="false" />
         <AssociationConnector Association="SistemaAlquilerModel.FK__Pago__ID_Contrat__10566F31" ManuallyRouted="false" />

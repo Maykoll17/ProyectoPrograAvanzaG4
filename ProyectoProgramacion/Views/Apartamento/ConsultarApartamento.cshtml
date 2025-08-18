@@ -1,0 +1,66 @@
+﻿@model IEnumerable<ProyectoProgramacion.Models.EF.Apartamento>
+@{
+    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+    ViewBag.Title = "Apartamentos (Admin)";
+}
+<br />
+<br />
+<br />
+<br />
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="m-0">Apartamentos</h3>
+        @Html.ActionLink("Nuevo Apartamento", "RegistrarApartamento", "Apartamento", null, new { @class = "btn btn-primary" })
+    </div>
+
+    <div class="table-responsive" style="max-height: 500px; overflow:auto;">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th style="width:120px;">Fotos</th>
+                    <th>Código</th>
+                    <th>Edificio</th>
+                    <th>Piso</th>
+                    <th>Metros²</th>
+                    <th>Habitantes</th>
+                    <th>Sanitarios</th>
+                    <th>Disponible</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var a in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (a.FotoApartamento != null && a.FotoApartamento.Any())
+                            {
+                                <div class="d-flex gap-1 flex-wrap">
+                                    @foreach (var f in a.FotoApartamento)
+                                    {
+                                        <img src="@Url.Content(f.UrlFoto)" class="img-thumbnail" style="max-width:60px; max-height:60px;" />
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <span class="text-muted">Sin fotos</span>
+                            }
+                        </td>
+                        <td>@a.Codigo_Apartamento</td>
+                        <td>@(a.Edificio != null ? a.Edificio.Nombre : "-")</td>
+                        <td>@a.Piso</td>
+                        <td>@a.Metros_Cuadrados</td>
+                        <td>@a.Cantidad_Habitantes</td>
+                        <td>@a.Cant_Sanitarios</td>
+                        <td>@(a.Disponible ? "Sí" : "No")</td>
+                        <td class="text-end">
+                            @Html.ActionLink("Editar", "ActualizarApartamento", new { id = a.ID_Apartamento }, new { @class = "btn btn-sm btn-outline-primary" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

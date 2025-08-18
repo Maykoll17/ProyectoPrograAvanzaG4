@@ -17,5 +17,6 @@ namespace ProyectoProgramacion.Models.EF
         public string Nombre { get; set; }
         public string Direccion { get; set; }
         public int Cantidad_Pisos { get; set; }
+        public string Foto { get; set; }
     }
 }

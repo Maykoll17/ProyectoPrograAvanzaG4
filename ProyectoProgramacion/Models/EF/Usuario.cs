@@ -30,8 +30,6 @@ namespace ProyectoProgramacion.Models.EF
         public string Correo { get; set; }
         public Nullable<System.DateTime> Fecha_Nacimiento { get; set; }
         public int IdRol { get; set; }
-        public string ResetToken { get; set; }
-        public Nullable<System.DateTime> ResetTokenExpiry { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Contrato> Contrato { get; set; }
