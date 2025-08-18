@@ -1,7 +1,9 @@
 ﻿@{
     ViewBag.Title = "Solicitar Cita";
     Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+    var minFecha = DateTime.Today.ToString("yyyy-MM-dd");
 }
+
 <br />
 <br />
 <br />
@@ -22,12 +24,28 @@
 
                         <div class="mb-3">
                             <label class="form-label">Apartamento</label>
-                            @Html.DropDownList("ID_Apartamento", (SelectList)ViewBag.ID_Apartamento, "Seleccione...", new { @class = "form-control", required = "required" })
+                            @Html.DropDownList("ID_Apartamento",
+                                (SelectList)ViewBag.ID_Apartamento,
+                                "Seleccione...",
+                                new { @class = "form-control", required = "required" })
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Fecha y hora</label>
-                            <input type="datetime-local" name="FechaCita" class="form-control" required />
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Fecha</label>
+                                <input type="date"
+                                       name="Fecha"
+                                       class="form-control"
+                                       required
+                                       min="@minFecha" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Hora</label>
+                                @Html.DropDownList("Hora",
+                                    (SelectList)ViewBag.Horas,
+                                    "Seleccione...",
+                                    new { @class = "form-control", required = "required" })
+                            </div>
                         </div>
 
                         <div class="mb-3">

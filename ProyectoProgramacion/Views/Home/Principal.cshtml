@@ -1,42 +1,254 @@
 ﻿@{
     ViewBag.Title = "Principal";
     Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+
+
+    var autenticado = Session["IdUsuario"] != null;
+    var idRol = Session["IdRol"] as int? ?? 0;   // 1 = Admin, 2 = Usuario
+    var esAdmin = idRol == 1;
+    var nombre = (Session["Nombre"] as string) ?? "Invitado";
+
+
+    var destacados = ViewBag.Destacados as IEnumerable<ProyectoProgramacion.Models.EF.Apartamento>;
+    var misCitas = ViewBag.MisCitas as IEnumerable<dynamic>; // o tu tipo de VM de Citas
 }
-<br />
-<br />
-<br />
-<br />
-<div class="container mt-5 pt-4">
-    <div class="row mb-4">
-        <div class="col text-center">
-            <h2>Bienvenido, <strong>@Session["Nombre"]</strong></h2>
-            <p class="text-muted">Explora nuestro catálogo de productos</p>
+
+
+<section class="py-5 mt-5 bg-light text-dark">
+    <div class="container">
+        <div class="row align-items-center gy-3">
+            <div class="col-lg-8">
+                <h1 class="display-6 mb-2">¡Hola, @nombre!</h1>
+                <p class="lead mb-0">
+                    Administra contratos, pagos y citas. Explora apartamentos disponibles y áreas recreativas.
+                </p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a href="@Url.Action("Disponibles","Apartamento")" class="btn btn-warning btn-lg text-dark">
+                    <i class="fa-solid fa-building me-2"></i> Ver apartamentos
+                </a>
+            </div>
         </div>
     </div>
-    <div class="row">
-        @if (Model != null && Model.Any())
+</section>
+
+
+
+<div class="container py-5">
+
+
+    <div class="row g-3 mb-4">
+        @if (!esAdmin)
         {
-            foreach (var item in Model)
-            {
-                <div class="col-md-3 mb-4">
+            <div class="col-12">
+                <h4 class="mb-2">Acciones rápidas</h4>
+            </div>
+
+            <div class="col-md-4">
+                <a href="@Url.Action("MisContratos","Contratos")" class="text-decoration-none">
                     <div class="card h-100 shadow-sm border-0">
-                        <img src="@Url.Content(item.ImagenUrl ?? "~/Images/72899207.jpg")"
-                             class="card-img-top" alt="@item.Nombre" style="height:200px; object-fit:cover;" />
+                        <div class="card-body d-flex align-items-center">
+                            <div class="display-6 me-3"><i class="fa-solid fa-file-contract"></i></div>
+                            <div>
+                                <h5 class="card-title mb-1">Mis contratos</h5>
+                                <p class="card-text text-muted mb-0">Revisa tu estado mensual y detalles.</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="@Url.Action("Index","Pagos")" class="text-decoration-none">
+                    <div class="card h-100 shadow-sm border-0">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="display-6 me-3"><i class="fa-solid fa-money-bill-wave"></i></div>
+                            <div>
+                                <h5 class="card-title mb-1">Mis pagos</h5>
+                                <p class="card-text text-muted mb-0">Registra pagos y sube comprobantes.</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="@Url.Action("Index","AreasRecreativas")" class="text-decoration-none">
+                    <div class="card h-100 shadow-sm border-0">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="display-6 me-3"><i class="fa-solid fa-tree"></i></div>
+                            <div>
+                                <h5 class="card-title mb-1">Áreas recreativas</h5>
+                                <p class="card-text text-muted mb-0">Horarios e información de uso.</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="col-12">
+                <h4 class="mb-2">Panel del administrador</h4>
+            </div>
+
+            <div class="col-md-4">
+                <a href="@Url.Action("AdminIndex","Contratos")" class="text-decoration-none">
+                    <div class="card h-100 shadow-sm border-0">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="display-6 me-3"><i class="fa-solid fa-file-signature"></i></div>
+                            <div>
+                                <h5 class="card-title mb-1">Contratos</h5>
+                                <p class="card-text text-muted mb-0">Crear y administrar contratos.</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="@Url.Action("AdminIndex","Pagos")" class="text-decoration-none">
+                    <div class="card h-100 shadow-sm border-0">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="display-6 me-3"><i class="fa-solid fa-cash-register"></i></div>
+                            <div>
+                                <h5 class="card-title mb-1">Pagos</h5>
+                                <p class="card-text text-muted mb-0">Revisión de comprobantes y estado.</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="@Url.Action("AdminIndex","Citas")" class="text-decoration-none">
+                    <div class="card h-100 shadow-sm border-0">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="display-6 me-3"><i class="fa-solid fa-calendar-check"></i></div>
+                            <div>
+                                <h5 class="card-title mb-1">Citas</h5>
+                                <p class="card-text text-muted mb-0">Citas solicitadas por usuarios.</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="@Url.Action("ConsultarEdificios","Edificios")" class="text-decoration-none">
+                    <div class="card h-100 shadow-sm border-0 mt-3 mt-md-0">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="display-6 me-3"><i class="fa-solid fa-city"></i></div>
+                            <div>
+                                <h5 class="card-title mb-1">Edificios</h5>
+                                <p class="card-text text-muted mb-0">Gestión de edificios y fotos.</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="@Url.Action("ConsultarApartamento","Apartamento")" class="text-decoration-none">
+                    <div class="card h-100 shadow-sm border-0 mt-3 mt-md-0">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="display-6 me-3"><i class="fa-solid fa-door-open"></i></div>
+                            <div>
+                                <h5 class="card-title mb-1">Apartamentos</h5>
+                                <p class="card-text text-muted mb-0">Alta, edición y disponibilidad.</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="@Url.Action("Index","AdminAreas")" class="text-decoration-none">
+                    <div class="card h-100 shadow-sm border-0 mt-3 mt-md-0">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="display-6 me-3"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+                            <div>
+                                <h5 class="card-title mb-1">Áreas recreativas</h5>
+                                <p class="card-text text-muted mb-0">Gestión con fotos y horarios.</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+
+
+    @if (destacados != null && destacados.Any())
+    {
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h4 class="mb-0">Apartamentos destacados</h4>
+            <a href="@Url.Action("Disponibles","Apartamento")" class="btn btn-outline-warning text-dark">
+                Ver todos
+            </a>
+        </div>
+
+        <div class="row g-3">
+            @foreach (var a in destacados.Take(8))
+            {
+                var foto = (a.FotoApartamento != null && a.FotoApartamento.Any())
+                    ? a.FotoApartamento.First().UrlFoto
+                    : Url.Content("~/Images/72899207.jpg");
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="card h-100 shadow-sm border-0">
+                        <img src="@Url.Content(foto)" class="card-img-top" style="height:170px;object-fit:cover;" />
                         <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">@item.Nombre</h5>
-                            <p class="card-text text-muted" style="flex-grow:1;">@item.Descripcion</p>
-                            <h6 class="text-primary">₡@item.Precio.ToString("N2")</h6>
-                            <a href="#" class="btn btn-sm btn-primary mt-2">Ver más</a>
+                            <h6 class="card-title mb-1">Apto @a.Codigo_Apartamento</h6>
+                            <small class="text-muted mb-2">@a.Edificio?.Nombre - Piso @a.Piso</small>
+                            <div class="mt-auto d-flex justify-content-between align-items-center">
+                                <span class="badge @( (a.Disponible ?? false) ? "bg-success" : "bg-secondary")">
+                                    @( (a.Disponible ?? false) ? "Disponible" : "No disp.")
+                                </span>
+                                <a href="@Url.Action("Detalle","Apartamento", new { id = a.ID_Apartamento })"
+                                   class="btn btn-sm btn-warning text-dark">
+                                    Ver
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             }
-        }
-        else
-        {
-            <div class="col text-center">
-                <p>No hay productos disponibles en este momento.</p>
+        </div>
+    }
+
+
+    @if (!esAdmin && misCitas != null && misCitas.Any())
+    {
+        <div class="mt-5">
+            <h4 class="mb-3">Mis próximas citas</h4>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-warning">
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Apartamento</th>
+                            <th>Edificio</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var c in misCitas)
+                        {
+                            <tr>
+                                <td>@string.Format("{0:dd/MM/yyyy HH:mm}", c.FechaCita)</td>
+                                <td>@c.CodigoApartamento</td>
+                                <td>@c.NombreEdificio</td>
+                                <td>
+                                    <span class="badge @(c.Estado == "Aprobada" ? "bg-success" : c.Estado == "Rechazada" ? "bg-danger" : "bg-secondary")">
+                                        @c.Estado
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
-        }
-    </div>
+            <a href="@Url.Action("MisCitas","Citas")" class="btn btn-outline-warning text-dark">Ver todas</a>
+        </div>
+    }
 </div>
