@@ -32,6 +32,7 @@ namespace ProyectoProgramacion.Models.EF
         public virtual DbSet<Aviso> Aviso { get; set; }
         public virtual DbSet<Contrato> Contrato { get; set; }
         public virtual DbSet<Edificio> Edificio { get; set; }
+        public virtual DbSet<FotoApartamento> FotoApartamento { get; set; }
         public virtual DbSet<Mantenimiento> Mantenimiento { get; set; }
         public virtual DbSet<Pago> Pago { get; set; }
         public virtual DbSet<TRol> TRol { get; set; }

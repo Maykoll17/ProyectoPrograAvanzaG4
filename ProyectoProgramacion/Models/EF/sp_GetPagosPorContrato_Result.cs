@@ -18,5 +18,8 @@ namespace ProyectoProgramacion.Models.EF
         public System.DateTime Fecha_Pago { get; set; }
         public double Monto_Pago { get; set; }
         public string Metodo_Pago { get; set; }
+        public string Comprobante_URL { get; set; }
+        public string Estado { get; set; }
+        public string Numero_SINPE { get; set; }
     }
 }

@@ -1,8 +1,13 @@
-﻿using System;
+﻿using ProyectoProgramacion.Models;
+using ProyectoProgramacion.Models.EF;
+using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
+using Edificio = ProyectoProgramacion.Models.EF.Edificio;
 
 namespace ProyectoProgramacion.Services
 {
@@ -53,6 +58,23 @@ namespace ProyectoProgramacion.Services
             }
 
             return sb.ToString();
+        }
+
+
+
+        public List<Edificio> ConsultarDatosEdificios(string filtro)
+        {
+            using (var dbContext = new SistemaAlquilerEntities1())
+            {
+                List<Edificio> result;
+
+                if (filtro == "Todos")
+                    result = dbContext.Edificio.ToList();
+                else
+                    result = dbContext.Edificio.Where(x => x.ID_Edificio == 0).ToList();
+
+                return result;
+            }
         }
 
     }

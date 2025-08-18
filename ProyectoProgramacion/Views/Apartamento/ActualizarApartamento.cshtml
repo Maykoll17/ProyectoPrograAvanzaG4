@@ -1,0 +1,76 @@
+﻿@model ProyectoProgramacion.Models.EF.Apartamento
+@{
+    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+    ViewBag.Title = "Actualizar Apartamento";
+}
+
+<section class="section d-flex align-items-center" style="min-height: 100vh;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-7">
+                <div class="card shadow-lg border-0 rounded-3">
+                    <div class="card-body p-4">
+                        <h4 class="text-center mb-4"><strong class="text-primary">Actualizar</strong> Apartamento</h4>
+
+                        @using (Html.BeginForm("ActualizarApartamento", "Apartamento", FormMethod.Post, new { enctype = "multipart/form-data", @class = "needs-validation", novalidate = "novalidate" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.ID_Apartamento)
+
+                            <div class="mb-3">
+                                <label for="Codigo_Apartamento">Código Apartamento</label>
+                                @Html.TextBoxFor(m => m.Codigo_Apartamento, new { @class = "form-control", placeholder = "Código", required = "required" })
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="ID_Edificio">Edificio</label>
+                                @Html.DropDownListFor(m => m.ID_Edificio, (SelectList)ViewBag.Edificios, "Seleccione un edificio", new { @class = "form-control", required = "required" })
+                            </div>
+
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.Piso)
+                                @Html.TextBoxFor(m => m.Piso, new { @class = "form-control", type = "number", min = "1", placeholder = "Piso", required = "required" })
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="Metros_Cuadrados">Metros Cuadrados</label>
+                                @Html.TextBoxFor(m => m.Metros_Cuadrados, new { @class = "form-control", type = "number", step = "0.1", placeholder = "Metros cuadrados", required = "required" })
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="Cantidad_Habitantes">Cantidad Habitantes</label>
+                                @Html.TextBoxFor(m => m.Cantidad_Habitantes, new { @class = "form-control", type = "number", min = "1", placeholder = "Cantidad de habitantes" })
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="Cant_Sanitarios">Cantidad Sanitarios</label>
+                                @Html.TextBoxFor(m => m.Cant_Sanitarios, new { @class = "form-control", type = "number", min = "0", placeholder = "Cantidad de sanitarios" })
+                            </div>
+
+                            <div class="form-check mb-3">
+                                @Html.CheckBoxFor(m => m.Disponible, new { @class = "form-check-input" })
+                                @Html.LabelFor(m => m.Disponible, new { @class = "form-check-label" })
+                            </div>
+
+                            <div class="mb-3">
+                                <label>Agregar nuevas fotos</label>
+                                <input type="file" name="Fotos" multiple class="form-control" accept="image/*" />
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100">Actualizar</button>
+
+                            if (ViewBag.Mensaje != null)
+                            {
+                                <div class="alert alert-danger mt-3">@ViewBag.Mensaje</div>
+                            }
+                        }
+
+                        <p class="text-center mt-3">
+                            <a href="@Url.Action("ConsultarApartamento","Apartamento")">Volver a la lista</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
