@@ -17,10 +17,9 @@ namespace ProyectoProgramacion.Models.EF
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Usuario()
         {
-            this.Contrato = new HashSet<Contrato>();
-            this.Vehiculo = new HashSet<Vehiculo>();
-            this.Aviso = new HashSet<Aviso>();
             this.Cita = new HashSet<Cita>();
+            this.Contrato = new HashSet<Contrato>();
+            this.Aviso = new HashSet<Aviso>();
         }
     
         public int ID_Usuario { get; set; }
@@ -31,17 +30,13 @@ namespace ProyectoProgramacion.Models.EF
         public string Correo { get; set; }
         public Nullable<System.DateTime> Fecha_Nacimiento { get; set; }
         public int IdRol { get; set; }
-        public string ResetToken { get; set; }
-        public Nullable<System.DateTime> ResetTokenExpiry { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Cita> Cita { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Contrato> Contrato { get; set; }
         public virtual TRol TRol { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Vehiculo> Vehiculo { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Aviso> Aviso { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Cita> Cita { get; set; }
     }
 }

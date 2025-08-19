@@ -53,9 +53,9 @@
                             </div>
 
                             <div class="form-check mb-3">
-                                @Html.CheckBoxFor(m => m.Disponible, new { @class = "form-check-input" })
-
+                                @Html.CheckBox("Disponible", Model.Disponible ?? false, new { @class = "form-check-input" })
                                 @Html.LabelFor(m => m.Disponible, new { @class = "form-check-label" })
+
                             </div>
 
                             <div class="mb-3">

@@ -31,7 +31,6 @@ namespace ProyectoProgramacion.Models.EF
         public Nullable<int> Cantidad_Habitantes { get; set; }
         public Nullable<int> Cant_Sanitarios { get; set; }
         public Nullable<bool> Disponible { get; set; }
-        public string ImageUrl { get; set; }
     
         public virtual Edificio Edificio { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
